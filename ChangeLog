@@ -1,4 +1,8 @@
 CHANGES
 =======
 
+0.1.0
+-----
+
+* basic module layout using OpenStack's pbr
 * Initial commit
