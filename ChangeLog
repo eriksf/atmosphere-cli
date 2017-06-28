@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* added behave4cmd0, setuptools\_behave, and now passing first behave test
 * adding initial (stubbed) instance list
 * adding docs (sphinx) dir
 
