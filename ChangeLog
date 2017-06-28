@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* adding initial (stubbed) instance list
 * adding docs (sphinx) dir
 
 0.1.0
