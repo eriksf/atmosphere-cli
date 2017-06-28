@@ -1,0 +1,9 @@
+language: python
+python:
+    - "3.6"
+install:
+    - pip install -r requirements.txt
+    - pip install -e .
+script:
+    - python setup.py pytest
+    - python setup.py behave_test
