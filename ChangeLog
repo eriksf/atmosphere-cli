@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+* adding badges to readme
+* added basic test for pytest to pass travis-ci build
+* adding travis-ci config
+* updated changelog
 * added behave4cmd0, setuptools\_behave, and now passing first behave test
 * adding initial (stubbed) instance list
 * adding docs (sphinx) dir
