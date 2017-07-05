@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* added some coverage tools
+* updating changelog
 * adding badges to readme
 * added basic test for pytest to pass travis-ci build
 * adding travis-ci config
