@@ -8,4 +8,4 @@ script:
     - python setup.py pytest
     - python setup.py behave_test
 after_success:
-  coveralls
+    - coveralls
