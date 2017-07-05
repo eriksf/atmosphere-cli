@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* updating travis config
+* updated changelog
 * updated pytest args
 * updating changelog
 * add pytest-cov options
