@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* updating travis-ci config
+* updated changelog
 * updating travis config
 * updated changelog
 * updated pytest args
