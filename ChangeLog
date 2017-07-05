@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* add pytest-cov options
+* updated changelog
 * added some coverage tools
 * updating changelog
 * adding badges to readme
