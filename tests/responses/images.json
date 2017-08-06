@@ -1,0 +1,28 @@
+{
+    "count": 1,
+    "next": "null",
+    "previous": null,
+    "results": [{
+        "id": 1,
+        "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
+        "name": "name",
+        "created_by": {
+            "id": 1
+        },
+        "description": "description",
+        "end_date": null,
+        "is_public": true,
+        "icon": null,
+        "start_date": "2015-03-30T18:30:45.501948Z",
+        "tags": [{
+                "id": 1
+            },
+            {
+                "id": 2
+            }
+        ],
+        "versions": [{
+            "id": 1
+        }]
+    }]
+}
