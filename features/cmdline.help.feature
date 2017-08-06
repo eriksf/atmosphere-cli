@@ -25,5 +25,6 @@ Feature: Command-line options: Use atmo --help
         Commands:
           complete       print bash completion command
           help           print detailed help for another command
+          image list     List images for user.
           instance list  List instances for user.
         """
