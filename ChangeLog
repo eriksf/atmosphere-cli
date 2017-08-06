@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* initial api to hit atmosphere rest api with requests testing api using mock server
+* updating changelog
 * updating travis-ci config
 * updated changelog
 * updating travis config
