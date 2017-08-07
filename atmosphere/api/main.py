@@ -18,3 +18,7 @@ class AtmosphereAPI(object):
     def get_images(self):
         data = self.__request.getJson('GET', '/images/')
         return data
+
+    def get_image(self, id):
+        data = self.__request.getJson('GET', '/images/{}'.format(id))
+        return data

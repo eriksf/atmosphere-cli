@@ -8,12 +8,24 @@ import requests
 
 
 class MockServerRequestHandler(BaseHTTPRequestHandler):
+    IMAGE_PATTERN = re.compile(r'/images/\d+')
     IMAGES_PATTERN = re.compile(r'/images')
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
+    IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
 
     def do_GET(self):
-        if re.search(self.IMAGES_PATTERN, self.path):
+        if re.match(self.IMAGE_PATTERN, self.path):
+            # Add response status code
+            self.send_response(requests.codes.ok)
+            # Add response headers
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            # Add response content
+            with open(self.IMAGE_RESPONSE_FILE) as f: response_content = f.read()
+            self.wfile.write(response_content.encode('utf-8'))
+            return
+        elif re.match(self.IMAGES_PATTERN, self.path):
             # Add response status code
             self.send_response(requests.codes.ok)
             # Add response headers
