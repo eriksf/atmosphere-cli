@@ -2,6 +2,7 @@ import logging
 import requests
 from urllib.parse import urlparse
 # import constants
+import json
 
 
 class Request(object):
@@ -38,12 +39,12 @@ class Request(object):
     def __log(self, verb, url, request_headers, input, response):
         logger = logging.getLogger(__name__)
         if logger.isEnabledFor(logging.DEBUG):
-            if "Authorization" in request_headers:
+            if request_headers and "Authorization" in request_headers:
                 if request_headers['Authorization'].startswith('Token'):
                     request_headers['Authorization'] = 'Token (token removed)'
                 else:
                     request_headers['Authorization'] = '(unknown auth removed)'
-            if response:
+            if response is not None:
                 logger.debug('{} {} {} {} ==> {} {} {}'.format(verb,
                                                                url,
                                                                str(request_headers),
@@ -54,13 +55,22 @@ class Request(object):
             else:
                 logger.debug('{} {} {} {} ==> None'.format(verb, url, str(request_headers), input))
 
+    def __log_error(self, message):
+        logger = logging.getLogger(__name__)
+        if logger.isEnabledFor(logging.ERROR):
+            logger.error('ERROR: {}'.format(message))
+
     def getJson(self, verb, url, params=None, headers=None, data=None):
         method = getattr(requests, verb.lower())
         data = None
         try:
             r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout)
             self.__log(verb, url, headers, data, r)
-            data = r.json()
-        except requests.exceptions.RequestException:
-            pass
+            # consider any status besides 2xx an error
+            if r.status_code // 100 == 2:
+                data = r.json()
+        except requests.exceptions.RequestException as re:
+            self.__log_error(re)
+        except Exception as e:
+            self.__log_error(e)
         return data
