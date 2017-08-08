@@ -2,7 +2,6 @@ import logging
 import requests
 from urllib.parse import urlparse
 # import constants
-import json
 
 
 class Request(object):
@@ -62,6 +61,10 @@ class Request(object):
 
     def getJson(self, verb, url, params=None, headers=None, data=None):
         method = getattr(requests, verb.lower())
+        if not params:
+            params = {'format': 'json'}
+        else:
+            params['format'] = 'json'
         data = None
         try:
             r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout)

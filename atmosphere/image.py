@@ -14,16 +14,17 @@ class ImageList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Description', 'Is Public?', 'Start Date')
+        column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
         api = AtmosphereAPI('username', 'password')
-        response = api.get_images()
-        data = json.loads(response)
+        data = api.get_images()
         images = []
         for image in data['results']:
             images.append((
                 image['id'],
                 image['name'],
                 image['description'],
+                image['created_by']['username'],
+                ', '.join([value['name'] for value in image['versions']]),
                 image['is_public'],
                 image['start_date']
             ))
@@ -40,20 +41,21 @@ class ImageShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ImageShow, self).get_parser(prog_name)
-        parser.add_argument('id', nargs=1, help='the image id')
+        parser.add_argument('id', help='the image id')
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Description', 'Is Public?', 'Start Date')
+        column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
         api = AtmosphereAPI('username', 'password')
-        response = api.get_image(parsed_args.id)
-        data = json.loads(response)
+        data = api.get_image(parsed_args.id)
         image = ()
         if data:
             image = (
                 data['id'],
                 data['name'],
                 data['description'],
+                data['created_by']['username'],
+                ', '.join([value['name'] for value in data['versions']]),
                 data['is_public'],
                 data['start_date']
             )
