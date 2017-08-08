@@ -11,16 +11,23 @@ Feature: Command-line options: Use atmo --help
     And the command output should contain:
         """
         usage: atmo [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
+                    [--atmo-base-url <atmosphere-base-url>]
+                    [--atmo-auth-token <atmosphere-auth-token>]
 
         Atmosphere CLI
 
         optional arguments:
-          --version            show program's version number and exit
-          -v, --verbose        Increase verbosity of output. Can be repeated.
-          -q, --quiet          Suppress output except warnings and errors.
-          --log-file LOG_FILE  Specify a file to log output. Disabled by default.
-          -h, --help           Show help message and exit.
-          --debug              Show tracebacks on errors.
+          --version             show program's version number and exit
+          -v, --verbose         Increase verbosity of output. Can be repeated.
+          -q, --quiet           Suppress output except warnings and errors.
+          --log-file LOG_FILE   Specify a file to log output. Disabled by default.
+          -h, --help            Show help message and exit.
+          --debug               Show tracebacks on errors.
+          --atmo-base-url <atmosphere-base-url>
+                                Base URL for the Atmosphere API (Env: ATMO_BASE_URL)
+          --atmo-auth-token <atmosphere-auth-token>
+                                Token used to authenticate with the Atmosphere API
+                                (Env: ATMO_AUTH_TOKEN)
 
         Commands:
           complete       print bash completion command
