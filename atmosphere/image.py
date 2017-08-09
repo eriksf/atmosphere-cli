@@ -1,5 +1,4 @@
 import logging
-import json
 
 from cliff.lister import Lister
 from cliff.show import ShowOne
@@ -15,7 +14,7 @@ class ImageList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
-        api = AtmosphereAPI('username', 'password')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url)
         data = api.get_images()
         images = []
         for image in data['results']:
@@ -46,7 +45,7 @@ class ImageShow(ShowOne):
 
     def take_action(self, parsed_args):
         column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
-        api = AtmosphereAPI('username', 'password')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url)
         data = api.get_image(parsed_args.id)
         image = ()
         if data:

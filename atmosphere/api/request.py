@@ -1,22 +1,16 @@
 import logging
 import requests
 from urllib.parse import urlparse
-# import constants
 
 
 class Request(object):
     """Class to handle an API request"""
 
-    def __init__(self, login_or_token, password, base_url, timeout):
-        if password is not None:
-            self.login = login_or_token
-        elif login_or_token is not None:
-            self.token = login_or_token
-        else:
-            pass
-
+    def __init__(self, token, base_url, timeout):
+        self.token = token
         self.base_url = base_url
         self.timeout = timeout
+        self.__authorization_header = 'TOKEN {}'.format(self.token)
         url_obj = urlparse(base_url)
         self.__hostname = url_obj.hostname
         self.__port = url_obj.port
@@ -39,10 +33,8 @@ class Request(object):
         logger = logging.getLogger(__name__)
         if logger.isEnabledFor(logging.DEBUG):
             if request_headers and "Authorization" in request_headers:
-                if request_headers['Authorization'].startswith('Token'):
-                    request_headers['Authorization'] = 'Token (token removed)'
-                else:
-                    request_headers['Authorization'] = '(unknown auth removed)'
+                if request_headers['Authorization'].startswith('TOKEN'):
+                    request_headers['Authorization'] = 'TOKEN (token removed)'
             if response is not None:
                 logger.debug('{} {} {} {} ==> {} {} {}'.format(verb,
                                                                url,
@@ -61,10 +53,19 @@ class Request(object):
 
     def getJson(self, verb, url, params=None, headers=None, data=None):
         method = getattr(requests, verb.lower())
+
+        # add the authorization header
+        if not headers:
+            headers = {'Authorization': self.__authorization_header}
+        else:
+            headers['Authorization'] = self.__authorization_header
+
+        # set format of response to JSON by adding query param
         if not params:
             params = {'format': 'json'}
         else:
             params['format'] = 'json'
+
         data = None
         try:
             r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout)
