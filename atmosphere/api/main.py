@@ -21,3 +21,11 @@ class AtmosphereAPI(object):
     def get_image(self, id):
         data = self.__request.getJson('GET', '/images/{}'.format(id))
         return data
+
+    def get_providers(self):
+        data = self.__request.getJson('GET', '/providers/')
+        return data
+
+    def get_provider(self, id):
+        data = self.__request.getJson('GET', '/providers/{}'.format(id))
+        return data

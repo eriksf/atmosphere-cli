@@ -1,0 +1,21 @@
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [{
+        "id": 4,
+        "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
+        "name": "iPlant Cloud - Tucson",
+        "description": "<No Description Provided>",
+        "public": true,
+        "active": true,
+        "type": {
+            "id": 2
+        },
+        "virtualization": {
+            "id": 2
+        },
+        "start_date": "2014-02-04T19:09:20.713175Z",
+        "end_date": null
+    }]
+}

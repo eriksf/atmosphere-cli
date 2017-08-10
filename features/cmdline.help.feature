@@ -35,4 +35,6 @@ Feature: Command-line options: Use atmo --help
           image list     List images for user.
           image show     Show details for an image.
           instance list  List instances for user.
+          provider list  List cloud providers managed by Atmosphere.
+          provider show  Show details for a cloud provider.
         """
