@@ -3,6 +3,7 @@ import logging
 from cliff.lister import Lister
 from cliff.show import ShowOne
 from atmosphere.api import AtmosphereAPI
+from atmosphere.utils import ts_to_isodate
 
 
 class ProviderList(Lister):
@@ -18,6 +19,7 @@ class ProviderList(Lister):
         data = api.get_providers()
         providers = []
         for provider in data['results']:
+            start_date = ts_to_isodate(provider['start_date'])
             providers.append((
                 provider['id'],
                 provider['name'],
@@ -27,7 +29,7 @@ class ProviderList(Lister):
                 ', '.join([value['name'] for value in provider['sizes']]),
                 provider['public'],
                 provider['active'],
-                provider['start_date']
+                start_date if start_date else provider['start_date']
             ))
 
         return (column_headers, tuple(providers))
@@ -51,6 +53,7 @@ class ProviderShow(ShowOne):
         data = api.get_provider(parsed_args.id)
         provider = ()
         if data:
+            start_date = ts_to_isodate(data['start_date'])
             provider = (
                 data['id'],
                 data['name'],
@@ -60,7 +63,7 @@ class ProviderShow(ShowOne):
                 ', '.join([value['name'] for value in data['sizes']]),
                 data['public'],
                 data['active'],
-                data['start_date']
+                start_date if start_date else data['start_date']
             )
 
         return (column_headers, provider)

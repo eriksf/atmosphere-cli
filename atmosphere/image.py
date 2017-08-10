@@ -3,6 +3,7 @@ import logging
 from cliff.lister import Lister
 from cliff.show import ShowOne
 from atmosphere.api import AtmosphereAPI
+from atmosphere.utils import ts_to_isodate
 
 
 class ImageList(Lister):
@@ -18,6 +19,7 @@ class ImageList(Lister):
         data = api.get_images()
         images = []
         for image in data['results']:
+            start_date = ts_to_isodate(image['start_date'])
             images.append((
                 image['id'],
                 image['name'],
@@ -25,7 +27,7 @@ class ImageList(Lister):
                 image['created_by']['username'],
                 ', '.join([value['name'] for value in image['versions']]),
                 image['is_public'],
-                image['start_date']
+                start_date if start_date else image['start_date']
             ))
 
         return (column_headers, tuple(images))
@@ -49,6 +51,7 @@ class ImageShow(ShowOne):
         data = api.get_image(parsed_args.id)
         image = ()
         if data:
+            start_date = ts_to_isodate(data['start_date'])
             image = (
                 data['id'],
                 data['name'],
@@ -56,7 +59,7 @@ class ImageShow(ShowOne):
                 data['created_by']['username'],
                 ', '.join([value['name'] for value in data['versions']]),
                 data['is_public'],
-                data['start_date']
+                start_date if start_date else data['start_date']
             )
 
         return (column_headers, image)
