@@ -1,5 +1,4 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
-# import json
+from six.moves import BaseHTTPServer
 import os
 import re
 import socket
@@ -8,7 +7,7 @@ import time
 import requests
 
 
-class MockServerRequestHandler(BaseHTTPRequestHandler):
+class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGE_PATTERN = re.compile(r'/images/\d+')
     IMAGES_PATTERN = re.compile(r'/images')
     PROVIDER_PATTERN = re.compile(r'/providers/\d+')
@@ -105,7 +104,7 @@ def get_free_port():
 
 
 def start_mock_server(port):
-    mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
+    mock_server = BaseHTTPServer.HTTPServer(('localhost', port), MockServerRequestHandler)
     mock_server_thread = Thread(target=mock_server.serve_forever)
     mock_server_thread.setDaemon(True)
     mock_server_thread.start()
