@@ -36,9 +36,12 @@ Feature: Command-line options: Use atmo --help
         Commands:
           complete       print bash completion command
           help           print detailed help for another command
+          identity list  List user identities managed by Atmosphere.
+          identity show  Show details for a user identity.
           image list     List images for user.
           image show     Show details for an image.
           instance list  List instances for user.
           provider list  List cloud providers managed by Atmosphere.
           provider show  Show details for a cloud provider.
+          version        Show Atmosphere API version.
         """

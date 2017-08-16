@@ -1,0 +1,52 @@
+{
+    "count": 2,
+    "next": null,
+    "prev": null,
+    "results": [{
+            "id": 1,
+            "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
+            "quota": {
+                "id": 1
+            },
+            "allocation": {
+                "id": 1
+            },
+            "usage": {
+                "threshold": 168,
+                "current": 112,
+                "remaining": 46,
+                "ttz": "2015-09-01T10:10:10.100Z"
+            },
+            "provider": {
+                "id": 1,
+                "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1"
+            },
+            "user": {
+                "id": 1
+            }
+        },
+        {
+            "id": 2,
+            "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec2",
+            "quota": {
+                "id": 1
+            },
+            "allocation": {
+                "id": 1
+            },
+            "usage": {
+                "threshold": 168,
+                "current": 112,
+                "remaining": 46,
+                "ttz": "2015-09-01T10:10:10.100Z"
+            },
+            "provider": {
+                "id": 2,
+                "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec2"
+            },
+            "user": {
+                "id": 2
+            }
+        }
+    ]
+}

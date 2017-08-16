@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
+    "quota": {
+        "id": 1
+    },
+    "allocation": {
+        "id": 1
+    },
+    "usage": {
+        "threshold": 168,
+        "current": 112,
+        "remaining": 46,
+        "ttz": "2015-09-01T10:10:10.100Z"
+    },
+    "provider": {
+        "id": 1,
+        "uuid": "c9b2829c-da3f-11e4-9e60-7780dea86e3f"
+    },
+    "user": {
+        "id": 1
+    }
+}

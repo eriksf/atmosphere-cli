@@ -1,0 +1,11 @@
+{
+    "branch": "0.14",
+    "commit_date": "2017-07-25T13:26:59-04:00",
+    "git_branch": "zesty-zapdos",
+    "git_sha": "b803815ba32aab68a621ee2ff5c5f14d717745e",
+    "git_sha_abbrev": "@b80381",
+    "normal": "0.14.3 dev 0",
+    "short": "0.14.3",
+    "tertiary": ".3",
+    "verbose": "0.14.3 dev 0 @b80381"
+}

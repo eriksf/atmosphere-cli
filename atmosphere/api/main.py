@@ -30,3 +30,15 @@ class AtmosphereAPI(object):
     def get_provider(self, id):
         data = self.__request.getJson('GET', '/providers/{}'.format(id))
         return data
+
+    def get_version(self):
+        data = self.__request.getJson('GET', '/version/')
+        return data
+
+    def get_identities(self):
+        data = self.__request.getJson('GET', '/identities/')
+        return data
+
+    def get_identity(self, id):
+        data = self.__request.getJson('GET', '/identities/{}'.format(id))
+        return data

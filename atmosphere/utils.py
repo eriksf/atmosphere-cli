@@ -1,8 +1,8 @@
-import datetime
 import os
 import warnings
 from dotenv import load_dotenv, find_dotenv
 from atmosphere.api import constants
+from dateutil.parser import parse
 
 
 BOOLEAN_TRUE_STRINGS = ('true', 'on', 'ok', 'y', 'yes', '1')
@@ -32,19 +32,18 @@ def env(arg, cast=str):
     return getattr(constants, arg, None)
 
 
-def ts_to_isodate(date_string):
+def ts_to_isodate(date_string, include_time=False):
     """Convert a datetime string (UTC) into a date string in ISO format"""
 
-    iso_date_str = None
+    iso_date_str = date_string
 
     try:
-        date = datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%fZ')
-        iso_date_str = date.date().isoformat()
-    except ValueError:
-        try:
-            date = datetime.datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+        date = parse(date_string)
+        if include_time:
+            iso_date_str = date.isoformat(timespec='seconds')
+        else:
             iso_date_str = date.date().isoformat()
-        except ValueError:
-            pass
+    except ValueError:
+        pass
 
     return iso_date_str
