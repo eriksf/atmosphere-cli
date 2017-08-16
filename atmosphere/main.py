@@ -1,3 +1,4 @@
+import argparse
 import logging
 import sys
 
@@ -40,6 +41,24 @@ class AtmosphereApp(App):
             dest='auth_token',
             default=utils.env('ATMO_AUTH_TOKEN'),
             help='Token used to authenticate with the Atmosphere API (Env: ATMO_AUTH_TOKEN)'
+        )
+
+        # atmosphere api server timeout
+        parser.add_argument(
+            '--atmo-api-server-timeout',
+            metavar='<atmosphere-api-server-timeout>',
+            dest='api_server_timeout',
+            default=utils.env('ATMO_API_SERVER_TIMEOUT', cast=int),
+            help='Server timeout (in seconds) when accessing Atmosphere API (Env: ATMO_API_SERVER_TIMEOUT)'
+        )
+
+        # hidden option that controls whether to verify API server's TLS certificate
+        parser.add_argument(
+            '--no-verify-cert',
+            action='store_false',
+            dest='verify_cert',
+            default=utils.env('ATMO_API_SERVER_VERIFY_CERT', cast=bool),
+            help=argparse.SUPPRESS
         )
 
         return parser

@@ -1,18 +1,19 @@
 from .request import Request
-from .constants import ATMO_BASE_URL, DEFAULT_TIMEOUT
+from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT
 
 
 class AtmosphereAPI(object):
     """Main class for accessing the Atmosphere v2 API."""
 
-    def __init__(self, token, base_url=ATMO_BASE_URL, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, token, base_url=ATMO_BASE_URL, timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
         """
         :param token: string
         :param base_url: string
         :param timeout: integer
+        :param verify: boolean
         """
 
-        self.__request = Request(token, base_url, timeout)
+        self.__request = Request(token, base_url, timeout, verify)
 
     def get_images(self):
         data = self.__request.getJson('GET', '/images/')

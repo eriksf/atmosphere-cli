@@ -1,21 +1,26 @@
 import logging
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from six.moves.urllib.parse import urlparse
 
 
 class Request(object):
     """Class to handle an API request"""
 
-    def __init__(self, token, base_url, timeout):
+    def __init__(self, token, base_url, timeout, verify):
         self.token = token
         self.base_url = base_url
         self.timeout = timeout
+        self.verify = verify
         self.__authorization_header = 'TOKEN {}'.format(self.token)
         url_obj = urlparse(base_url)
         self.__hostname = url_obj.hostname
         self.__port = url_obj.port
         self.__scheme = url_obj.scheme
         self.__prefix = url_obj.geturl()
+
+        if not self.verify:
+            requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
     def __makeFullUrl(self, url):
         if url.startswith('/'):
@@ -68,7 +73,7 @@ class Request(object):
 
         data = None
         try:
-            r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout)
+            r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout, verify=self.verify)
             self.__log(verb, url, headers, data, r)
             # consider any status besides 2xx an error
             if r.status_code // 100 == 2:

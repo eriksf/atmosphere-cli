@@ -15,7 +15,7 @@ class ProviderList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('Id', 'Name', 'Description', 'Type', 'Virtualization', 'Size(s)', 'Is Public?', 'Is Active?', 'Start Date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url)
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_providers()
         providers = []
         for provider in data['results']:
@@ -49,7 +49,7 @@ class ProviderShow(ShowOne):
 
     def take_action(self, parsed_args):
         column_headers = ('Id', 'Name', 'Description', 'Type', 'Virtualization', 'Size(s)', 'Is Public?', 'Is Active?', 'Start Date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url)
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_provider(parsed_args.id)
         provider = ()
         if data:

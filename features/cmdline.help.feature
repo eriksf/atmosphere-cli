@@ -13,6 +13,7 @@ Feature: Command-line options: Use atmo --help
         usage: atmo [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
                     [--atmo-base-url <atmosphere-base-url>]
                     [--atmo-auth-token <atmosphere-auth-token>]
+                    [--atmo-api-server-timeout <atmosphere-api-server-timeout>]
 
         Atmosphere CLI
 
@@ -28,6 +29,9 @@ Feature: Command-line options: Use atmo --help
           --atmo-auth-token <atmosphere-auth-token>
                                 Token used to authenticate with the Atmosphere API
                                 (Env: ATMO_AUTH_TOKEN)
+          --atmo-api-server-timeout <atmosphere-api-server-timeout>
+                                Server timeout (in seconds) when accessing Atmosphere
+                                API (Env: ATMO_API_SERVER_TIMEOUT)
 
         Commands:
           complete       print bash completion command

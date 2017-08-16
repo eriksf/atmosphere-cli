@@ -5,6 +5,9 @@ from dotenv import load_dotenv, find_dotenv
 from atmosphere.api import constants
 
 
+BOOLEAN_TRUE_STRINGS = ('true', 'on', 'ok', 'y', 'yes', '1')
+
+
 with warnings.catch_warnings():
     warnings.simplefilter('ignore')
     if not load_dotenv(find_dotenv()):
@@ -12,11 +15,21 @@ with warnings.catch_warnings():
             load_dotenv(os.path.join(os.path.expanduser('~'), '.env'))
 
 
-def env(arg):
+def env(arg, cast=str):
     """Find the variable in the environment, a .env file, or use a default"""
 
-    value = os.getenv(arg, default=getattr(constants, arg, None))
-    return value
+    # check if arg is in environment (or .env file)
+    value = os.getenv(arg)
+    if value:
+        if cast is bool:
+            value = value.lower() in BOOLEAN_TRUE_STRINGS
+        try:
+            return cast(value)
+        except ValueError as e:
+            raise Exception('Could not cast value from environment (or .env file) to {}'.format(cast))
+
+    # check in constants
+    return getattr(constants, arg, None)
 
 
 def ts_to_isodate(date_string):
