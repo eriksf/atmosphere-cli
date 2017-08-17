@@ -43,5 +43,7 @@ Feature: Command-line options: Use atmo --help
           instance list  List instances for user.
           provider list  List cloud providers managed by Atmosphere.
           provider show  Show details for a cloud provider.
+          size list      List sizes (instance configurations) for cloud provider.
+          size show      Show details for a size (instance configuration).
           version        Show Atmosphere API version.
         """

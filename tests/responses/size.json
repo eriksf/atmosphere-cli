@@ -1,0 +1,15 @@
+{
+    "id": 1,
+    "alias": "3",
+    "name": "small1",
+    "cpu": 2,
+    "disk": 0,
+    "mem": 8192,
+    "active": true,
+    "provider": {
+        "id": 1,
+        "uuid": "9e002b3c-d7d2-11e4-8cb8-8bda92940e85"
+    },
+    "start_date": "2014-02-04T21:04:30Z",
+    "end_date": null
+}

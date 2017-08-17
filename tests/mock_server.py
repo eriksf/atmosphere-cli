@@ -1,4 +1,5 @@
 from six.moves import BaseHTTPServer
+from six.moves.urllib.parse import urlparse, parse_qs
 import os
 import re
 import socket
@@ -14,6 +15,8 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGES_PATTERN = re.compile(r'/images')
     PROVIDER_PATTERN = re.compile(r'/providers/\d+')
     PROVIDERS_PATTERN = re.compile(r'/providers')
+    SIZE_PATTERN = re.compile(r'/sizes/\d+')
+    SIZES_PATTERN = re.compile(r'/sizes')
     BAD_JSON_PATTERN = re.compile(r'/badjson')
     VALID_JSON_PATTERN = re.compile(r'/valid')
     TIMEOUT_PATTERN = re.compile(r'/timeout')
@@ -25,6 +28,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
     PROVIDER_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'provider.json')
     PROVIDERS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'providers.json')
+    SIZE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'size.json')
+    SIZES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes.json')
+    SIZES_FILTERED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes_filtered.json')
     VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'version.json')
 
     def __send_response(self, content):
@@ -47,6 +53,8 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(response_content.encode('utf-8'))
 
     def do_GET(self):
+        parsed_path = urlparse(self.path)
+        query = parse_qs(parsed_path.query)
         if re.match(self.IDENTITY_PATTERN, self.path):
             self.__send_response_file(self.IDENTITY_RESPONSE_FILE)
             return
@@ -64,6 +72,15 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.match(self.PROVIDERS_PATTERN, self.path):
             self.__send_response_file(self.PROVIDERS_RESPONSE_FILE)
+            return
+        elif re.match(self.SIZE_PATTERN, self.path):
+            self.__send_response_file(self.SIZE_RESPONSE_FILE)
+            return
+        elif re.match(self.SIZES_PATTERN, self.path):
+            if 'provider__id' in query:
+                self.__send_response_file(self.SIZES_FILTERED_RESPONSE_FILE)
+            else:
+                self.__send_response_file(self.SIZES_RESPONSE_FILE)
             return
         elif re.match(self.BAD_JSON_PATTERN, self.path):
             response_content = '{"results": [}'

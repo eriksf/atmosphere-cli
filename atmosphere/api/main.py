@@ -16,7 +16,7 @@ class AtmosphereAPI(object):
         self.__request = Request(token, base_url, timeout, verify)
 
     def get_images(self):
-        data = self.__request.getJson('GET', '/images/')
+        data = self.__request.getJson('GET', '/images')
         return data
 
     def get_image(self, id):
@@ -24,7 +24,7 @@ class AtmosphereAPI(object):
         return data
 
     def get_providers(self):
-        data = self.__request.getJson('GET', '/providers/')
+        data = self.__request.getJson('GET', '/providers')
         return data
 
     def get_provider(self, id):
@@ -32,13 +32,25 @@ class AtmosphereAPI(object):
         return data
 
     def get_version(self):
-        data = self.__request.getJson('GET', '/version/')
+        data = self.__request.getJson('GET', '/version')
         return data
 
     def get_identities(self):
-        data = self.__request.getJson('GET', '/identities/')
+        data = self.__request.getJson('GET', '/identities')
         return data
 
     def get_identity(self, id):
         data = self.__request.getJson('GET', '/identities/{}'.format(id))
+        return data
+
+    def get_sizes(self, provider_id=None):
+        if provider_id:
+            params = {'provider__id': provider_id}
+            data = self.__request.getJson('GET', '/sizes', params=params)
+        else:
+            data = self.__request.getJson('GET', '/sizes')
+        return data
+
+    def get_size(self, id):
+        data = self.__request.getJson('GET', '/sizes/{}'.format(id))
         return data
