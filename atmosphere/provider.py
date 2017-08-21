@@ -48,22 +48,41 @@ class ProviderShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Description', 'Type', 'Virtualization', 'Size(s)', 'Is Public?', 'Is Active?', 'Start Date')
+        column_headers = ('Id',
+                          'UUID',
+                          'Name',
+                          'Description',
+                          'Type',
+                          'Virtualization',
+                          'Size(s)',
+                          'Auto Imaging?',
+                          'Is Public?',
+                          'Is Admin?',
+                          'Is Active?',
+                          'Start Date',
+                          'End Date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_provider(parsed_args.id)
         provider = ()
         if data:
             start_date = ts_to_isodate(data['start_date'])
+            end_date = ''
+            if data['end_date']:
+                end_date = ts_to_isodate(data['end_date'])
             provider = (
                 data['id'],
+                data['uuid'],
                 data['name'],
                 data['description'],
                 data['type']['name'],
                 data['virtualization']['name'],
                 ', '.join([value['name'] for value in data['sizes']]),
+                data['auto_imaging'],
                 data['public'],
+                data['is_admin'],
                 data['active'],
-                start_date if start_date else data['start_date']
+                start_date,
+                end_date
             )
 
         return (column_headers, provider)

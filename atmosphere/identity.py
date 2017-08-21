@@ -47,8 +47,15 @@ class IdentityShow(ShowOne):
 
     def take_action(self, parsed_args):
         column_headers = ('Id',
-                          'Name',
+                          'UUID',
+                          'Username',
+                          'User Id',
+                          'User UUID',
                           'Provider',
+                          'Provider Id',
+                          'Provider UUID',
+                          'Allocation Id',
+                          'Allocation UUID',
                           'Allocation Threshold',
                           'Allocation Delta',
                           'Usage Current',
@@ -68,8 +75,15 @@ class IdentityShow(ShowOne):
         if data:
             identity = (
                 data['id'],
+                data['uuid'],
+                data['user']['id'],
                 data['user']['username'],
+                data['user']['uuid'],
+                data['provider']['id'],
                 data['provider']['name'],
+                data['provider']['uuid'],
+                data['allocation']['id'],
+                data['allocation']['uuid'],
                 data['allocation']['threshold'],
                 data['allocation']['delta'],
                 data['usage']['current'],

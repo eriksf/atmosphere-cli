@@ -58,23 +58,43 @@ class SizeShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Alias', 'Provider', 'CPU', 'Memory', 'Disk', 'Active?', 'Root', 'Start Date')
+        column_headers = ('Id',
+                          'UUID',
+                          'Name',
+                          'Alias',
+                          'Provider Id',
+                          'Provider Name',
+                          'Provider UUID',
+                          'CPU',
+                          'Memory',
+                          'Disk',
+                          'Active?',
+                          'Root',
+                          'Start Date',
+                          'End Date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_size(parsed_args.id)
         size = ()
         if data:
             start_date = ts_to_isodate(data['start_date'])
+            end_date = ''
+            if data['end_date']:
+                end_date = ts_to_isodate(data['end_date'])
             size = (
                 data['id'],
+                data['uuid'],
                 data['name'],
                 data['alias'],
+                data['provider']['id'],
                 data['provider']['name'],
+                data['provider']['uuid'],
                 data['cpu'],
                 data['mem'],
                 data['disk'],
                 data['active'],
                 data['root'],
-                start_date if start_date else data['start_date']
+                start_date,
+                end_date
             )
 
         return (column_headers, size)

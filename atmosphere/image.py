@@ -46,20 +46,37 @@ class ImageShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
+        column_headers = ('Id',
+                          'UUID',
+                          'Name',
+                          'Description',
+                          'Created By',
+                          'Version(s)',
+                          'Tag(s)',
+                          'Url',
+                          'Is Public?',
+                          'Start Date',
+                          'End Date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_image(parsed_args.id)
         image = ()
         if data:
             start_date = ts_to_isodate(data['start_date'])
+            end_date = ''
+            if data['end_date']:
+                end_date = ts_to_isodate(data['end_date'])
             image = (
                 data['id'],
+                data['uuid'],
                 data['name'],
                 data['description'],
                 data['created_by']['username'],
                 ', '.join([value['name'] for value in data['versions']]),
+                ', '.join(data['tags']),
+                data['url'],
                 data['is_public'],
-                start_date if start_date else data['start_date']
+                start_date,
+                end_date
             )
 
         return (column_headers, image)
