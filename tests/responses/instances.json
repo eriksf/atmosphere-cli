@@ -1,0 +1,92 @@
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [{
+        "activity": "deploy_error",
+        "allocation_source": {
+            "compute_allowed": 168,
+            "compute_used": 0.0,
+            "end_date": null,
+            "global_burn_rate": 0.0,
+            "id": 1,
+            "name": "eriksf",
+            "renewal_strategy": "default",
+            "start_date": "2017-08-24T17:10:06.403022Z",
+            "updated": "2017-08-24T17:10:06.406343Z",
+            "url": "https://local.atmo.cloud/api/v2/allocation_sources/62d95228-3b07-4f0a-97f6-eee2b541ab2d.json",
+            "user_burn_rate": null,
+            "user_compute_used": 0.0,
+            "user_snapshot_updated": null,
+            "uuid": "62d95228-3b07-4f0a-97f6-eee2b541ab2d"
+        },
+        "end_date": null,
+        "id": 1,
+        "identity": {
+            "id": "2",
+            "provider": 4,
+            "url": "https://local.atmo.cloud/api/v2/identities/dc632e41-a073-4855-99d5-81bea707c5a3.json",
+            "uuid": "dc632e41-a073-4855-99d5-81bea707c5a3"
+        },
+        "image": {
+            "description": "Imported Application - trusty-server",
+            "end_date": null,
+            "icon": null,
+            "id": 1,
+            "name": "trusty-server",
+            "start_date": "2017-08-24T16:42:27Z",
+            "url": "https://local.atmo.cloud/api/v2/images/db914b41-f62c-5d94-b009-d57f6f07b083.json",
+            "user": 4,
+            "uuid": "db914b41-f62c-5d94-b009-d57f6f07b083"
+        },
+        "ip_address": "128.110.155.152",
+        "name": "trusty-server",
+        "projects": [
+            1
+        ],
+        "provider": {
+            "active": true,
+            "description": "This is a CloudLab cloud.",
+            "end_date": null,
+            "id": 4,
+            "name": "Cloudlab - ErikOS",
+            "public": true,
+            "start_date": "2017-08-24T17:08:19.166808Z",
+            "url": "https://local.atmo.cloud/api/v2/providers/997d3bdd-24c3-4e8c-a3e5-9ab038e500d0.json",
+            "uuid": "997d3bdd-24c3-4e8c-a3e5-9ab038e500d0"
+        },
+        "scripts": [],
+        "shell": false,
+        "size": {
+            "active": true,
+            "alias": "100",
+            "cpu": 1,
+            "disk": 0,
+            "end_date": null,
+            "id": 1,
+            "mem": 256,
+            "name": "manila-service-flavor",
+            "start_date": "2017-08-24T17:11:21.959557Z",
+            "url": "https://local.atmo.cloud/api/v2/sizes/365d1d41-83cf-4786-84a9-93dcab72e295.json",
+            "uuid": "365d1d41-83cf-4786-84a9-93dcab72e295"
+        },
+        "start_date": "2017-08-24T17:13:09Z",
+        "status": "active",
+        "url": "https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822.json",
+        "usage": 0.0,
+        "user": {
+            "id": 1,
+            "url": "https://local.atmo.cloud/api/v2/users/074e0a95-0470-4d41-a9be-7d591aac5bb0.json",
+            "username": "eriksf",
+            "uuid": "074e0a95-0470-4d41-a9be-7d591aac5bb0"
+        },
+        "uuid": "ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822",
+        "version": {
+            "id": "bb5a3d85-2e36-4541-be3f-b7ecba6f81c9",
+            "name": "1.0",
+            "url": "https://local.atmo.cloud/api/v2/image_versions/bb5a3d85-2e36-4541-be3f-b7ecba6f81c9.json"
+        },
+        "vnc": false,
+        "web_desktop": false
+    }]
+}

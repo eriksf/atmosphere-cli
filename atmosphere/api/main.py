@@ -15,6 +15,14 @@ class AtmosphereAPI(object):
 
         self.__request = Request(token, base_url, timeout, verify)
 
+    def get_instances(self):
+        data = self.__request.getJson('GET', '/instances')
+        return data
+
+    def get_instance(self, id):
+        data = self.__request.getJson('GET', '/instances/{}'.format(id))
+        return data
+
     def get_images(self):
         data = self.__request.getJson('GET', '/images')
         return data
