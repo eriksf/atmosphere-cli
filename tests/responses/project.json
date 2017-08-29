@@ -1,0 +1,19 @@
+{
+    "description": "My Project",
+    "end_date": null,
+    "id": 1,
+    "images": [],
+    "instances": [],
+    "links": [],
+    "name": "My Project",
+    "owner": {
+        "id": 1,
+        "url": "https://local.atmo.cloud/api/v2/users/60d69bdc-fb5b-4c02-bab8-5e67a7e218b4?format=json",
+        "username": "eriksf",
+        "uuid": "60d69bdc-fb5b-4c02-bab8-5e67a7e218b4"
+    },
+    "start_date": "2017-08-28T18:48:57.259492Z",
+    "url": "https://local.atmo.cloud/api/v2/projects/75d30d38-f09e-48e8-891f-c6d79280e818?format=json",
+    "uuid": "75d30d38-f09e-48e8-891f-c6d79280e818",
+    "volumes": []
+}

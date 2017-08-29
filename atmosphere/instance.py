@@ -102,3 +102,29 @@ class InstanceShow(ShowOne):
             )
 
         return (column_headers, instance)
+
+
+class InstanceActions(Lister):
+    """
+    Show available actions for an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceActions, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance id')
+        return parser
+
+    def take_action(self, parsed_args):
+        column_headers = ('action', 'description')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.get_instance_actions(parsed_args.id)
+        actions = []
+        for action in data:
+            actions.append((
+                action['name'],
+                action['description'],
+            ))
+
+        return (column_headers, tuple(actions))

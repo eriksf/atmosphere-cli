@@ -56,6 +56,11 @@ class Request(object):
         if logger.isEnabledFor(logging.ERROR):
             logger.error('ERROR: {}'.format(message))
 
+    def __log_message(self, message):
+        logger = logging.getLogger(__name__)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('{}'.format(message))
+
     def getJson(self, verb, url, params=None, headers=None, data=None):
         method = getattr(requests, verb.lower())
 
@@ -71,15 +76,15 @@ class Request(object):
         else:
             params['format'] = 'json'
 
-        data = None
+        response = None
         try:
             r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout, verify=self.verify)
             self.__log(verb, url, headers, data, r)
             # consider any status besides 2xx an error
             if r.status_code // 100 == 2:
-                data = r.json()
+                response = r.json()
         except requests.exceptions.RequestException as re:
             self.__log_error(re)
         except Exception as e:
             self.__log_error(e)
-        return data
+        return response

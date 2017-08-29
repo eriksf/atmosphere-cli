@@ -23,6 +23,14 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/instances/{}'.format(id))
         return data
 
+    def get_instance_actions(self, id):
+        udata = self.__request.getJson('GET', '/instances/{}'.format(id))
+        data = None
+        if udata:
+            uuid = udata['uuid']
+            data = self.__request.getJson('GET', '/instances/{}/actions'.format(uuid))
+        return data
+
     def get_images(self):
         data = self.__request.getJson('GET', '/images')
         return data
@@ -61,4 +69,17 @@ class AtmosphereAPI(object):
 
     def get_size(self, id):
         data = self.__request.getJson('GET', '/sizes/{}'.format(id))
+        return data
+
+    def get_projects(self):
+        data = self.__request.getJson('GET', '/projects')
+        return data
+
+    def get_project(self, id):
+        data = self.__request.getJson('GET', '/projects/{}'.format(id))
+        return data
+
+    def create_project(self, input):
+        headers = {'Content-Type': 'application/json'}
+        data = self.__request.getJson('POST', '/projects', headers=headers, data=input)
         return data

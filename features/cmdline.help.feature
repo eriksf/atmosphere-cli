@@ -40,8 +40,12 @@ Feature: Command-line options: Use atmo --help
           identity show  Show details for a user identity.
           image list     List images for user.
           image show     Show details for an image.
+          instance actions  Show available actions for an instance.
           instance list  List instances for user.
           instance show  Show details for an instance.
+          project create  Create a project.
+          project list   List projects for a user.
+          project show   Show details for a project.
           provider list  List cloud providers managed by Atmosphere.
           provider show  Show details for a cloud provider.
           size list      List sizes (instance configurations) for cloud provider.

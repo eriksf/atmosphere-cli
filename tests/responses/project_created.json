@@ -1,0 +1,19 @@
+{
+    "id": 2,
+    "uuid": "67d95451-46f8-49cb-b4e6-a888eeed96fb",
+    "url": "https://local.atmo.cloud/api/v2/projects/67d95451-46f8-49cb-b4e6-a888eeed96fb?format=json",
+    "name": "another project",
+    "description": "another project",
+    "owner": {
+        "id": 1,
+        "uuid": "60d69bdc-fb5b-4c02-bab8-5e67a7e218b4",
+        "url": "https://local.atmo.cloud/api/v2/users/60d69bdc-fb5b-4c02-bab8-5e67a7e218b4?format=json",
+        "username": "eriksf"
+    },
+    "instances": [],
+    "images": [],
+    "links": [],
+    "volumes": [],
+    "start_date": "2017-08-29T19:42:22.971252Z",
+    "end_date": null
+}

@@ -13,7 +13,7 @@ class IdentityList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Provider', 'Allocation', 'Usage Current', 'Usage Remaining', 'Quota CPU', 'Quota Memory', 'Quota Storage')
+        column_headers = ('id', 'name', 'provider', 'allocation', 'usage_current', 'usage_remaining', 'quota_cpu', 'quota_memory', 'quota_storage')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identities()
         identities = []
@@ -46,29 +46,29 @@ class IdentityShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id',
-                          'UUID',
-                          'Username',
-                          'User Id',
-                          'User UUID',
-                          'Provider',
-                          'Provider Id',
-                          'Provider UUID',
-                          'Allocation Id',
-                          'Allocation UUID',
-                          'Allocation Threshold',
-                          'Allocation Delta',
-                          'Usage Current',
-                          'Usage Remaining',
-                          'Usage Threshold',
-                          'Quota CPU',
-                          'Quota Memory',
-                          'Quota Storage',
-                          'Quota Floating IP Count',
-                          'Quota Instance Count',
-                          'Quota Port Count',
-                          'Quota Snapshot Count',
-                          'Quota Storage Count')
+        column_headers = ('id',
+                          'uuid',
+                          'username',
+                          'user_id',
+                          'user_uuid',
+                          'provider',
+                          'provider_id',
+                          'provider_uuid',
+                          'allocation_id',
+                          'allocation_uuid',
+                          'allocation_threshold',
+                          'allocation_delta',
+                          'usage_current',
+                          'usage_remaining',
+                          'usage_threshold',
+                          'quota_cpu',
+                          'quota_memory',
+                          'quota_storage',
+                          'quota_floating_ip_count',
+                          'quota_instance_count',
+                          'quota_port_count',
+                          'quota_snapshot_count',
+                          'quota_storage_count')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identity(parsed_args.id)
         identity = ()

@@ -36,3 +36,14 @@ class TestInstances(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instance(1)
         assert response['id'] == 1 and response['name'] == 'trusty-server'
+
+    def test_getting_instance_actions_when_response_is_not_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instance_actions(1)
+        assert not response
+
+    def test_getting_instance_actions_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_instance_actions(1)
+        print(response)
+        assert response[4]['key'] == 'Reboot' and response[4]['description'] == 'Reboots an instance when it is in ANY State'

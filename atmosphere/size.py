@@ -25,7 +25,7 @@ class SizeList(Lister):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Provider', 'CPU', 'Memory', 'Disk', 'Active?', 'Start Date')
+        column_headers = ('id', 'name', 'provider', 'cpu', 'memory', 'kisk', 'active', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_sizes(provider_id=parsed_args.provider_id)
         sizes = []
@@ -58,20 +58,20 @@ class SizeShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id',
-                          'UUID',
-                          'Name',
-                          'Alias',
-                          'Provider Id',
-                          'Provider Name',
-                          'Provider UUID',
-                          'CPU',
-                          'Memory',
-                          'Disk',
-                          'Active?',
-                          'Root',
-                          'Start Date',
-                          'End Date')
+        column_headers = ('id',
+                          'uuid',
+                          'name',
+                          'alias',
+                          'provider_id',
+                          'provider_name',
+                          'provider_uuid',
+                          'cpu',
+                          'memory',
+                          'disk',
+                          'active',
+                          'root',
+                          'start_date',
+                          'end_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_size(parsed_args.id)
         size = ()

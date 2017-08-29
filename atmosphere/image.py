@@ -14,7 +14,7 @@ class ImageList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('Id', 'Name', 'Description', 'Created By', 'Version(s)', 'Is Public?', 'Start Date')
+        column_headers = ('id', 'name', 'description', 'created_by', 'versions', 'is_public', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_images()
         images = []
@@ -46,17 +46,17 @@ class ImageShow(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('Id',
-                          'UUID',
-                          'Name',
-                          'Description',
-                          'Created By',
-                          'Version(s)',
-                          'Tag(s)',
-                          'Url',
-                          'Is Public?',
-                          'Start Date',
-                          'End Date')
+        column_headers = ('id',
+                          'uuid',
+                          'name',
+                          'description',
+                          'created_by',
+                          'versions',
+                          'tags',
+                          'url',
+                          'is_public',
+                          'start_date',
+                          'end_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_image(parsed_args.id)
         image = ()

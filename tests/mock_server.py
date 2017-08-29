@@ -1,5 +1,6 @@
 from six.moves import BaseHTTPServer
 from six.moves.urllib.parse import urlparse, parse_qs
+import json
 import os
 import re
 import socket
@@ -14,7 +15,10 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGE_PATTERN = re.compile(r'/images/\d+')
     IMAGES_PATTERN = re.compile(r'/images')
     INSTANCE_PATTERN = re.compile(r'/instances/\d+')
+    INSTANCE_ACTIONS_PATTERN = re.compile(r'/instances/[\d\w-]+/actions')
     INSTANCES_PATTERN = re.compile(r'/instances')
+    PROJECT_PATTERN = re.compile(r'/projects/\d+')
+    PROJECTS_PATTERN = re.compile(r'/projects')
     PROVIDER_PATTERN = re.compile(r'/providers/\d+')
     PROVIDERS_PATTERN = re.compile(r'/providers')
     SIZE_PATTERN = re.compile(r'/sizes/\d+')
@@ -29,7 +33,11 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
     INSTANCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance.json')
+    INSTANCE_ACTIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_actions.json')
     INSTANCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instances.json')
+    PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
+    PROJECT_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project_created.json')
+    PROJECTS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'projects.json')
     PROVIDER_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'provider.json')
     PROVIDERS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'providers.json')
     SIZE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'size.json')
@@ -56,6 +64,15 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         with open(response_file) as f: response_content = f.read()
         self.wfile.write(response_content.encode('utf-8'))
 
+    def do_POST(self):
+        if re.match(self.PROJECTS_PATTERN, self.path):
+            data_string = self.rfile.read(int(self.headers['Content-Length']))
+            data = json.loads(data_string)
+            if data['name'] == '':
+                self.__send_response('{"name":["This field may not be blank."]}')
+            else:
+                self.__send_response_file(self.PROJECT_CREATED_RESPONSE_FILE)
+
     def do_GET(self):
         parsed_path = urlparse(self.path)
         query = parse_qs(parsed_path.query)
@@ -71,11 +88,20 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         elif re.match(self.IMAGES_PATTERN, self.path):
             self.__send_response_file(self.IMAGES_RESPONSE_FILE)
             return
+        elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
+            self.__send_response_file(self.INSTANCE_ACTIONS_RESPONSE_FILE)
+            return
         elif re.match(self.INSTANCE_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_RESPONSE_FILE)
             return
         elif re.match(self.INSTANCES_PATTERN, self.path):
             self.__send_response_file(self.INSTANCES_RESPONSE_FILE)
+            return
+        elif re.match(self.PROJECT_PATTERN, self.path):
+            self.__send_response_file(self.PROJECT_RESPONSE_FILE)
+            return
+        elif re.match(self.PROJECTS_PATTERN, self.path):
+            self.__send_response_file(self.PROJECTS_RESPONSE_FILE)
             return
         elif re.match(self.PROVIDER_PATTERN, self.path):
             self.__send_response_file(self.PROVIDER_RESPONSE_FILE)

@@ -1,0 +1,55 @@
+[{
+        "description": "Stops an instance when it is in the 'active' State",
+        "key": "Stop",
+        "name": "Stop",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/2?format=json"
+    },
+    {
+        "description": "Suspends an instance when it is in the 'active' State",
+        "key": "Suspend",
+        "name": "Suspend",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/4?format=json"
+    },
+    {
+        "description": "Destroys an in any non-error state. This is an irreversable action!",
+        "key": "Terminate",
+        "name": "Terminate",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/5?format=json"
+    },
+    {
+        "description": "Shelves an instance when it is in the 'active' State",
+        "key": "Shelve",
+        "name": "Shelve",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/7?format=json"
+    },
+    {
+        "description": "Reboots an instance when it is in ANY State",
+        "key": "Reboot",
+        "name": "Reboot",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/9?format=json"
+    },
+    {
+        "description": "Hard Reboots an instance when it is in ANY State",
+        "key": "Hard Reboot",
+        "name": "Hard Reboot",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/10?format=json"
+    },
+    {
+        "description": "Represents the Resize/Confirm_Resize/Revert_Resize operations",
+        "key": "Resize",
+        "name": "Resize",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/11?format=json"
+    },
+    {
+        "description": "Represents the ability to Image/Snapshot an instance",
+        "key": "Imaging",
+        "name": "Imaging",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/12?format=json"
+    },
+    {
+        "description": "Redeploy to an instance when it is in ANY active state",
+        "key": "Redeploy",
+        "name": "Redeploy",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/14?format=json"
+    }
+]
