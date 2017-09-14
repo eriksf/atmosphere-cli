@@ -76,11 +76,11 @@ class IdentityShow(ShowOne):
             identity = (
                 data['id'],
                 data['uuid'],
-                data['user']['id'],
                 data['user']['username'],
+                data['user']['id'],
                 data['user']['uuid'],
-                data['provider']['id'],
                 data['provider']['name'],
+                data['provider']['id'],
                 data['provider']['uuid'],
                 data['allocation']['id'],
                 data['allocation']['uuid'],

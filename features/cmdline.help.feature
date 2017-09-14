@@ -34,6 +34,8 @@ Feature: Command-line options: Use atmo --help
                                 API (Env: ATMO_API_SERVER_TIMEOUT)
 
         Commands:
+          allocation source list  List allocation sources for a user.
+          allocation source show  Show details for an allocation source.
           complete       print bash completion command
           help           print detailed help for another command
           identity list  List user identities managed by Atmosphere.
@@ -41,6 +43,7 @@ Feature: Command-line options: Use atmo --help
           image list     List images for user.
           image show     Show details for an image.
           instance actions  Show available actions for an instance.
+          instance create  Create an instance.
           instance list  List instances for user.
           instance show  Show details for an instance.
           project create  Create a project.
@@ -51,4 +54,6 @@ Feature: Command-line options: Use atmo --help
           size list      List sizes (instance configurations) for cloud provider.
           size show      Show details for a size (instance configuration).
           version        Show Atmosphere API version.
+          volume list    List volumes for a user.
+          volume show    Show details for a volume.
         """

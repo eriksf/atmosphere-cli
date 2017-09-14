@@ -10,6 +10,8 @@ import requests
 
 
 class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    ALLOCATION_SOURCE_PATTERN = re.compile(r'/allocation_sources/\d+')
+    ALLOCATION_SOURCES_PATTERN = re.compile(r'/allocation_sources')
     IDENTITY_PATTERN = re.compile(r'/identities/\d+')
     IDENTITIES_PATTERN = re.compile(r'/identities')
     IMAGE_PATTERN = re.compile(r'/images/\d+')
@@ -27,7 +29,11 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     VALID_JSON_PATTERN = re.compile(r'/valid')
     TIMEOUT_PATTERN = re.compile(r'/timeout')
     VERSION_PATTERN = re.compile(r'/version')
+    VOLUME_PATTERN = re.compile(r'/volumes/\d+')
+    VOLUMES_PATTERN = re.compile(r'/volumes')
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
+    ALLOCATION_SOURCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_source.json')
+    ALLOCATION_SOURCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_sources.json')
     IDENTITY_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identity.json')
     IDENTITIES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identities.json')
     IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
@@ -44,6 +50,8 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     SIZES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes.json')
     SIZES_FILTERED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes_filtered.json')
     VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'version.json')
+    VOLUME_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume.json')
+    VOLUMES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volumes.json')
 
     def __send_response(self, content):
         # Add response status code
@@ -76,7 +84,13 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_path = urlparse(self.path)
         query = parse_qs(parsed_path.query)
-        if re.match(self.IDENTITY_PATTERN, self.path):
+        if re.match(self.ALLOCATION_SOURCE_PATTERN, self.path):
+            self.__send_response_file(self.ALLOCATION_SOURCE_RESPONSE_FILE)
+            return
+        elif re.match(self.ALLOCATION_SOURCES_PATTERN, self.path):
+            self.__send_response_file(self.ALLOCATION_SOURCES_RESPONSE_FILE)
+            return
+        elif re.match(self.IDENTITY_PATTERN, self.path):
             self.__send_response_file(self.IDENTITY_RESPONSE_FILE)
             return
         elif re.match(self.IDENTITIES_PATTERN, self.path):
@@ -133,6 +147,12 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.match(self.VERSION_PATTERN, self.path):
             self.__send_response_file(self.VERSION_RESPONSE_FILE)
+            return
+        elif re.match(self.VOLUME_PATTERN, self.path):
+            self.__send_response_file(self.VOLUME_RESPONSE_FILE)
+            return
+        elif re.match(self.VOLUMES_PATTERN, self.path):
+            self.__send_response_file(self.VOLUMES_RESPONSE_FILE)
             return
 
 

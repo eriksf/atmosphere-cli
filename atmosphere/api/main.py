@@ -23,6 +23,15 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/instances/{}'.format(id))
         return data
 
+    def create_instance(self, input):
+        headers = {'Content-Type': 'application/json'}
+        data = self.__request.getJson('POST', '/instances', headers=headers, data=input)
+        return data
+
+    def delete_instance(self, id):
+        data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
+        return data
+
     def get_instance_actions(self, id):
         udata = self.__request.getJson('GET', '/instances/{}'.format(id))
         data = None
@@ -59,6 +68,14 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/identities/{}'.format(id))
         return data
 
+    def get_allocation_sources(self):
+        data = self.__request.getJson('GET', '/allocation_sources')
+        return data
+
+    def get_allocation_source(self, id):
+        data = self.__request.getJson('GET', '/allocation_sources/{}'.format(id))
+        return data
+
     def get_sizes(self, provider_id=None):
         if provider_id:
             params = {'provider__id': provider_id}
@@ -82,4 +99,12 @@ class AtmosphereAPI(object):
     def create_project(self, input):
         headers = {'Content-Type': 'application/json'}
         data = self.__request.getJson('POST', '/projects', headers=headers, data=input)
+        return data
+
+    def get_volumes(self):
+        data = self.__request.getJson('GET', '/volumes')
+        return data
+
+    def get_volume(self, id):
+        data = self.__request.getJson('GET', '/volumes/{}'.format(id))
         return data

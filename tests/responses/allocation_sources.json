@@ -1,0 +1,21 @@
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [{
+        "compute_allowed": 168,
+        "compute_used": 0.0,
+        "end_date": null,
+        "global_burn_rate": 0.0,
+        "id": 1,
+        "name": "eriksf",
+        "renewal_strategy": "default",
+        "start_date": "2017-09-11T17:37:27.755333Z",
+        "updated": "2017-09-11T17:37:27.758727Z",
+        "url": "https://local.atmo.cloud/api/v2/allocation_sources/e5b79ebd-a6a0-4069-945f-6488785794a4?format=json",
+        "user_burn_rate": null,
+        "user_compute_used": 0.0,
+        "user_snapshot_updated": null,
+        "uuid": "e5b79ebd-a6a0-4069-945f-6488785794a4"
+    }]
+}
