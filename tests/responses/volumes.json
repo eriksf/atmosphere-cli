@@ -3,19 +3,28 @@
     "next": null,
     "previous": null,
     "results": [{
-        "description": "2017-09-14 18:56:17.709685",
+        "description": null,
         "end_date": null,
         "id": 1,
         "identity": {
             "id": "2",
+            "key": "Username: eriksf, Project:eriksf",
             "provider": 4,
-            "url": "https://local.atmo.cloud/api/v2/identities/9b85ba9c-1c80-4a50-83ea-68fed45c1983?format=json",
-            "uuid": "9b85ba9c-1c80-4a50-83ea-68fed45c1983"
+            "url": "https://local.atmo.cloud/api/v2/identities/a5a6140d-1122-4581-87dc-bd9704fa07ec?format=json",
+            "uuid": "a5a6140d-1122-4581-87dc-bd9704fa07ec"
         },
         "name": "myfirstvolume",
-        "projects": [
-            1
-        ],
+        "project": {
+            "created_by": "eriksf",
+            "description": "my first project",
+            "end_date": null,
+            "id": 2,
+            "name": "myfirstproject",
+            "owner": "eriksf",
+            "start_date": "2017-09-18T18:37:35.443981Z",
+            "url": "https://local.atmo.cloud/api/v2/projects/7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4?format=json",
+            "uuid": "7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4"
+        },
         "provider": {
             "active": true,
             "description": "This is a Cloudlab cloud.",
@@ -23,19 +32,19 @@
             "id": 4,
             "name": "Cloudlab - ErikOS",
             "public": true,
-            "start_date": "2017-09-12T16:54:27.418819Z",
-            "url": "https://local.atmo.cloud/api/v2/providers/b135de60-ba08-467e-bb93-740959213198?format=json",
-            "uuid": "b135de60-ba08-467e-bb93-740959213198"
+            "start_date": "2017-09-18T17:57:00.652272Z",
+            "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
+            "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464"
         },
         "size": 1,
-        "start_date": "2017-09-14T18:56:18.035932Z",
-        "url": "https://local.atmo.cloud/api/v2/volumes/5391a05b-34c9-4ad0-a4cd-5e59a435936f?format=json",
+        "start_date": "2017-09-18T22:20:02.281599Z",
+        "url": "https://local.atmo.cloud/api/v2/volumes/78b1ed8a-f661-4be7-91e8-2659f5f81549?format=json",
         "user": {
             "id": 1,
-            "url": "https://local.atmo.cloud/api/v2/users/0cf0fb24-72b3-46c8-aeee-6dc0ef92c864?format=json",
+            "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
             "username": "eriksf",
-            "uuid": "0cf0fb24-72b3-46c8-aeee-6dc0ef92c864"
+            "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
         },
-        "uuid": "5391a05b-34c9-4ad0-a4cd-5e59a435936f"
+        "uuid": "78b1ed8a-f661-4be7-91e8-2659f5f81549"
     }]
 }

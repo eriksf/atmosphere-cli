@@ -1,0 +1,97 @@
+{
+    "activity": "",
+    "allocation_source": {
+        "compute_allowed": 168,
+        "compute_used": 0.0,
+        "end_date": null,
+        "global_burn_rate": 0.0,
+        "id": 1,
+        "name": "eriksf",
+        "renewal_strategy": "default",
+        "start_date": "2017-09-18T18:00:00.055043Z",
+        "updated": "2017-09-18T18:00:00.058678Z",
+        "url": "https://local.atmo.cloud/api/v2/allocation_sources/f4cca788-e039-4f82-bc77-9fb92141eca6?format=json",
+        "user_burn_rate": null,
+        "user_compute_used": 0.0,
+        "user_snapshot_updated": null,
+        "uuid": "f4cca788-e039-4f82-bc77-9fb92141eca6"
+    },
+    "end_date": null,
+    "id": 1,
+    "identity": {
+        "id": "2",
+        "key": "Username: eriksf, Project:eriksf",
+        "provider": 4,
+        "url": "https://local.atmo.cloud/api/v2/identities/a5a6140d-1122-4581-87dc-bd9704fa07ec?format=json",
+        "uuid": "a5a6140d-1122-4581-87dc-bd9704fa07ec"
+    },
+    "image": {
+        "description": "Imported Application - trusty-server",
+        "end_date": null,
+        "icon": null,
+        "id": 1,
+        "name": "trusty-server",
+        "start_date": "2017-09-18T16:51:06Z",
+        "url": "https://local.atmo.cloud/api/v2/images/f83454a2-ef80-5df4-9d1d-3b3550e750c3?format=json",
+        "user": 3,
+        "uuid": "f83454a2-ef80-5df4-9d1d-3b3550e750c3"
+    },
+    "ip_address": "128.110.155.172",
+    "name": "myfirstinstance",
+    "project": {
+        "created_by": "eriksf",
+        "description": "my first project",
+        "end_date": null,
+        "id": 2,
+        "name": "myfirstproject",
+        "owner": "eriksf",
+        "start_date": "2017-09-18T18:37:35.443981Z",
+        "url": "https://local.atmo.cloud/api/v2/projects/7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4?format=json",
+        "uuid": "7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4"
+    },
+    "provider": {
+        "active": true,
+        "description": "This is a Cloudlab cloud.",
+        "end_date": null,
+        "id": 4,
+        "name": "Cloudlab - ErikOS",
+        "public": true,
+        "start_date": "2017-09-18T17:57:00.652272Z",
+        "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
+        "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464"
+    },
+    "scripts": [],
+    "shell": false,
+    "size": {
+        "active": true,
+        "alias": "100",
+        "cpu": 1,
+        "disk": 0,
+        "end_date": null,
+        "id": 1,
+        "mem": 256,
+        "name": "manila-service-flavor",
+        "root": 0,
+        "start_date": "2017-09-18T17:58:59.269469Z",
+        "url": "https://local.atmo.cloud/api/v2/sizes/5fb893dd-f1c0-45bd-8f6f-cfb721bcf303?format=json",
+        "uuid": "5fb893dd-f1c0-45bd-8f6f-cfb721bcf303"
+    },
+    "start_date": "2017-09-18T21:35:31Z",
+    "status": "active",
+    "url": "https://local.atmo.cloud/api/v2/instances/d09d7999-f341-46af-a2ad-bdbecdf28d6a?format=json",
+    "usage": 0.0,
+    "user": {
+        "id": 1,
+        "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
+        "username": "eriksf",
+        "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
+    },
+    "uuid": "d09d7999-f341-46af-a2ad-bdbecdf28d6a",
+    "version": {
+        "id": "53a7d5f5-9084-41b3-9b6e-e96fdbdceb8f",
+        "name": "1.0",
+        "url": "https://local.atmo.cloud/api/v2/image_versions/53a7d5f5-9084-41b3-9b6e-e96fdbdceb8f?format=json"
+    },
+    "vnc": true,
+    "web_desktop": true
+}

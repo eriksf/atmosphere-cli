@@ -1,19 +1,37 @@
 {
-    "id": 2,
-    "uuid": "67d95451-46f8-49cb-b4e6-a888eeed96fb",
-    "url": "https://local.atmo.cloud/api/v2/projects/67d95451-46f8-49cb-b4e6-a888eeed96fb?format=json",
-    "name": "another project",
-    "description": "another project",
-    "owner": {
+    "created_by": {
         "id": 1,
-        "uuid": "60d69bdc-fb5b-4c02-bab8-5e67a7e218b4",
-        "url": "https://local.atmo.cloud/api/v2/users/60d69bdc-fb5b-4c02-bab8-5e67a7e218b4?format=json",
-        "username": "eriksf"
+        "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
+        "username": "eriksf",
+        "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
     },
-    "instances": [],
+    "description": "my first project",
+    "end_date": null,
+    "id": 2,
     "images": [],
+    "instances": [],
+    "leaders": [{
+        "id": 1,
+        "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
+        "username": "eriksf",
+        "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
+    }],
     "links": [],
-    "volumes": [],
-    "start_date": "2017-08-29T19:42:22.971252Z",
-    "end_date": null
+    "name": "myfirstproject",
+    "owner": {
+        "id": 2,
+        "name": "eriksf",
+        "url": "https://local.atmo.cloud/api/v2/groups/7b8709a9-3e43-4a28-bf44-cdd59da13c26?format=json",
+        "uuid": "7b8709a9-3e43-4a28-bf44-cdd59da13c26"
+    },
+    "start_date": "2017-09-18T18:37:35.443981Z",
+    "url": "https://local.atmo.cloud/api/v2/projects/7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4?format=json",
+    "users": [{
+        "id": 1,
+        "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
+        "username": "eriksf",
+        "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
+    }],
+    "uuid": "7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4",
+    "volumes": []
 }

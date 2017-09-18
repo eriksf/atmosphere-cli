@@ -40,6 +40,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
     INSTANCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance.json')
     INSTANCE_ACTIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_actions.json')
+    INSTANCE_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_created.json')
     INSTANCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instances.json')
     PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
     PROJECT_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project_created.json')
@@ -80,6 +81,13 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.__send_response('{"name":["This field may not be blank."]}')
             else:
                 self.__send_response_file(self.PROJECT_CREATED_RESPONSE_FILE)
+        elif re.match(self.INSTANCES_PATTERN, self.path):
+            data_string = self.rfile.read(int(self.headers['Content-Length']))
+            data = json.loads(data_string)
+            if 'allocation_source_id' not in data:
+                self.__send_response('{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
+            else:
+                self.__send_response_file(self.INSTANCE_CREATED_RESPONSE_FILE)
 
     def do_GET(self):
         parsed_path = urlparse(self.path)

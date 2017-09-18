@@ -1,15 +1,25 @@
 {
-    "id": 1,
-    "alias": "3",
-    "name": "small1",
-    "cpu": 2,
-    "disk": 0,
-    "mem": 8192,
     "active": true,
+    "alias": "4",
+    "cpu": 4,
+    "disk": 80,
+    "end_date": null,
+    "id": 5,
+    "mem": 8192,
+    "name": "m1.large",
     "provider": {
-        "id": 1,
-        "uuid": "9e002b3c-d7d2-11e4-8cb8-8bda92940e85"
+        "active": true,
+        "description": "This is a Cloudlab cloud.",
+        "end_date": null,
+        "id": 4,
+        "name": "Cloudlab - ErikOS",
+        "public": true,
+        "start_date": "2017-09-18T17:57:00.652272Z",
+        "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
+        "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464"
     },
-    "start_date": "2014-02-04T21:04:30Z",
-    "end_date": null
+    "root": 0,
+    "start_date": "2017-09-18T17:58:59.280978Z",
+    "url": "https://local.atmo.cloud/api/v2/sizes/013efc26-de0d-4455-aaf9-023a6c9138de?format=json",
+    "uuid": "013efc26-de0d-4455-aaf9-023a6c9138de"
 }

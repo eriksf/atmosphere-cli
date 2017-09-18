@@ -59,7 +59,7 @@ class ProjectList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'description', 'owner', 'start_date', 'images', 'instances', 'volumes', 'links')
+        column_headers = ('id', 'name', 'description', 'owner', 'created_by', 'start_date', 'images', 'instances', 'volumes', 'links')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_projects()
         projects = []
@@ -69,7 +69,8 @@ class ProjectList(Lister):
                 project['id'],
                 project['name'],
                 project['description'],
-                project['owner']['username'],
+                project['owner']['name'],
+                project['created_by']['username'],
                 start_date,
                 len(project['images']),
                 len(project['instances']),
@@ -98,8 +99,11 @@ class ProjectShow(ShowOne):
                           'name',
                           'description',
                           'owner',
+                          'created_by',
                           'start_date',
                           'end_date',
+                          'leaders',
+                          'users',
                           'images',
                           'instances',
                           'volumes',
@@ -117,9 +121,12 @@ class ProjectShow(ShowOne):
                 data['uuid'],
                 data['name'],
                 data['description'],
-                data['owner']['username'],
+                data['owner']['name'],
+                data['created_by']['username'],
                 start_date,
                 end_date,
+                ', '.join([value['username'] for value in data['leaders']]),
+                ', '.join([value['username'] for value in data['users']]),
                 len(data['images']),
                 len(data['instances']),
                 len(data['volumes']),

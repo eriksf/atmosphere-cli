@@ -13,7 +13,7 @@ class IdentityList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'provider', 'allocation', 'usage_current', 'usage_remaining', 'quota_cpu', 'quota_memory', 'quota_storage')
+        column_headers = ('id', 'name', 'provider', 'usage', 'quota_cpu', 'quota_memory', 'quota_storage')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identities()
         identities = []
@@ -22,9 +22,7 @@ class IdentityList(Lister):
                 identity['id'],
                 identity['user']['username'],
                 identity['provider']['name'],
-                identity['allocation']['threshold'],
-                identity['usage']['current'],
-                identity['usage']['remaining'],
+                identity['usage'],
                 identity['quota']['cpu'],
                 identity['quota']['memory'],
                 identity['quota']['storage']
@@ -51,16 +49,12 @@ class IdentityShow(ShowOne):
                           'username',
                           'user_id',
                           'user_uuid',
+                          'key',
+                          'is_leader',
                           'provider',
                           'provider_id',
                           'provider_uuid',
-                          'allocation_id',
-                          'allocation_uuid',
-                          'allocation_threshold',
-                          'allocation_delta',
-                          'usage_current',
-                          'usage_remaining',
-                          'usage_threshold',
+                          'usage',
                           'quota_cpu',
                           'quota_memory',
                           'quota_storage',
@@ -79,16 +73,12 @@ class IdentityShow(ShowOne):
                 data['user']['username'],
                 data['user']['id'],
                 data['user']['uuid'],
+                data['key'],
+                data['is_leader'],
                 data['provider']['name'],
                 data['provider']['id'],
                 data['provider']['uuid'],
-                data['allocation']['id'],
-                data['allocation']['uuid'],
-                data['allocation']['threshold'],
-                data['allocation']['delta'],
-                data['usage']['current'],
-                data['usage']['remaining'],
-                data['usage']['threshold'],
+                data['usage'],
                 data['quota']['cpu'],
                 data['quota']['memory'],
                 data['quota']['storage'],

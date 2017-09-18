@@ -1,52 +1,75 @@
 {
-    "count": 2,
+    "count": 1,
     "next": null,
-    "prev": null,
+    "previous": null,
     "results": [{
-            "id": 1,
-            "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
-            "quota": {
-                "id": 1
+        "credentials": [{
+                "clean_value": "eriksf",
+                "id": 8,
+                "key": "ex_tenant_name"
             },
-            "allocation": {
-                "id": 1
+            {
+                "clean_value": "eriksf",
+                "id": 7,
+                "key": "ex_project_name"
             },
-            "usage": {
-                "threshold": 168,
-                "current": 112,
-                "remaining": 46,
-                "ttz": "2015-09-01T10:10:10.100Z"
+            {
+                "clean_value": "flat-lan-1-router",
+                "id": 6,
+                "key": "router_name"
             },
-            "provider": {
-                "id": 1,
-                "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1"
+            {
+                "clean_value": "********",
+                "id": 5,
+                "key": "secret"
             },
-            "user": {
-                "id": 1
+            {
+                "clean_value": "eriksf",
+                "id": 4,
+                "key": "key"
             }
-        },
-        {
+        ],
+        "id": 2,
+        "is_leader": true,
+        "key": "Username: eriksf, Project:eriksf",
+        "members": [{
             "id": 2,
-            "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec2",
-            "quota": {
-                "id": 1
-            },
-            "allocation": {
-                "id": 1
-            },
-            "usage": {
-                "threshold": 168,
-                "current": 112,
-                "remaining": 46,
-                "ttz": "2015-09-01T10:10:10.100Z"
-            },
-            "provider": {
-                "id": 2,
-                "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec2"
-            },
-            "user": {
-                "id": 2
-            }
-        }
-    ]
+            "name": "eriksf",
+            "url": "https://local.atmo.cloud/api/v2/groups/7b8709a9-3e43-4a28-bf44-cdd59da13c26?format=json",
+            "uuid": "7b8709a9-3e43-4a28-bf44-cdd59da13c26"
+        }],
+        "provider": {
+            "active": true,
+            "description": "This is a Cloudlab cloud.",
+            "end_date": null,
+            "id": 4,
+            "name": "Cloudlab - ErikOS",
+            "public": true,
+            "start_date": "2017-09-18T17:57:00.652272Z",
+            "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
+            "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464"
+        },
+        "quota": {
+            "cpu": 16,
+            "floating_ip_count": 10,
+            "id": 2,
+            "instance_count": 10,
+            "memory": 128,
+            "port_count": 10,
+            "snapshot_count": 10,
+            "storage": 10,
+            "storage_count": 10,
+            "url": "https://local.atmo.cloud/api/v2/quotas/c8e1fedc-ee6d-4334-8b36-a17dc8c69d71?format=json",
+            "uuid": "c8e1fedc-ee6d-4334-8b36-a17dc8c69d71"
+        },
+        "url": "https://local.atmo.cloud/api/v2/identities/a5a6140d-1122-4581-87dc-bd9704fa07ec?format=json",
+        "usage": -1,
+        "user": {
+            "id": 1,
+            "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
+            "username": "eriksf",
+            "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
+        },
+        "uuid": "a5a6140d-1122-4581-87dc-bd9704fa07ec"
+    }]
 }

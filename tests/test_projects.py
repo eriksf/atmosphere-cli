@@ -26,23 +26,23 @@ class TestProjects(object):
     def test_getting_projects_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_projects()
-        assert response['count'] == 1 and response['results'][0]['name'] == 'My Project'
+        assert response['count'] == 2 and response['results'][0]['name'] == 'myfirstproject'
 
     def test_getting_project_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_project(1)
+        response = api.get_project(2)
         assert not response
 
     def test_getting_project_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
-        response = api.get_project(1)
-        assert response['id'] == 1 and response['name'] == 'My Project'
+        response = api.get_project(2)
+        assert response['id'] == 2 and response['name'] == 'myfirstproject'
 
     def test_creating_project_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         payload = {
             'name': '',
-            'description': 'another project'
+            'description': 'my first project'
         }
         response = api.create_project(json.dumps(payload))
         assert response['name'][0] == 'This field may not be blank.'
@@ -50,8 +50,8 @@ class TestProjects(object):
     def test_creating_project_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         payload = {
-            'name': 'another project',
-            'description': 'another project'
+            'name': 'myfirstproject',
+            'description': 'my first project'
         }
         response = api.create_project(json.dumps(payload))
-        assert response['id'] == 2 and response['name'] == 'another project'
+        assert response['id'] == 2 and response['name'] == 'myfirstproject'

@@ -3,19 +3,116 @@
     "next": null,
     "previous": null,
     "results": [{
-        "id": 4,
-        "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
-        "name": "iPlant Cloud - Tucson",
-        "description": "<No Description Provided>",
-        "public": true,
         "active": true,
+        "auth_url": "http://ctl:5000",
+        "auto_imaging": false,
+        "description": "This is a Cloudlab cloud.",
+        "end_date": null,
+        "id": 4,
+        "is_admin": true,
+        "name": "Cloudlab - ErikOS",
+        "public": true,
+        "sizes": [{
+                "active": true,
+                "alias": "5",
+                "cpu": 8,
+                "disk": 160,
+                "end_date": null,
+                "id": 6,
+                "mem": 16384,
+                "name": "m1.xlarge",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.284505Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/8e2b76c3-d988-4721-ac44-191e8186f416?format=json",
+                "uuid": "8e2b76c3-d988-4721-ac44-191e8186f416"
+            },
+            {
+                "active": true,
+                "alias": "4",
+                "cpu": 4,
+                "disk": 80,
+                "end_date": null,
+                "id": 5,
+                "mem": 8192,
+                "name": "m1.large",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.280978Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/013efc26-de0d-4455-aaf9-023a6c9138de?format=json",
+                "uuid": "013efc26-de0d-4455-aaf9-023a6c9138de"
+            },
+            {
+                "active": true,
+                "alias": "3",
+                "cpu": 2,
+                "disk": 40,
+                "end_date": null,
+                "id": 4,
+                "mem": 4096,
+                "name": "m1.medium",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.278367Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/2fac806b-5000-4489-9252-e0e4b1f00f5e?format=json",
+                "uuid": "2fac806b-5000-4489-9252-e0e4b1f00f5e"
+            },
+            {
+                "active": true,
+                "alias": "2",
+                "cpu": 1,
+                "disk": 20,
+                "end_date": null,
+                "id": 3,
+                "mem": 2048,
+                "name": "m1.small",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.275129Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/d2c5df07-1a01-4074-b3d2-87acaa9ac355?format=json",
+                "uuid": "d2c5df07-1a01-4074-b3d2-87acaa9ac355"
+            },
+            {
+                "active": true,
+                "alias": "1",
+                "cpu": 1,
+                "disk": 1,
+                "end_date": null,
+                "id": 2,
+                "mem": 512,
+                "name": "m1.tiny",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.272484Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/c9fdefca-0a5a-40c2-b706-2b55a6c92ab8?format=json",
+                "uuid": "c9fdefca-0a5a-40c2-b706-2b55a6c92ab8"
+            },
+            {
+                "active": true,
+                "alias": "100",
+                "cpu": 1,
+                "disk": 0,
+                "end_date": null,
+                "id": 1,
+                "mem": 256,
+                "name": "manila-service-flavor",
+                "root": 0,
+                "start_date": "2017-09-18T17:58:59.269469Z",
+                "url": "https://local.atmo.cloud/api/v2/sizes/5fb893dd-f1c0-45bd-8f6f-cfb721bcf303?format=json",
+                "uuid": "5fb893dd-f1c0-45bd-8f6f-cfb721bcf303"
+            }
+        ],
+        "start_date": "2017-09-18T17:57:00.652272Z",
         "type": {
-            "id": 2
+            "end_date": null,
+            "id": 2,
+            "name": "OpenStack",
+            "start_date": "2012-12-12T22:26:06.313000Z",
+            "url": "https://local.atmo.cloud/api/v2/provider_types/2?format=json"
         },
+        "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
+        "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464",
         "virtualization": {
-            "id": 2
-        },
-        "start_date": "2014-02-04T19:09:20.713175Z",
-        "end_date": null
+            "end_date": null,
+            "id": 2,
+            "name": "KVM",
+            "start_date": "2013-10-18T07:00:00Z",
+            "url": "https://local.atmo.cloud/api/v2/platform_types/2?format=json"
+        }
     }]
 }

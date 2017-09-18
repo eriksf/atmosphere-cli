@@ -25,7 +25,7 @@ class TestProviders(object):
     def test_getting_providers_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_providers()
-        assert response['count'] == 1 and response['results'][0]['name'] == 'iPlant Cloud - Tucson'
+        assert response['count'] == 1 and response['results'][0]['name'] == 'Cloudlab - ErikOS'
 
     def test_getting_provider_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
@@ -35,4 +35,4 @@ class TestProviders(object):
     def test_getting_provider_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_provider(4)
-        assert response['id'] == 4 and response['name'] == 'iPlant Cloud - Tucson'
+        assert response['id'] == 4 and response['name'] == 'Cloudlab - ErikOS'

@@ -25,7 +25,7 @@ class TestIdentities(object):
     def test_getting_identities_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_identities()
-        assert response['results'][0]['user']['id'] == 1 and response['results'][0]['usage']['current'] == 112
+        assert response['results'][0]['user']['id'] == 1 and response['results'][0]['quota']['cpu'] == 16
 
     def test_getting_identity_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
@@ -35,4 +35,4 @@ class TestIdentities(object):
     def test_getting_identity_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_identity(1)
-        assert response['id'] == 1 and response['usage']['current'] == 112
+        assert response['id'] == 2 and response['quota']['cpu'] == 16

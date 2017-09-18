@@ -14,7 +14,7 @@ class VolumeList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'provider', 'size', 'user', 'start_date')
+        column_headers = ('id', 'name', 'project', 'provider', 'size', 'user', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_volumes()
         volumes = []
@@ -23,6 +23,7 @@ class VolumeList(Lister):
             volumes.append((
                 volume['id'],
                 volume['name'],
+                volume['project']['name'],
                 volume['provider']['name'],
                 volume['size'],
                 volume['user']['username'],
@@ -49,8 +50,9 @@ class VolumeShow(ShowOne):
                           'uuid',
                           'name',
                           'description',
-                          'projects',
+                          'project',
                           'provider',
+                          'identity',
                           'size',
                           'user',
                           'start_date',
@@ -64,8 +66,9 @@ class VolumeShow(ShowOne):
                 data['uuid'],
                 data['name'],
                 data['description'],
-                ', '.join(str(x) for x in data['projects']),
+                data['project']['name'],
                 data['provider']['name'],
+                data['identity']['key'],
                 data['size'],
                 data['user']['username'],
                 data['start_date'],
