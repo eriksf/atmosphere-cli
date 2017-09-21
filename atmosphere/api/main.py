@@ -40,12 +40,27 @@ class AtmosphereAPI(object):
             data = self.__request.getJson('GET', '/instances/{}/actions'.format(uuid))
         return data
 
-    def get_images(self):
-        data = self.__request.getJson('GET', '/images')
+    def get_images(self, tag_name=None, created_by=None, project_id=None):
+        if tag_name or created_by or project_id:
+            params = {}
+            if tag_name:
+                params['tag_name'] = tag_name
+            if created_by:
+                params['created_by'] = created_by
+            if project_id:
+                params['project_id'] = project_id
+            data = self.__request.getJson('GET', '/images', params=params)
+        else:
+            data = self.__request.getJson('GET', '/images')
         return data
 
     def get_image(self, id):
         data = self.__request.getJson('GET', '/images/{}'.format(id))
+        return data
+
+    def search_images(self, search_term=None):
+        params = {'search': search_term}
+        data = self.__request.getJson('GET', '/images', params=params)
         return data
 
     def get_providers(self):
@@ -107,4 +122,9 @@ class AtmosphereAPI(object):
 
     def get_volume(self, id):
         data = self.__request.getJson('GET', '/volumes/{}'.format(id))
+        return data
+
+    def create_volume(self, input):
+        headers = {'Content-Type': 'application/json'}
+        data = self.__request.getJson('POST', '/volumes', headers=headers, data=input)
         return data

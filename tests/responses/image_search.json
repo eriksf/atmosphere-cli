@@ -1,0 +1,214 @@
+{
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [{
+            "created_by": {
+                "id": 60,
+                "url": "https://use.jetstream-cloud.org/api/v2/users/eb10aa09-c4df-49fa-b70d-4e3f32ca92cd.json",
+                "username": "eafgan",
+                "uuid": "eb10aa09-c4df-49fa-b70d-4e3f32ca92cd"
+            },
+            "description": "Galaxy Standalone - based on Ubuntu 14.04.4 LTS\n\nThis is a standalone Galaxy server that comes preconfigured with hundreds of tools and commonly used reference datasets: just launch and use. \n\n***It is necessary to launch an instance type of Large or larger.***\n\nSee https://galaxyproject.org/cloud/jetstream/ for information about this image and using it.",
+            "end_date": null,
+            "icon": null,
+            "id": 58,
+            "is_public": true,
+            "metrics_url": "https://use.jetstream-cloud.org/api/v2/image_metrics/54cda684-f7eb-5e4a-84cd-62c998ff4340.json",
+            "name": "Galaxy Standalone",
+            "start_date": "2017-09-15T21:25:50Z",
+            "tags": [{
+                    "allow_access": true,
+                    "description": "Ubuntu is a Debian-based Linux operating system.",
+                    "id": 13,
+                    "name": "Ubuntu",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f.json",
+                    "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+                },
+                {
+                    "allow_access": false,
+                    "description": "Featured applications receive priority ordering over non-featured applications",
+                    "id": 9,
+                    "name": "Featured",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/b1b0a131-f764-448c-bbe6-f87660086b1a.json",
+                    "uuid": "b1b0a131-f764-448c-bbe6-f87660086b1a"
+                },
+                {
+                    "allow_access": true,
+                    "description": "",
+                    "id": 34,
+                    "name": "community-contributed",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/9b6d6071-2f53-4dfb-b64b-d489cf20eb4c.json",
+                    "uuid": "9b6d6071-2f53-4dfb-b64b-d489cf20eb4c"
+                },
+                {
+                    "allow_access": true,
+                    "description": "Requires an m1.large instance or larger to launch",
+                    "id": 64,
+                    "name": "m1_large",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/79fb4f64-939e-4b73-91c7-746b5efc7a1d.json",
+                    "uuid": "79fb4f64-939e-4b73-91c7-746b5efc7a1d"
+                }
+            ],
+            "url": "https://use.jetstream-cloud.org/api/v2/images/54cda684-f7eb-5e4a-84cd-62c998ff4340.json",
+            "uuid": "54cda684-f7eb-5e4a-84cd-62c998ff4340",
+            "versions": [{
+                    "id": "b0cf464d-db93-4805-ae5b-66e135363fb8",
+                    "name": "1.0.0-old",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/b0cf464d-db93-4805-ae5b-66e135363fb8.json"
+                },
+                {
+                    "id": "1065144b-d71a-41f1-84b8-00713e062ea0",
+                    "name": "1.0-old",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/1065144b-d71a-41f1-84b8-00713e062ea0.json"
+                },
+                {
+                    "id": "e2d22b0e-0eed-4be7-80fd-61b5912d7462",
+                    "name": "16.01",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/e2d22b0e-0eed-4be7-80fd-61b5912d7462.json"
+                },
+                {
+                    "id": "38528ba6-2062-426e-9862-a2ee2fc4c3c7",
+                    "name": "16.07",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/38528ba6-2062-426e-9862-a2ee2fc4c3c7.json"
+                },
+                {
+                    "id": "0ae0bac1-34e1-4c2f-b04b-4daf450c41e4",
+                    "name": "16.07.01",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/0ae0bac1-34e1-4c2f-b04b-4daf450c41e4.json"
+                },
+                {
+                    "id": "a503a275-c08f-4021-af41-8091a7966197",
+                    "name": "17.01-old",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/a503a275-c08f-4021-af41-8091a7966197.json"
+                },
+                {
+                    "id": "1f457d24-fb74-406e-b2d9-3d51a3e1c5de",
+                    "name": "17.01",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/1f457d24-fb74-406e-b2d9-3d51a3e1c5de.json"
+                },
+                {
+                    "id": "3ef176cb-08a8-4b9d-87dc-a574a8c0b644",
+                    "name": "17.01.01",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/3ef176cb-08a8-4b9d-87dc-a574a8c0b644.json"
+                },
+                {
+                    "id": "de924571-37be-4780-950b-f79f30fe085b",
+                    "name": "17.01.02",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/de924571-37be-4780-950b-f79f30fe085b.json"
+                },
+                {
+                    "id": "62b75711-390e-4424-8a91-2e645ca5b629",
+                    "name": "17.01.03",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/62b75711-390e-4424-8a91-2e645ca5b629.json"
+                },
+                {
+                    "id": "f2b84391-2e74-483f-b4a8-42ebc1e2cc6b",
+                    "name": "17.01.04",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/f2b84391-2e74-483f-b4a8-42ebc1e2cc6b.json"
+                },
+                {
+                    "id": "d3b4a28f-c155-4d2e-8e8c-8f915a866e09",
+                    "name": "17.01.05",
+                    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/d3b4a28f-c155-4d2e-8e8c-8f915a866e09.json"
+                }
+            ]
+        },
+        {
+            "created_by": {
+                "id": 3,
+                "url": "https://use.jetstream-cloud.org/api/v2/users/edc32f9e-9b79-4215-b60a-97dfe1424f86.json",
+                "username": "atmoadmin",
+                "uuid": "edc32f9e-9b79-4215-b60a-97dfe1424f86"
+            },
+            "description": "Imported Application - galaxy-workflow",
+            "end_date": null,
+            "icon": null,
+            "id": 344,
+            "is_public": true,
+            "metrics_url": "https://use.jetstream-cloud.org/api/v2/image_metrics/15a94d1a-4823-52dc-92cb-aec08b55995a.json",
+            "name": "galaxy-workflow",
+            "start_date": "2017-05-04T20:34:57Z",
+            "tags": [{
+                    "allow_access": true,
+                    "description": "Ubuntu is a Debian-based Linux operating system.",
+                    "id": 13,
+                    "name": "Ubuntu",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f.json",
+                    "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+                },
+                {
+                    "allow_access": true,
+                    "description": "",
+                    "id": 34,
+                    "name": "community-contributed",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/9b6d6071-2f53-4dfb-b64b-d489cf20eb4c.json",
+                    "uuid": "9b6d6071-2f53-4dfb-b64b-d489cf20eb4c"
+                },
+                {
+                    "allow_access": true,
+                    "description": "Requires an m1.large instance or larger to launch",
+                    "id": 64,
+                    "name": "m1_large",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/79fb4f64-939e-4b73-91c7-746b5efc7a1d.json",
+                    "uuid": "79fb4f64-939e-4b73-91c7-746b5efc7a1d"
+                }
+            ],
+            "url": "https://use.jetstream-cloud.org/api/v2/images/15a94d1a-4823-52dc-92cb-aec08b55995a.json",
+            "uuid": "15a94d1a-4823-52dc-92cb-aec08b55995a",
+            "versions": [{
+                "id": "292e47f4-d5f2-4769-9fd9-d2215eac3142",
+                "name": "1.0",
+                "url": "https://use.jetstream-cloud.org/api/v2/image_versions/292e47f4-d5f2-4769-9fd9-d2215eac3142.json"
+            }]
+        },
+        {
+            "created_by": {
+                "id": 616,
+                "url": "https://use.jetstream-cloud.org/api/v2/users/d660728c-0617-4014-994c-6c00856eb554.json",
+                "username": "hokim1",
+                "uuid": "d660728c-0617-4014-994c-6c00856eb554"
+            },
+            "description": "RNA-seq analysis",
+            "end_date": null,
+            "icon": null,
+            "id": 166,
+            "is_public": true,
+            "metrics_url": "https://use.jetstream-cloud.org/api/v2/image_metrics/2cb2e848-7879-5afd-8a2f-dae443ac8c8b.json",
+            "name": "Galaxy in worm world",
+            "start_date": "2016-09-08T16:44:17Z",
+            "tags": [{
+                    "allow_access": true,
+                    "description": "Ubuntu is a Debian-based Linux operating system.",
+                    "id": 13,
+                    "name": "Ubuntu",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f.json",
+                    "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+                },
+                {
+                    "allow_access": true,
+                    "description": "",
+                    "id": 34,
+                    "name": "community-contributed",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/9b6d6071-2f53-4dfb-b64b-d489cf20eb4c.json",
+                    "uuid": "9b6d6071-2f53-4dfb-b64b-d489cf20eb4c"
+                },
+                {
+                    "allow_access": true,
+                    "description": "Requires an m1.large instance or larger to launch",
+                    "id": 64,
+                    "name": "m1_large",
+                    "url": "https://use.jetstream-cloud.org/api/v2/tags/79fb4f64-939e-4b73-91c7-746b5efc7a1d.json",
+                    "uuid": "79fb4f64-939e-4b73-91c7-746b5efc7a1d"
+                }
+            ],
+            "url": "https://use.jetstream-cloud.org/api/v2/images/2cb2e848-7879-5afd-8a2f-dae443ac8c8b.json",
+            "uuid": "2cb2e848-7879-5afd-8a2f-dae443ac8c8b",
+            "versions": [{
+                "id": "fcb5a24d-cee6-4803-ada3-0cb1cfd3f79c",
+                "name": "1.0",
+                "url": "https://use.jetstream-cloud.org/api/v2/image_versions/fcb5a24d-cee6-4803-ada3-0cb1cfd3f79c.json"
+            }]
+        }
+    ]
+}

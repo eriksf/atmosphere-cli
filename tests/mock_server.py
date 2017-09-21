@@ -38,6 +38,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IDENTITIES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identities.json')
     IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
+    IMAGES_SEARCH_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_search.json')
+    IMAGES_FILTERED_TAG_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images_filtered_tag.json')
+    IMAGES_FILTERED_CREATOR_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images_filtered_creator.json')
     INSTANCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance.json')
     INSTANCE_ACTIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_actions.json')
     INSTANCE_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_created.json')
@@ -52,6 +55,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     SIZES_FILTERED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes_filtered.json')
     VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'version.json')
     VOLUME_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume.json')
+    VOLUME_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume_created.json')
     VOLUMES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volumes.json')
 
     def __send_response(self, content):
@@ -88,6 +92,13 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.__send_response('{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
             else:
                 self.__send_response_file(self.INSTANCE_CREATED_RESPONSE_FILE)
+        elif re.match(self.VOLUMES_PATTERN, self.path):
+            data_string = self.rfile.read(int(self.headers['Content-Length']))
+            data = json.loads(data_string)
+            if data['name'] == '':
+                self.__send_response('{"name":["This field may not be blank."]}')
+            else:
+                self.__send_response_file(self.VOLUME_CREATED_RESPONSE_FILE)
 
     def do_GET(self):
         parsed_path = urlparse(self.path)
@@ -108,7 +119,14 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.__send_response_file(self.IMAGE_RESPONSE_FILE)
             return
         elif re.match(self.IMAGES_PATTERN, self.path):
-            self.__send_response_file(self.IMAGES_RESPONSE_FILE)
+            if 'tag_name' in query:
+                self.__send_response_file(self.IMAGES_FILTERED_TAG_RESPONSE_FILE)
+            elif 'created_by' in query:
+                self.__send_response_file(self.IMAGES_FILTERED_CREATOR_RESPONSE_FILE)
+            elif 'search' in query:
+                self.__send_response_file(self.IMAGES_SEARCH_RESPONSE_FILE)
+            else:
+                self.__send_response_file(self.IMAGES_RESPONSE_FILE)
             return
         elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_ACTIONS_RESPONSE_FILE)

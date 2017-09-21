@@ -41,6 +41,7 @@ Feature: Command-line options: Use atmo --help
           identity list  List user identities managed by Atmosphere.
           identity show  Show details for a user identity.
           image list     List images for user.
+          image search   Search images for user.
           image show     Show details for an image.
           instance actions  Show available actions for an instance.
           instance create  Create an instance.
@@ -54,6 +55,7 @@ Feature: Command-line options: Use atmo --help
           size list      List sizes (instance configurations) for cloud provider.
           size show      Show details for a size (instance configuration).
           version        Show Atmosphere API version.
+          volume create  Create a volume.
           volume list    List volumes for a user.
           volume show    Show details for a volume.
         """
