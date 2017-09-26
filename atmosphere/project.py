@@ -29,7 +29,8 @@ class ProjectCreate(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
-            "description": parsed_args.description
+            "description": parsed_args.description,
+            "owner": api.get_username()
         }
         self.log.debug('INPUT: {}'.format(json.dumps(payload)))
         data = api.create_project(json.dumps(payload))
@@ -42,7 +43,7 @@ class ProjectCreate(ShowOne):
                 data['uuid'],
                 data['name'],
                 data['description'],
-                data['owner']['username'],
+                data['owner']['name'],
                 start_date
             )
         else:

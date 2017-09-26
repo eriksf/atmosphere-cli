@@ -76,3 +76,15 @@ class TestImages(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_image(1)
         assert response['id'] == 1 and response['name'] == 'name'
+
+    def test_getting_image_version_when_response_is_not_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
+        assert not response
+
+    def test_getting_image_version_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
+        assert response['id'] == '40440e67-8644-4949-ba2f-b36c66f9d40b' and \
+            response['change_log'] == 'v1.7 - patched up to 9-14-17' and \
+            len(response['machines']) == 2

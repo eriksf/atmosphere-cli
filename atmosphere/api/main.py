@@ -14,6 +14,15 @@ class AtmosphereAPI(object):
         """
 
         self.__request = Request(token, base_url, timeout, verify)
+        self.__username = ''
+
+        # set username
+        user_data = self.__request.getJson('GET', '/tokens/{}'.format(token))
+        if user_data:
+            self.__username = user_data['user']['username']
+
+    def get_username(self):
+        return self.__username
 
     def get_instances(self):
         data = self.__request.getJson('GET', '/instances')
@@ -56,6 +65,10 @@ class AtmosphereAPI(object):
 
     def get_image(self, id):
         data = self.__request.getJson('GET', '/images/{}'.format(id))
+        return data
+
+    def get_image_version(self, id):
+        data = self.__request.getJson('GET', '/image_versions/{}'.format(id))
         return data
 
     def search_images(self, search_term=None):

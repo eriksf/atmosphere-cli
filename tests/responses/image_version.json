@@ -1,0 +1,181 @@
+{
+    "allow_imaging": true,
+    "change_log": "v1.7 - patched up to 9-14-17",
+    "end_date": null,
+    "id": "40440e67-8644-4949-ba2f-b36c66f9d40b",
+    "identity": {
+        "id": "13",
+        "key": "Username: jfischer, Project:jfischer",
+        "provider": 4,
+        "url": "https://use.jetstream-cloud.org/api/v2/identities/1fe06479-38f5-4a7f-a83e-c25cf873ba5f.json",
+        "uuid": "1fe06479-38f5-4a7f-a83e-c25cf873ba5f"
+    },
+    "image": {
+        "description": "Based on Ubuntu 14.04.3 -Trusty Tahr - server - cloudimg\n\n-- **REQUIRES m1.small instance size or larger**\n--  Installed BioLinux 8 (http://environmentalomics.org/bio-linux/) \n\n-- x2go installed (http://wiki.x2go.org/doku.php)\n   -- Instructions for x2go are here: https://iujetstream.atlassian.net/wiki/display/JWT/Using+x2go+with+the+BioLinux+8+image",
+        "end_date": null,
+        "icon": null,
+        "id": 55,
+        "name": "BioLinux 8",
+        "start_date": "2017-09-14T19:00:55Z",
+        "tags": [{
+                "allow_access": true,
+                "description": "Desktop linux OS installation",
+                "id": 3,
+                "name": "desktop",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/b0d65749-60f2-491b-9854-5fba0c249840.json",
+                "user": {
+                    "id": 14,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+                    "username": "jfischer",
+                    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                },
+                "uuid": "b0d65749-60f2-491b-9854-5fba0c249840"
+            },
+            {
+                "allow_access": true,
+                "description": "graphical user interface",
+                "id": 4,
+                "name": "gui",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/aaad7413-653a-4f16-bebb-631470c471c5.json",
+                "user": {
+                    "id": 14,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+                    "username": "jfischer",
+                    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                },
+                "uuid": "aaad7413-653a-4f16-bebb-631470c471c5"
+            },
+            {
+                "allow_access": true,
+                "description": "Ubuntu is a Debian-based Linux operating system.",
+                "id": 13,
+                "name": "Ubuntu",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f.json",
+                "user": {
+                    "id": 1,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/01a3cde8-3759-41f8-8b4a-304f31f260d1.json",
+                    "username": "sgregory",
+                    "uuid": "01a3cde8-3759-41f8-8b4a-304f31f260d1"
+                },
+                "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+            },
+            {
+                "allow_access": false,
+                "description": "Featured applications receive priority ordering over non-featured applications",
+                "id": 9,
+                "name": "Featured",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/b1b0a131-f764-448c-bbe6-f87660086b1a.json",
+                "user": {
+                    "id": 14,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+                    "username": "jfischer",
+                    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                },
+                "uuid": "b1b0a131-f764-448c-bbe6-f87660086b1a"
+            },
+            {
+                "allow_access": true,
+                "description": "Uses x2go virtual desktop software",
+                "id": 38,
+                "name": "x2go",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/3ec5bb61-b941-4e06-a95a-99967fe607bf.json",
+                "user": {
+                    "id": 14,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+                    "username": "jfischer",
+                    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                },
+                "uuid": "3ec5bb61-b941-4e06-a95a-99967fe607bf"
+            },
+            {
+                "allow_access": true,
+                "description": "The collection, classification, storage, and analysis of biochemical and biological information using computers especially as applied to molecular genetics and genomics",
+                "id": 40,
+                "name": "bioinformatics",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/9cb8874d-b20f-41bf-a0d0-5b6ee6a10fb1.json",
+                "user": {
+                    "id": 14,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+                    "username": "jfischer",
+                    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                },
+                "uuid": "9cb8874d-b20f-41bf-a0d0-5b6ee6a10fb1"
+            },
+            {
+                "allow_access": true,
+                "description": "Requires an m1.small instance or larger to launch",
+                "id": 63,
+                "name": "m1_small",
+                "url": "https://use.jetstream-cloud.org/api/v2/tags/28db75ee-6e00-4bff-8ee7-4ceb8c29bc84.json",
+                "user": {
+                    "id": 15,
+                    "url": "https://use.jetstream-cloud.org/api/v2/users/6f79f137-7bd0-4c0f-8950-1e0abbde291f.json",
+                    "username": "vaughn",
+                    "uuid": "6f79f137-7bd0-4c0f-8950-1e0abbde291f"
+                },
+                "uuid": "28db75ee-6e00-4bff-8ee7-4ceb8c29bc84"
+            }
+        ],
+        "url": "https://use.jetstream-cloud.org/api/v2/images/ca948f10-c47e-5d06-a2b0-1674cfc002ee.json",
+        "user": 14,
+        "uuid": "ca948f10-c47e-5d06-a2b0-1674cfc002ee"
+    },
+    "licenses": [],
+    "machines": [{
+            "end_date": null,
+            "id": 927,
+            "owner": "jfischer",
+            "provider": {
+                "active": true,
+                "description": "",
+                "end_date": null,
+                "id": 4,
+                "name": "Jetstream - Indiana University",
+                "public": true,
+                "start_date": "2016-01-28T23:40:07.074619Z",
+                "url": "https://use.jetstream-cloud.org/api/v2/providers/f906a5ee-34a8-499a-9185-a35feb3d6f01.json",
+                "uuid": "f906a5ee-34a8-499a-9185-a35feb3d6f01"
+            },
+            "size_gb": 20.0,
+            "start_date": "2017-09-14T19:00:55Z",
+            "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/1be8ac59-54e4-4421-b370-f6cf584cea85.json",
+            "uuid": "1be8ac59-54e4-4421-b370-f6cf584cea85",
+            "version": "1.7"
+        },
+        {
+            "end_date": null,
+            "id": 943,
+            "owner": "jfischer",
+            "provider": {
+                "active": true,
+                "description": "",
+                "end_date": null,
+                "id": 5,
+                "name": "Jetstream - TACC",
+                "public": true,
+                "start_date": "2016-02-16T21:40:22.483700Z",
+                "url": "https://use.jetstream-cloud.org/api/v2/providers/3ff65aa8-505b-48c3-aef1-aa0ada14c756.json",
+                "uuid": "3ff65aa8-505b-48c3-aef1-aa0ada14c756"
+            },
+            "size_gb": 20.0,
+            "start_date": "2017-09-15T19:16:54.628205Z",
+            "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/1be8ac59-54e4-4421-b370-f6cf584cea85.json",
+            "uuid": "1be8ac59-54e4-4421-b370-f6cf584cea85",
+            "version": "1.7"
+        }
+    ],
+    "membership": [],
+    "min_cpu": null,
+    "min_mem": null,
+    "name": "1.7",
+    "parent": null,
+    "scripts": [],
+    "start_date": "2017-09-14T19:18:04.091069Z",
+    "url": "https://use.jetstream-cloud.org/api/v2/image_versions/40440e67-8644-4949-ba2f-b36c66f9d40b.json",
+    "user": {
+        "id": 14,
+        "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9.json",
+        "username": "jfischer",
+        "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+    }
+}

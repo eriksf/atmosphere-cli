@@ -125,12 +125,53 @@ class ImageShow(ShowOne):
                 data['name'],
                 data['description'],
                 data['created_by']['username'],
-                ', '.join([value['name'] for value in data['versions']]),
+                '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in data['versions']]),
                 ', '.join([value['name'] for value in data['tags']]),
                 data['url'],
                 data['is_public'],
                 start_date,
                 end_date
+            )
+
+        return (column_headers, image)
+
+
+class ImageVersionShow(ShowOne):
+    """
+    Show details for an image version.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(ImageVersionShow, self).get_parser(prog_name)
+        parser.add_argument('id', help='the image version id')
+        return parser
+
+    def take_action(self, parsed_args):
+        column_headers = ('id',
+                          'name',
+                          'image_name',
+                          'image_description',
+                          'created_by',
+                          'change_log',
+                          'machines',
+                          'allow_imaging',
+                          'start_date')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.get_image_version(parsed_args.id)
+        image = ()
+        if data:
+            image = (
+                data['id'],
+                data['name'],
+                data['image']['name'],
+                data['image']['description'],
+                data['user']['username'],
+                data['change_log'],
+                '\n'.join(['{} ({})'.format(value['provider']['name'], value['uuid']) for value in data['machines']]),
+                data['allow_imaging'],
+                data['start_date']
             )
 
         return (column_headers, image)
