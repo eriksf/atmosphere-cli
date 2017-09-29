@@ -82,7 +82,13 @@ class Request(object):
             self.__log(verb, url, headers, data, r)
             # consider any status besides 2xx an error
             if r.status_code // 100 == 2:
-                response = r.json()
+                self.__log_message('Response text: {}'.format(r.text))
+                if r.text:
+                    try:
+                        response = r.json()
+                    except ValueError as ve:
+                        # empty or not valid json returned
+                        self.__log_error(ve)
         except requests.exceptions.RequestException as re:
             self.__log_error(re)
         except Exception as e:

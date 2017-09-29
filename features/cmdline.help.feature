@@ -11,9 +11,9 @@ Feature: Command-line options: Use atmo --help
     And the command output should contain:
         """
         usage: atmo [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
-                    [--atmo-base-url <atmosphere-base-url>]
-                    [--atmo-auth-token <atmosphere-auth-token>]
-                    [--atmo-api-server-timeout <atmosphere-api-server-timeout>]
+            [--atmo-base-url <atmosphere-base-url>]
+            [--atmo-auth-token <atmosphere-auth-token>]
+            [--atmo-api-server-timeout <atmosphere-api-server-timeout>]
 
         Atmosphere CLI
 
@@ -36,8 +36,8 @@ Feature: Command-line options: Use atmo --help
         Commands:
           allocation source list  List allocation sources for a user.
           allocation source show  Show details for an allocation source.
-          complete       print bash completion command
-          help           print detailed help for another command
+          complete       print bash completion command (cliff)
+          help           print detailed help for another command (cliff)
           identity list  List user identities managed by Atmosphere.
           identity show  Show details for a user identity.
           image list     List images for user.
@@ -57,6 +57,7 @@ Feature: Command-line options: Use atmo --help
           size show      Show details for a size (instance configuration).
           version        Show Atmosphere API version.
           volume create  Create a volume.
+          volume delete  Delete a volume.
           volume list    List volumes for a user.
           volume show    Show details for a volume.
         """

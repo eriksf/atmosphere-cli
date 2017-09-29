@@ -3,8 +3,31 @@ import logging
 
 from cliff.lister import Lister
 from cliff.show import ShowOne
+from cliff.command import Command
 from atmosphere.api import AtmosphereAPI
 from atmosphere.utils import ts_to_isodate
+
+
+class VolumeDelete(Command):
+    """
+    Delete a volume.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(VolumeDelete, self).get_parser(prog_name)
+        parser.add_argument('id', help='the volume id')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        if parsed_args.delete:
+            data = api.delete_volume(parsed_args.id)
+            if data:
+                self.app.stdout.write('Volume deleted: {}\n'.format(data))
+            else:
+                self.app.stdout.write('Volume deleted\n')
 
 
 class VolumeCreate(ShowOne):

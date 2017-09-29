@@ -141,3 +141,7 @@ class AtmosphereAPI(object):
         headers = {'Content-Type': 'application/json'}
         data = self.__request.getJson('POST', '/volumes', headers=headers, data=input)
         return data
+
+    def delete_volume(self, id):
+        data = self.__request.getJson('DELETE', '/volumes/{}'.format(id))
+        return data
