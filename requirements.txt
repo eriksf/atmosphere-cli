@@ -5,7 +5,7 @@ astroid==1.5.3
 Babel==2.4.0
 behave==1.2.5
 click==6.7
-cliff==2.9.0
+git+https://github.com/openstack/cliff.git@a9719bc23ea3ad90cbad9ab743e678f491e85f0a#egg=cliff
 cmd2==0.7.3
 coverage==4.4.1
 coveralls==1.1
