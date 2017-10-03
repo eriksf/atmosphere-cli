@@ -18,17 +18,18 @@ class AllocationSourceList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_allocation_sources()
         allocation_sources = []
-        for source in data['results']:
-            start_date = ts_to_isodate(source['start_date'])
-            allocation_sources.append((
-                source['id'],
-                source['name'],
-                source['renewal_strategy'],
-                source['compute_allowed'],
-                source['compute_used'],
-                source['global_burn_rate'],
-                start_date
-            ))
+        if data.ok:
+            for source in data.message['results']:
+                start_date = ts_to_isodate(source['start_date'])
+                allocation_sources.append((
+                    source['id'],
+                    source['name'],
+                    source['renewal_strategy'],
+                    source['compute_allowed'],
+                    source['compute_used'],
+                    source['global_burn_rate'],
+                    start_date
+                ))
 
         return (column_headers, tuple(allocation_sources))
 
@@ -60,21 +61,22 @@ class AllocationSourceShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_allocation_source(parsed_args.id)
         allocation_source = ()
-        if data:
-            start_date = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'])
             end_date = ''
-            if data['end_date']:
-                end_date = ts_to_isodate(data['end_date'])
+            if message['end_date']:
+                end_date = ts_to_isodate(message['end_date'])
             allocation_source = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['renewal_strategy'],
-                data['compute_allowed'],
-                data['compute_used'],
-                data['global_burn_rate'],
-                data['user_compute_used'],
-                data['user_burn_rate'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['renewal_strategy'],
+                message['compute_allowed'],
+                message['compute_used'],
+                message['global_burn_rate'],
+                message['user_compute_used'],
+                message['user_burn_rate'],
                 start_date,
                 end_date
             )

@@ -1,4 +1,5 @@
 import json
+import responses
 from mock_server import get_free_port, start_mock_server
 from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
@@ -21,33 +22,35 @@ class TestInstances(object):
     def test_getting_instances_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_instances()
-        assert not response
+        assert not response.ok
 
     def test_getting_instances_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instances()
-        assert response['count'] == 1 and response['results'][0]['name'] == 'trusty-server'
+        assert response.ok
+        assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'trusty-server'
 
     def test_getting_instance_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_instance(1)
-        assert not response
+        assert not response.ok
 
     def test_getting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instance(1)
-        assert response['id'] == 1 and response['name'] == 'trusty-server'
+        assert response.ok
+        assert response.message['id'] == 1 and response.message['name'] == 'trusty-server'
 
     def test_getting_instance_actions_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_instance_actions(1)
-        assert not response
+        assert not response.ok
 
     def test_getting_instance_actions_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instance_actions(1)
-        print(response)
-        assert response[4]['key'] == 'Reboot' and response[4]['description'] == 'Reboots an instance when it is in ANY State'
+        assert response.ok
+        assert response.message[4]['key'] == 'Reboot' and response.message[4]['description'] == 'Reboots an instance when it is in ANY State'
 
     def test_creating_instance_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -62,7 +65,8 @@ class TestInstances(object):
             "extra": {}
         }
         response = api.create_instance(json.dumps(payload))
-        assert response['errors'][0]['message']['allocation_source_id'] == 'This field is required.'
+        assert not response.ok
+        assert response.message['errors'][0]['message']['allocation_source_id'] == 'This field is required.'
 
     def test_creating_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -78,4 +82,30 @@ class TestInstances(object):
             "extra": {}
         }
         response = api.create_instance(json.dumps(payload))
-        assert response['id'] == 1 and response['name'] == 'myfirstinstance'
+        assert response.ok
+        assert response.message['id'] == 1 and response.message['name'] == 'myfirstinstance'
+
+    def test_suspending_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('suspend', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <suspend> was run successfully'
+
+    @responses.activate
+    def test_suspending_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/1',
+                      status=200,
+                      json={"uuid": "ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822"})
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=409,
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'suspend' instance 0b564915-e094-46a1-a8f6-14b8c26ae4bb while it is in vm_state suspended"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('suspend', 1)
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'suspend' instance 0b564915-e094-46a1-a8f6-14b8c26ae4bb while it is in vm_state suspended"

@@ -18,24 +18,24 @@ class TestRequest(object):
     def test_request_when_url_is_unknown(self):
         req = Request('token', self.mock_users_base_url, None, True)
         data = req.getJson('GET', 'http://my.example.com')
-        assert data is None
+        assert not data.ok
 
     def test_request_when_verb_is_unsupported(self):
         req = Request('token', self.mock_users_base_url, None, True)
         data = req.getJson('DELETE', '/images/1')
-        assert data is None
+        assert not data.ok
 
     def test_request_when_returns_invalid_json(self):
         req = Request('token', self.mock_users_base_url, None, True)
         data = req.getJson('GET', '/badjson')
-        assert data is None
+        assert not data.ok
 
     def test_request_when_exceeds_timeout(self):
         req = Request('token', self.mock_users_base_url, 1, True)
         data = req.getJson('GET', '/timeout')
-        assert data is None
+        assert not data.ok
 
     def test_request_when_return_is_valid_json(self):
         req = Request('token', self.mock_users_base_url, None, True)
         data = req.getJson('GET', '/valid')
-        assert data['valid']
+        assert data.ok and data.message['valid']

@@ -23,17 +23,18 @@ class ImageSearch(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.search_images(parsed_args.search_term)
         images = []
-        for image in data['results']:
-            start_date = ts_to_isodate(image['start_date'])
-            images.append((
-                image['id'],
-                image['name'],
-                image['description'],
-                image['created_by']['username'],
-                ', '.join([value['name'] for value in image['versions']]),
-                image['is_public'],
-                start_date if start_date else image['start_date']
-            ))
+        if data.ok:
+            for image in data.message['results']:
+                start_date = ts_to_isodate(image['start_date'])
+                images.append((
+                    image['id'],
+                    image['name'],
+                    image['description'],
+                    image['created_by']['username'],
+                    ', '.join([value['name'] for value in image['versions']]),
+                    image['is_public'],
+                    start_date if start_date else image['start_date']
+                ))
 
         return (column_headers, tuple(images))
 
@@ -72,17 +73,18 @@ class ImageList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_images(parsed_args.tag_name, parsed_args.created_by, parsed_args.project_id)
         images = []
-        for image in data['results']:
-            start_date = ts_to_isodate(image['start_date'])
-            images.append((
-                image['id'],
-                image['name'],
-                image['description'],
-                image['created_by']['username'],
-                ', '.join([value['name'] for value in image['versions']]),
-                image['is_public'],
-                start_date if start_date else image['start_date']
-            ))
+        if data.ok:
+            for image in data.message['results']:
+                start_date = ts_to_isodate(image['start_date'])
+                images.append((
+                    image['id'],
+                    image['name'],
+                    image['description'],
+                    image['created_by']['username'],
+                    ', '.join([value['name'] for value in image['versions']]),
+                    image['is_public'],
+                    start_date if start_date else image['start_date']
+                ))
 
         return (column_headers, tuple(images))
 
@@ -114,21 +116,22 @@ class ImageShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_image(parsed_args.id)
         image = ()
-        if data:
-            start_date = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'])
             end_date = ''
-            if data['end_date']:
-                end_date = ts_to_isodate(data['end_date'])
+            if message['end_date']:
+                end_date = ts_to_isodate(message['end_date'])
             image = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['created_by']['username'],
-                '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in data['versions']]),
-                ', '.join([value['name'] for value in data['tags']]),
-                data['url'],
-                data['is_public'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['created_by']['username'],
+                '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in message['versions']]),
+                ', '.join([value['name'] for value in message['tags']]),
+                message['url'],
+                message['is_public'],
                 start_date,
                 end_date
             )
@@ -161,17 +164,18 @@ class ImageVersionShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_image_version(parsed_args.id)
         image = ()
-        if data:
+        if data.ok:
+            message = data.message
             image = (
-                data['id'],
-                data['name'],
-                data['image']['name'],
-                data['image']['description'],
-                data['user']['username'],
-                data['change_log'],
-                '\n'.join(['{} ({})'.format(value['provider']['name'], value['uuid']) for value in data['machines']]),
-                data['allow_imaging'],
-                data['start_date']
+                message['id'],
+                message['name'],
+                message['image']['name'],
+                message['image']['description'],
+                message['user']['username'],
+                message['change_log'],
+                '\n'.join(['{} ({})'.format(value['provider']['name'], value['uuid']) for value in message['machines']]),
+                message['allow_imaging'],
+                message['start_date']
             )
 
         return (column_headers, image)

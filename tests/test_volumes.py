@@ -5,7 +5,7 @@ from atmosphere.main import AtmosphereApp
 from atmosphere.volume import VolumeList
 
 
-class Testvolumes(object):
+class TestVolumes(object):
     @classmethod
     def setup_class(cls):
         cls.mock_server_port = get_free_port()
@@ -21,22 +21,26 @@ class Testvolumes(object):
     def test_getting_volumes_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_volumes()
-        assert not response
+        assert not response.ok
 
     def test_getting_volumes_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_volumes()
-        assert response['count'] == 1 and response['results'][0]['name'] == 'myfirstvolume'
+        if response.ok:
+            data = response.message
+            assert data['count'] == 1 and data['results'][0]['name'] == 'myfirstvolume'
 
     def test_getting_volume_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_volume(1)
-        assert not response
+        assert not response.ok
 
     def test_getting_volume_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_volume(1)
-        assert response['id'] == 1 and response['name'] == 'myfirstvolume'
+        if response.ok:
+            data = response.message
+        assert data['id'] == 1 and data['name'] == 'myfirstvolume'
 
     def test_creating_volume_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -50,7 +54,9 @@ class Testvolumes(object):
             "image_id": None
         }
         response = api.create_volume(json.dumps(payload))
-        assert response['name'][0] == 'This field may not be blank.'
+        print(response)
+        assert not response.ok
+        assert response.message['name'][0] == 'This field may not be blank.'
 
     def test_creating_volume_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -64,4 +70,10 @@ class Testvolumes(object):
             "image_id": None
         }
         response = api.create_volume(json.dumps(payload))
-        assert response['id'] == 1 and response['name'] == 'mydata'
+        assert response.ok
+        assert response.message['id'] == 1 and response.message['name'] == 'mydata'
+
+    def test_deleting_volume_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.delete_volume(1)
+        assert response.ok

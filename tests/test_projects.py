@@ -21,22 +21,24 @@ class TestProjects(object):
     def test_getting_projects_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_projects()
-        assert not response
+        assert not response.ok
 
     def test_getting_projects_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_projects()
-        assert response['count'] == 2 and response['results'][0]['name'] == 'myfirstproject'
+        assert response.ok
+        assert response.message['count'] == 2 and response.message['results'][0]['name'] == 'myfirstproject'
 
     def test_getting_project_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_project(2)
-        assert not response
+        assert not response.ok
 
     def test_getting_project_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_project(2)
-        assert response['id'] == 2 and response['name'] == 'myfirstproject'
+        assert response.ok
+        assert response.message['id'] == 2 and response.message['name'] == 'myfirstproject'
 
     def test_creating_project_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -45,7 +47,8 @@ class TestProjects(object):
             'description': 'my first project'
         }
         response = api.create_project(json.dumps(payload))
-        assert response['name'][0] == 'This field may not be blank.'
+        assert not response.ok
+        assert response.message['name'][0] == 'This field may not be blank.'
 
     def test_creating_project_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -54,4 +57,5 @@ class TestProjects(object):
             'description': 'my first project'
         }
         response = api.create_project(json.dumps(payload))
-        assert response['id'] == 2 and response['name'] == 'myfirstproject'
+        assert response.ok
+        assert response.message['id'] == 2 and response.message['name'] == 'myfirstproject'

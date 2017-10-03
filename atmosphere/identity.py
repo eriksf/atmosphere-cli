@@ -17,16 +17,17 @@ class IdentityList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identities()
         identities = []
-        for identity in data['results']:
-            identities.append((
-                identity['id'],
-                identity['user']['username'],
-                identity['provider']['name'],
-                identity['usage'],
-                identity['quota']['cpu'],
-                identity['quota']['memory'],
-                identity['quota']['storage']
-            ))
+        if data.ok:
+            for identity in data.message['results']:
+                identities.append((
+                    identity['id'],
+                    identity['user']['username'],
+                    identity['provider']['name'],
+                    identity['usage'],
+                    identity['quota']['cpu'],
+                    identity['quota']['memory'],
+                    identity['quota']['storage']
+                ))
 
         return (column_headers, tuple(identities))
 
@@ -66,27 +67,28 @@ class IdentityShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identity(parsed_args.id)
         identity = ()
-        if data:
+        if data.ok:
+            message = data.message
             identity = (
-                data['id'],
-                data['uuid'],
-                data['user']['username'],
-                data['user']['id'],
-                data['user']['uuid'],
-                data['key'],
-                data['is_leader'],
-                data['provider']['name'],
-                data['provider']['id'],
-                data['provider']['uuid'],
-                data['usage'],
-                data['quota']['cpu'],
-                data['quota']['memory'],
-                data['quota']['storage'],
-                data['quota']['floating_ip_count'],
-                data['quota']['instance_count'],
-                data['quota']['port_count'],
-                data['quota']['snapshot_count'],
-                data['quota']['storage_count']
+                message['id'],
+                message['uuid'],
+                message['user']['username'],
+                message['user']['id'],
+                message['user']['uuid'],
+                message['key'],
+                message['is_leader'],
+                message['provider']['name'],
+                message['provider']['id'],
+                message['provider']['uuid'],
+                message['usage'],
+                message['quota']['cpu'],
+                message['quota']['memory'],
+                message['quota']['storage'],
+                message['quota']['floating_ip_count'],
+                message['quota']['instance_count'],
+                message['quota']['port_count'],
+                message['quota']['snapshot_count'],
+                message['quota']['storage_count']
             )
 
         return (column_headers, identity)

@@ -24,8 +24,8 @@ class VolumeDelete(Command):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_volume(parsed_args.id)
-            if data:
-                self.app.stdout.write('Volume deleted: {}\n'.format(data))
+            if data.ok:
+                self.app.stdout.write('Volume deleted: {}\n'.format(data.message))
             else:
                 self.app.stdout.write('Volume deleted\n')
 
@@ -91,17 +91,18 @@ class VolumeCreate(ShowOne):
         data = api.create_volume(json.dumps(payload))
         volume = ()
         column_headers = ('id', 'uuid', 'name', 'description', 'size', 'project', 'provider', 'user', 'start_date')
-        if data:
-            start_date = ts_to_isodate(data['start_date'], include_time=True)
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'], include_time=True)
             volume = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['size'],
-                data['project']['name'],
-                data['provider']['name'],
-                data['user']['username'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['size'],
+                message['project']['name'],
+                message['provider']['name'],
+                message['user']['username'],
                 start_date
             )
         else:
@@ -122,17 +123,18 @@ class VolumeList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_volumes()
         volumes = []
-        for volume in data['results']:
-            start_date = ts_to_isodate(volume['start_date'])
-            volumes.append((
-                volume['id'],
-                volume['name'],
-                volume['project']['name'],
-                volume['provider']['name'],
-                volume['size'],
-                volume['user']['username'],
-                start_date
-            ))
+        if data.ok:
+            for volume in data.message['results']:
+                start_date = ts_to_isodate(volume['start_date'])
+                volumes.append((
+                    volume['id'],
+                    volume['name'],
+                    volume['project']['name'],
+                    volume['provider']['name'],
+                    volume['size'],
+                    volume['user']['username'],
+                    start_date
+                ))
 
         return (column_headers, tuple(volumes))
 
@@ -164,19 +166,20 @@ class VolumeShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_volume(parsed_args.id)
         volume = ()
-        if data:
+        if data.ok:
+            message = data.message
             volume = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['project']['name'],
-                data['provider']['name'],
-                data['identity']['key'],
-                data['size'],
-                data['user']['username'],
-                data['start_date'],
-                data['end_date']
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['project']['name'],
+                message['provider']['name'],
+                message['identity']['key'],
+                message['size'],
+                message['user']['username'],
+                message['start_date'],
+                message['end_date']
             )
 
         return (column_headers, volume)

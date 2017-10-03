@@ -32,6 +32,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     VERSION_PATTERN = re.compile(r'/version')
     VOLUME_PATTERN = re.compile(r'/volumes/\d+')
     VOLUMES_PATTERN = re.compile(r'/volumes')
+    TOKENS_PATTERN = re.compile(r'/tokens/[\d\w-]')
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
     ALLOCATION_SOURCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_source.json')
     ALLOCATION_SOURCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_sources.json')
@@ -47,6 +48,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     INSTANCE_ACTIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_actions.json')
     INSTANCE_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_created.json')
     INSTANCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instances.json')
+    INSTANCE_SUSPENDED_FILE = os.path.join(RESPONSE_DIR, 'instance_suspended.json')
     PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
     PROJECT_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project_created.json')
     PROJECTS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'projects.json')
@@ -59,10 +61,26 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     VOLUME_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume.json')
     VOLUME_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume_created.json')
     VOLUMES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volumes.json')
+    TOKENS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'tokens.json')
 
     def __send_response(self, content):
         # Add response status code
         self.send_response(requests.codes.ok)
+        # Add response headers
+        self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.end_headers()
+        # Add response content
+        self.wfile.write(content.encode('utf-8'))
+
+    def __send_no_content_response(self):
+        # Add response status code
+        self.send_response(requests.codes.no_content)
+        self.end_headers()
+
+    def __send_error_response(self, error_status_code, content):
+        # Add response status code
+        # self.send_response(error_status_code)
+        self.send_response(requests.codes.bad_request)
         # Add response headers
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.end_headers()
@@ -79,26 +97,33 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         with open(response_file) as f: response_content = f.read()
         self.wfile.write(response_content.encode('utf-8'))
 
+    def do_DELETE(self):
+        if re.match(self.VOLUME_PATTERN, self.path):
+            self.__send_no_content_response()
+        return
+
     def do_POST(self):
+        data_string = self.rfile.read(int(self.headers['Content-Length']))
+        data = json.loads(data_string)
         if re.match(self.PROJECTS_PATTERN, self.path):
-            data_string = self.rfile.read(int(self.headers['Content-Length']))
-            data = json.loads(data_string)
             if data['name'] == '':
-                self.__send_response('{"name":["This field may not be blank."]}')
+                self.__send_error_response(requests.codes.bad_request, '{"name":["This field may not be blank."]}')
             else:
                 self.__send_response_file(self.PROJECT_CREATED_RESPONSE_FILE)
+        elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
+            action = data['action']
+            if action == 'suspend':
+                self.__send_response_file(self.INSTANCE_SUSPENDED_FILE)
         elif re.match(self.INSTANCES_PATTERN, self.path):
-            data_string = self.rfile.read(int(self.headers['Content-Length']))
-            data = json.loads(data_string)
+            print('instances pattern')
             if 'allocation_source_id' not in data:
-                self.__send_response('{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
+                print('error')
+                self.__send_error_response(requests.codes.bad_request, '{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
             else:
                 self.__send_response_file(self.INSTANCE_CREATED_RESPONSE_FILE)
         elif re.match(self.VOLUMES_PATTERN, self.path):
-            data_string = self.rfile.read(int(self.headers['Content-Length']))
-            data = json.loads(data_string)
             if data['name'] == '':
-                self.__send_response('{"name":["This field may not be blank."]}')
+                self.__send_error_response(requests.codes.bad_request, '{"name":["This field may not be blank."]}')
             else:
                 self.__send_response_file(self.VOLUME_CREATED_RESPONSE_FILE)
 
@@ -184,6 +209,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.match(self.VOLUMES_PATTERN, self.path):
             self.__send_response_file(self.VOLUMES_RESPONSE_FILE)
+            return
+        elif re.match(self.TOKENS_PATTERN, self.path):
+            self.__send_response_file(self.TOKENS_RESPONSE_FILE)
             return
 
 

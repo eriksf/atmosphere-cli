@@ -20,19 +20,21 @@ class TestIdentities(object):
     def test_getting_identities_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_identities()
-        assert not response
+        assert not response.ok
 
     def test_getting_identities_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_identities()
-        assert response['results'][0]['user']['id'] == 1 and response['results'][0]['quota']['cpu'] == 16
+        assert response.ok
+        assert response.message['results'][0]['user']['id'] == 1 and response.message['results'][0]['quota']['cpu'] == 16
 
     def test_getting_identity_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_identity(1)
-        assert not response
+        assert not response.ok
 
     def test_getting_identity_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_identity(1)
-        assert response['id'] == 2 and response['quota']['cpu'] == 16
+        assert response.ok
+        assert response.message['id'] == 2 and response.message['quota']['cpu'] == 16

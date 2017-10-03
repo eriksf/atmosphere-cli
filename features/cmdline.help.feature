@@ -47,7 +47,9 @@ Feature: Command-line options: Use atmo --help
           instance actions  Show available actions for an instance.
           instance create  Create an instance.
           instance list  List instances for user.
+          instance resume  Resume an instance.
           instance show  Show details for an instance.
+          instance suspend  Suspend an instance.
           project create  Create a project.
           project list   List projects for a user.
           project show   Show details for a project.

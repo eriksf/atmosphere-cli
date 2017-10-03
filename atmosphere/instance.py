@@ -3,6 +3,7 @@ import logging
 
 from cliff.lister import Lister
 from cliff.show import ShowOne
+from cliff.command import Command
 from atmosphere.api import AtmosphereAPI
 from atmosphere.utils import ts_to_isodate
 
@@ -81,19 +82,20 @@ class InstanceCreate(ShowOne):
                           'launched',
                           'image_size',
                           'provider')
-        if data:
-            launched = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            launched = ts_to_isodate(message['start_date'])
             instance = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['user']['username'],
-                data['allocation_source']['name'],
-                data['image']['id'],
-                data['version']['name'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['user']['username'],
+                message['allocation_source']['name'],
+                message['image']['id'],
+                message['version']['name'],
                 launched,
-                data['size']['name'],
-                data['provider']['name']
+                message['size']['name'],
+                message['provider']['name']
             )
         else:
             self.app.stdout.write('Error, instance not created! Make sure to supply name, identity, project, size, source, and allocation_source.')
@@ -113,18 +115,19 @@ class InstanceList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_instances()
         instances = []
-        for instance in data['results']:
-            launched = ts_to_isodate(instance['start_date'])
-            instances.append((
-                instance['id'],
-                instance['name'],
-                instance['status'],
-                instance['activity'],
-                instance['ip_address'],
-                instance['size']['name'],
-                instance['provider']['name'],
-                launched
-            ))
+        if data.ok:
+            for instance in data.message['results']:
+                launched = ts_to_isodate(instance['start_date'])
+                instances.append((
+                    instance['id'],
+                    instance['name'],
+                    instance['status'],
+                    instance['activity'],
+                    instance['ip_address'],
+                    instance['size']['name'],
+                    instance['provider']['name'],
+                    launched
+                ))
 
         return (column_headers, tuple(instances))
 
@@ -172,36 +175,37 @@ class InstanceShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_instance(parsed_args.id)
         instance = ()
-        if data:
-            launched = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            launched = ts_to_isodate(message['start_date'])
             instance = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['user']['username'],
-                data['identity']['key'],
-                data['project']['name'],
-                data['allocation_source']['name'],
-                data['allocation_source']['compute_allowed'],
-                data['allocation_source']['compute_used'],
-                data['allocation_source']['global_burn_rate'],
-                data['allocation_source']['user_compute_used'],
-                data['allocation_source']['user_burn_rate'],
-                data['image']['id'],
-                data['version']['name'],
-                data['usage'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['user']['username'],
+                message['identity']['key'],
+                message['project']['name'],
+                message['allocation_source']['name'],
+                message['allocation_source']['compute_allowed'],
+                message['allocation_source']['compute_used'],
+                message['allocation_source']['global_burn_rate'],
+                message['allocation_source']['user_compute_used'],
+                message['allocation_source']['user_burn_rate'],
+                message['image']['id'],
+                message['version']['name'],
+                message['usage'],
                 launched,
-                data['size']['name'],
-                data['size']['cpu'],
-                data['size']['mem'],
-                data['size']['disk'],
-                data['status'],
-                data['activity'],
-                data['ip_address'],
-                data['provider']['name'],
-                data['web_desktop'],
-                data['shell'],
-                data['vnc']
+                message['size']['name'],
+                message['size']['cpu'],
+                message['size']['mem'],
+                message['size']['disk'],
+                message['status'],
+                message['activity'],
+                message['ip_address'],
+                message['provider']['name'],
+                message['web_desktop'],
+                message['shell'],
+                message['vnc']
             )
 
         return (column_headers, instance)
@@ -224,10 +228,49 @@ class InstanceActions(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_instance_actions(parsed_args.id)
         actions = []
-        for action in data:
-            actions.append((
-                action['name'],
-                action['description'],
-            ))
+        if data.ok:
+            for action in data.message:
+                actions.append((
+                    action['name'],
+                    action['description'],
+                ))
 
         return (column_headers, tuple(actions))
+
+
+class InstanceSuspend(Command):
+    """
+    Suspend an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceSuspend, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance id')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('suspend', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+
+
+class InstanceResume(Command):
+    """
+    Resume an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceResume, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance id')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('resume', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))

@@ -13,5 +13,6 @@ class Version(Command):
     def take_action(self, parsed_args):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_version()
-        if data:
-            self.app.stdout.write('Atmosphere v{} [Built: {}]\n'.format(data['normal'], ts_to_isodate(data['commit_date'], include_time=True)))
+        if data.ok:
+            message = data.message
+            self.app.stdout.write('Atmosphere v{} [Built: {}]\n'.format(message['normal'], ts_to_isodate(message['commit_date'], include_time=True)))

@@ -13,9 +13,9 @@ class TestVersion(object):
     def test_getting_version_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_version()
-        assert not response
+        assert not response.ok
 
     def test_getting_version_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_version()
-        assert response['normal'] == '0.14.3 dev 0'
+        assert response.ok and response.message['normal'] == '0.14.3 dev 0'

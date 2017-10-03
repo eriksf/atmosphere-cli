@@ -1,5 +1,6 @@
+import json
 from .request import Request
-from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT
+from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
 
 
 class AtmosphereAPI(object):
@@ -18,8 +19,8 @@ class AtmosphereAPI(object):
 
         # set username
         user_data = self.__request.getJson('GET', '/tokens/{}'.format(token))
-        if user_data:
-            self.__username = user_data['user']['username']
+        if user_data.ok:
+            self.__username = user_data.message['user']['username']
 
     def get_username(self):
         return self.__username
@@ -41,11 +42,21 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
+    def do_instance_action(self, action, id):
+        udata = self.__request.getJson('GET', '/instances/{}'.format(id))
+        data = ApiResponse(ok=False, message='')
+        if udata.ok:
+            uuid = udata.message['uuid']
+            headers = {'Content-Type': 'application/json'}
+            payload = {'action': action}
+            data = self.__request.getJson('POST', '/instances/{}/actions'.format(uuid), headers=headers, data=json.dumps(payload))
+        return data
+
     def get_instance_actions(self, id):
         udata = self.__request.getJson('GET', '/instances/{}'.format(id))
-        data = None
-        if udata:
-            uuid = udata['uuid']
+        data = ApiResponse(ok=False, message='')
+        if udata.ok:
+            uuid = udata.message['uuid']
             data = self.__request.getJson('GET', '/instances/{}/actions'.format(uuid))
         return data
 

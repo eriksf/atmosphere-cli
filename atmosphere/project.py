@@ -36,14 +36,15 @@ class ProjectCreate(ShowOne):
         data = api.create_project(json.dumps(payload))
         project = ()
         column_headers = ('id', 'uuid', 'name', 'description', 'owner', 'start_date')
-        if data:
-            start_date = ts_to_isodate(data['start_date'], include_time=True)
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'], include_time=True)
             project = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['owner']['name'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['owner']['name'],
                 start_date
             )
         else:
@@ -64,20 +65,21 @@ class ProjectList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_projects()
         projects = []
-        for project in data['results']:
-            start_date = ts_to_isodate(project['start_date'])
-            projects.append((
-                project['id'],
-                project['name'],
-                project['description'],
-                project['owner']['name'],
-                project['created_by']['username'],
-                start_date,
-                len(project['images']),
-                len(project['instances']),
-                len(project['volumes']),
-                len(project['links'])
-            ))
+        if data.ok:
+            for project in data.message['results']:
+                start_date = ts_to_isodate(project['start_date'])
+                projects.append((
+                    project['id'],
+                    project['name'],
+                    project['description'],
+                    project['owner']['name'],
+                    project['created_by']['username'],
+                    start_date,
+                    len(project['images']),
+                    len(project['instances']),
+                    len(project['volumes']),
+                    len(project['links'])
+                ))
 
         return (column_headers, tuple(projects))
 
@@ -112,26 +114,27 @@ class ProjectShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_project(parsed_args.id)
         project = ()
-        if data:
-            start_date = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'])
             end_date = ''
-            if data['end_date']:
-                end_date = ts_to_isodate(data['end_date'])
+            if message['end_date']:
+                end_date = ts_to_isodate(message['end_date'])
             project = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['owner']['name'],
-                data['created_by']['username'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['owner']['name'],
+                message['created_by']['username'],
                 start_date,
                 end_date,
-                ', '.join([value['username'] for value in data['leaders']]),
-                ', '.join([value['username'] for value in data['users']]),
-                len(data['images']),
-                len(data['instances']),
-                len(data['volumes']),
-                len(data['links'])
+                ', '.join([value['username'] for value in message['leaders']]),
+                ', '.join([value['username'] for value in message['users']]),
+                len(message['images']),
+                len(message['instances']),
+                len(message['volumes']),
+                len(message['links'])
             )
 
         return (column_headers, project)

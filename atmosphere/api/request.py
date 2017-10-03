@@ -3,6 +3,8 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from six.moves.urllib.parse import urlparse
 
+from .constants import ApiResponse
+
 
 class Request(object):
     """Class to handle an API request"""
@@ -76,7 +78,7 @@ class Request(object):
         else:
             params['format'] = 'json'
 
-        response = None
+        response = ApiResponse(ok=False, message='')
         try:
             r = method(self.__makeFullUrl(url), params=params, headers=headers, data=data, timeout=self.timeout, verify=self.verify)
             self.__log(verb, url, headers, data, r)
@@ -85,9 +87,19 @@ class Request(object):
                 self.__log_message('Response text: {}'.format(r.text))
                 if r.text:
                     try:
-                        response = r.json()
+                        response = ApiResponse(ok=True, message=r.json())
                     except ValueError as ve:
                         # empty or not valid json returned
+                        self.__log_error(ve)
+                else:
+                    response = ApiResponse(ok=True, message='')
+            else:
+                if r.text:
+                    try:
+                        failure_response = r.json()
+                        self.__log_error(failure_response)
+                        response = ApiResponse(ok=False, message=failure_response)
+                    except ValueError as ve:
                         self.__log_error(ve)
         except requests.exceptions.RequestException as re:
             self.__log_error(re)

@@ -18,19 +18,20 @@ class ProviderList(Lister):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_providers()
         providers = []
-        for provider in data['results']:
-            start_date = ts_to_isodate(provider['start_date'])
-            providers.append((
-                provider['id'],
-                provider['name'],
-                provider['description'],
-                provider['type']['name'],
-                provider['virtualization']['name'],
-                ', '.join([value['name'] for value in provider['sizes']]),
-                provider['public'],
-                provider['active'],
-                start_date if start_date else provider['start_date']
-            ))
+        if data.ok:
+            for provider in data.message['results']:
+                start_date = ts_to_isodate(provider['start_date'])
+                providers.append((
+                    provider['id'],
+                    provider['name'],
+                    provider['description'],
+                    provider['type']['name'],
+                    provider['virtualization']['name'],
+                    ', '.join([value['name'] for value in provider['sizes']]),
+                    provider['public'],
+                    provider['active'],
+                    start_date if start_date else provider['start_date']
+                ))
 
         return (column_headers, tuple(providers))
 
@@ -64,23 +65,24 @@ class ProviderShow(ShowOne):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_provider(parsed_args.id)
         provider = ()
-        if data:
-            start_date = ts_to_isodate(data['start_date'])
+        if data.ok:
+            message = data.message
+            start_date = ts_to_isodate(message['start_date'])
             end_date = ''
-            if data['end_date']:
-                end_date = ts_to_isodate(data['end_date'])
+            if message['end_date']:
+                end_date = ts_to_isodate(message['end_date'])
             provider = (
-                data['id'],
-                data['uuid'],
-                data['name'],
-                data['description'],
-                data['type']['name'],
-                data['virtualization']['name'],
-                ', '.join([value['name'] for value in data['sizes']]),
-                data['auto_imaging'],
-                data['public'],
-                data['is_admin'],
-                data['active'],
+                message['id'],
+                message['uuid'],
+                message['name'],
+                message['description'],
+                message['type']['name'],
+                message['virtualization']['name'],
+                ', '.join([value['name'] for value in message['sizes']]),
+                message['auto_imaging'],
+                message['public'],
+                message['is_admin'],
+                message['active'],
                 start_date,
                 end_date
             )

@@ -20,24 +20,27 @@ class TestSizes(object):
     def test_getting_sizes_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_sizes()
-        assert not response
+        assert not response.ok
 
     def test_getting_sizes_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_sizes()
-        assert response['count'] == 6 and response['results'][0]['name'] == 'manila-service-flavor'
+        assert response.ok
+        assert response.message['count'] == 6 and response.message['results'][0]['name'] == 'manila-service-flavor'
 
     def test_getting_sizes_when_response_is_ok_and_filtering_on_provider(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_sizes(provider_id=2)
-        assert response['count'] == 0 and len(response['results']) == 0
+        assert response.ok
+        assert response.message['count'] == 0 and len(response.message['results']) == 0
 
     def test_getting_size_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_size(5)
-        assert not response
+        assert not response.ok
 
     def test_getting_size_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_size(5)
-        assert response['id'] == 5 and response['cpu'] == 4
+        assert response.ok
+        assert response.message['id'] == 5 and response.message['cpu'] == 4

@@ -30,61 +30,67 @@ class TestImages(object):
     def test_getting_images_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_images()
-        assert not response
+        assert not response.ok
 
     def test_getting_images_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_images()
-        assert response['count'] == 1 and response['results'][0]['name'] == 'name'
+        assert response.ok
+        assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'name'
 
     def test_getting_images_when_response_is_ok_and_filtering_on_tag(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_images(tag_name='docker')
-        results = response['results']
+        assert response.ok
+        results = response.message['results']
         fcount = 0
         for r in results:
             if is_term_in_image_result(r, 'docker'):
                 fcount += 1
-        assert response['count'] == 11 and fcount == 11
+        assert response.message['count'] == 11 and fcount == 11
 
     def test_getting_images_when_response_is_ok_and_filtering_on_creator(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_images(created_by='jfischer')
-        results = response['results']
+        assert response.ok
+        results = response.message['results']
         fcount = 0
         for r in results:
             if is_term_in_image_result(r, 'jfischer'):
                 fcount += 1
-        assert response['count'] == 9 and fcount == 9
+        assert response.message['count'] == 9 and fcount == 9
 
     def test_searching_images_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.search_images('galaxy')
-        results = response['results']
+        assert response.ok
+        results = response.message['results']
         fcount = 0
         for r in results:
             if is_term_in_image_result(r, 'galaxy'):
                 fcount += 1
-        assert response['count'] == 3 and fcount == 3
+        assert response.message['count'] == 3 and fcount == 3
 
     def test_getting_image_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_image(1)
-        assert not response
+        assert not response.ok
 
     def test_getting_image_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_image(1)
-        assert response['id'] == 1 and response['name'] == 'name'
+        assert response.ok
+        assert response.message['id'] == 1 and response.message['name'] == 'name'
 
     def test_getting_image_version_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
         response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
-        assert not response
+        assert not response.ok
 
     def test_getting_image_version_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
-        assert response['id'] == '40440e67-8644-4949-ba2f-b36c66f9d40b' and \
-            response['change_log'] == 'v1.7 - patched up to 9-14-17' and \
-            len(response['machines']) == 2
+        assert response.ok
+        assert response.message['id'] == '40440e67-8644-4949-ba2f-b36c66f9d40b' and \
+            response.message['change_log'] == 'v1.7 - patched up to 9-14-17' and \
+            len(response.message['machines']) == 2
