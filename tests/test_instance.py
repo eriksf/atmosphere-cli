@@ -98,14 +98,38 @@ class TestInstances(object):
                       status=200,
                       json={"user": {"username": "testuser"}})
         responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/instances/1',
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
-                      json={"uuid": "ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822"})
+                      json=[{"description": "Suspends an instance when it is in the 'active' State", "key": "Suspend"}])
         responses.add(responses.POST,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=409,
-                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'suspend' instance 0b564915-e094-46a1-a8f6-14b8c26ae4bb while it is in vm_state suspended"}]})
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'suspend' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state suspended"}]})
         api = AtmosphereAPI('token')
-        response = api.do_instance_action('suspend', 1)
+        response = api.do_instance_action('suspend', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
         assert not response.ok
-        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'suspend' instance 0b564915-e094-46a1-a8f6-14b8c26ae4bb while it is in vm_state suspended"
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'suspend' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state suspended"
+
+    def test_resuming_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('resume', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <resume> was run successfully'
+
+    def test_starting_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('start', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <start> was run successfully'
+
+    def test_stopping_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('stop', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <stop> was run successfully'
+
+    def test_rebooting_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('reboot', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <reboot> was run successfully'

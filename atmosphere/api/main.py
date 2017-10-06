@@ -1,10 +1,13 @@
 import json
+import logging
 from .request import Request
 from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
 
 
 class AtmosphereAPI(object):
     """Main class for accessing the Atmosphere v2 API."""
+
+    log = logging.getLogger(__name__)
 
     def __init__(self, token, base_url=ATMO_BASE_URL, timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
         """
@@ -42,22 +45,25 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
-    def do_instance_action(self, action, id):
-        udata = self.__request.getJson('GET', '/instances/{}'.format(id))
-        data = ApiResponse(ok=False, message='')
-        if udata.ok:
-            uuid = udata.message['uuid']
+    def do_instance_action(self, action, id, options=None):
+        # check if action is available on instance
+        (is_available, available_actions) = self.__is_available_instance_action(action, id)
+        if is_available:
             headers = {'Content-Type': 'application/json'}
             payload = {'action': action}
-            data = self.__request.getJson('POST', '/instances/{}/actions'.format(uuid), headers=headers, data=json.dumps(payload))
+            if options:
+                for option, value in options.items():
+                    payload[option] = value
+            self.log.debug('INPUT: {}'.format(json.dumps(payload)))
+            data = self.__request.getJson('POST', '/instances/{}/actions'.format(id), headers=headers, data=json.dumps(payload))
+        else:
+            available_actions_str = ', '.join(available_actions.keys())
+            message = "Can't perform {} on instance. Available actions are {}.".format(action, available_actions_str)
+            data = ApiResponse(ok=False, message=message)
         return data
 
     def get_instance_actions(self, id):
-        udata = self.__request.getJson('GET', '/instances/{}'.format(id))
-        data = ApiResponse(ok=False, message='')
-        if udata.ok:
-            uuid = udata.message['uuid']
-            data = self.__request.getJson('GET', '/instances/{}/actions'.format(uuid))
+        data = self.__request.getJson('GET', '/instances/{}/actions'.format(id))
         return data
 
     def get_images(self, tag_name=None, created_by=None, project_id=None):
@@ -156,3 +162,12 @@ class AtmosphereAPI(object):
     def delete_volume(self, id):
         data = self.__request.getJson('DELETE', '/volumes/{}'.format(id))
         return data
+
+    def __is_available_instance_action(self, action, id):
+        # get available actions on instance
+        available_actions = {}
+        data = self.__request.getJson('GET', '/instances/{}/actions'.format(id))
+        if data.ok:
+            for available_action in data.message:
+                available_actions[available_action['key'].lower()] = available_action['description']
+        return (action.lower() in available_actions, available_actions)

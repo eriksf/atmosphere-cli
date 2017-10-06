@@ -111,7 +111,7 @@ class InstanceList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'launched')
+        column_headers = ('uuid', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'launched')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_instances()
         instances = []
@@ -119,7 +119,7 @@ class InstanceList(Lister):
             for instance in data.message['results']:
                 launched = ts_to_isodate(instance['start_date'])
                 instances.append((
-                    instance['id'],
+                    instance['uuid'],
                     instance['name'],
                     instance['status'],
                     instance['activity'],
@@ -141,7 +141,7 @@ class InstanceShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(InstanceShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the instance id')
+        parser.add_argument('id', help='the instance uuid')
         return parser
 
     def take_action(self, parsed_args):
@@ -220,7 +220,7 @@ class InstanceActions(Lister):
 
     def get_parser(self, prog_name):
         parser = super(InstanceActions, self).get_parser(prog_name)
-        parser.add_argument('id', help='the instance id')
+        parser.add_argument('id', help='the instance uuid')
         return parser
 
     def take_action(self, parsed_args):
@@ -247,7 +247,7 @@ class InstanceSuspend(Command):
 
     def get_parser(self, prog_name):
         parser = super(InstanceSuspend, self).get_parser(prog_name)
-        parser.add_argument('id', help='the instance id')
+        parser.add_argument('id', help='the instance uuid')
         return parser
 
     def take_action(self, parsed_args):
@@ -255,6 +255,8 @@ class InstanceSuspend(Command):
         data = api.do_instance_action('suspend', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
 
 
 class InstanceResume(Command):
@@ -266,7 +268,7 @@ class InstanceResume(Command):
 
     def get_parser(self, prog_name):
         parser = super(InstanceResume, self).get_parser(prog_name)
-        parser.add_argument('id', help='the instance id')
+        parser.add_argument('id', help='the instance uuid')
         return parser
 
     def take_action(self, parsed_args):
@@ -274,3 +276,77 @@ class InstanceResume(Command):
         data = api.do_instance_action('resume', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceReboot(Command):
+    """
+    Reboot an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceReboot, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        parser.add_argument(
+            '--hard',
+            action='store_true',
+            dest='hard_reboot',
+            help="Perform a hard reboot on the instance"
+        )
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        options = None
+        if parsed_args.hard_reboot:
+            options = {'reboot_type': 'HARD'}
+        data = api.do_instance_action('reboot', parsed_args.id, options=options)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceStop(Command):
+    """
+    Stop an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceStop, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('stop', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceStart(Command):
+    """
+    Start an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceStart, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('start', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))

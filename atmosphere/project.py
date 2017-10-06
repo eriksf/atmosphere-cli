@@ -61,7 +61,7 @@ class ProjectList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'description', 'owner', 'created_by', 'start_date', 'images', 'instances', 'volumes', 'links')
+        column_headers = ('uuid', 'name', 'owner', 'created_by', 'start_date', 'images', 'instances', 'volumes', 'links')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_projects()
         projects = []
@@ -69,9 +69,8 @@ class ProjectList(Lister):
             for project in data.message['results']:
                 start_date = ts_to_isodate(project['start_date'])
                 projects.append((
-                    project['id'],
+                    project['uuid'],
                     project['name'],
-                    project['description'],
                     project['owner']['name'],
                     project['created_by']['username'],
                     start_date,
@@ -93,7 +92,7 @@ class ProjectShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ProjectShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the project id')
+        parser.add_argument('id', help='the project uuid')
         return parser
 
     def take_action(self, parsed_args):

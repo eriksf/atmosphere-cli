@@ -51,5 +51,17 @@
         "key": "Redeploy",
         "name": "Redeploy",
         "url": "https://local.atmo.cloud/api/v2/instance_actions/14?format=json"
+    },
+    {
+        "description": "Resumes an instance",
+        "key": "Resume",
+        "name": "Resume",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/14?format=json"
+    },
+    {
+        "description": "Starts an instance",
+        "key": "Start",
+        "name": "Start",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/14?format=json"
     }
 ]

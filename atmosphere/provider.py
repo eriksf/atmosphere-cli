@@ -14,7 +14,7 @@ class ProviderList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'description', 'type', 'virtualization', 'sizes', 'public', 'active', 'start_date')
+        column_headers = ('id', 'uuid', 'name', 'type', 'virtualization', 'public', 'active', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_providers()
         providers = []
@@ -23,11 +23,10 @@ class ProviderList(Lister):
                 start_date = ts_to_isodate(provider['start_date'])
                 providers.append((
                     provider['id'],
+                    provider['uuid'],
                     provider['name'],
-                    provider['description'],
                     provider['type']['name'],
                     provider['virtualization']['name'],
-                    ', '.join([value['name'] for value in provider['sizes']]),
                     provider['public'],
                     provider['active'],
                     start_date if start_date else provider['start_date']
@@ -45,7 +44,7 @@ class ProviderShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ProviderShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the image id')
+        parser.add_argument('id', help='the provider uuid')
         return parser
 
     def take_action(self, parsed_args):

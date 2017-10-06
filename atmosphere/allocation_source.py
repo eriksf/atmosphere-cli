@@ -14,7 +14,7 @@ class AllocationSourceList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'renewal_strategy', 'compute_allowed', 'compute_used', 'global_burn_rate', 'start_date')
+        column_headers = ('uuid', 'name', 'compute_allowed', 'compute_used', 'global_burn_rate', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_allocation_sources()
         allocation_sources = []
@@ -22,9 +22,8 @@ class AllocationSourceList(Lister):
             for source in data.message['results']:
                 start_date = ts_to_isodate(source['start_date'])
                 allocation_sources.append((
-                    source['id'],
+                    source['uuid'],
                     source['name'],
-                    source['renewal_strategy'],
                     source['compute_allowed'],
                     source['compute_used'],
                     source['global_burn_rate'],
@@ -43,7 +42,7 @@ class AllocationSourceShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(AllocationSourceShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the identity id')
+        parser.add_argument('id', help='the allocation source uuid')
         return parser
 
     def take_action(self, parsed_args):

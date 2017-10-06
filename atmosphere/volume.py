@@ -17,7 +17,7 @@ class VolumeDelete(Command):
 
     def get_parser(self, prog_name):
         parser = super(VolumeDelete, self).get_parser(prog_name)
-        parser.add_argument('id', help='the volume id')
+        parser.add_argument('id', help='the volume uuid')
         return parser
 
     def take_action(self, parsed_args):
@@ -119,7 +119,7 @@ class VolumeList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'project', 'provider', 'size', 'user', 'start_date')
+        column_headers = ('uuid', 'name', 'project', 'provider', 'size', 'user', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_volumes()
         volumes = []
@@ -127,7 +127,7 @@ class VolumeList(Lister):
             for volume in data.message['results']:
                 start_date = ts_to_isodate(volume['start_date'])
                 volumes.append((
-                    volume['id'],
+                    volume['uuid'],
                     volume['name'],
                     volume['project']['name'],
                     volume['provider']['name'],
@@ -148,7 +148,7 @@ class VolumeShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(VolumeShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the volume id')
+        parser.add_argument('id', help='the volume uuid')
         return parser
 
     def take_action(self, parsed_args):

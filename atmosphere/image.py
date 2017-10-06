@@ -19,7 +19,7 @@ class ImageSearch(Lister):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'description', 'created_by', 'versions', 'is_public', 'start_date')
+        column_headers = ('uuid', 'name', 'created_by', 'is_public', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.search_images(parsed_args.search_term)
         images = []
@@ -27,11 +27,9 @@ class ImageSearch(Lister):
             for image in data.message['results']:
                 start_date = ts_to_isodate(image['start_date'])
                 images.append((
-                    image['id'],
+                    image['uuid'],
                     image['name'],
-                    image['description'],
                     image['created_by']['username'],
-                    ', '.join([value['name'] for value in image['versions']]),
                     image['is_public'],
                     start_date if start_date else image['start_date']
                 ))
@@ -69,7 +67,7 @@ class ImageList(Lister):
         return parser
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'description', 'created_by', 'versions', 'is_public', 'start_date')
+        column_headers = ('uuid', 'name', 'created_by', 'is_public', 'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_images(parsed_args.tag_name, parsed_args.created_by, parsed_args.project_id)
         images = []
@@ -77,11 +75,9 @@ class ImageList(Lister):
             for image in data.message['results']:
                 start_date = ts_to_isodate(image['start_date'])
                 images.append((
-                    image['id'],
+                    image['uuid'],
                     image['name'],
-                    image['description'],
                     image['created_by']['username'],
-                    ', '.join([value['name'] for value in image['versions']]),
                     image['is_public'],
                     start_date if start_date else image['start_date']
                 ))
@@ -98,7 +94,7 @@ class ImageShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ImageShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the image id')
+        parser.add_argument('id', help='the image uuid')
         return parser
 
     def take_action(self, parsed_args):

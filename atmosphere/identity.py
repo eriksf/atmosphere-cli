@@ -13,17 +13,16 @@ class IdentityList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('id', 'name', 'provider', 'usage', 'quota_cpu', 'quota_memory', 'quota_storage')
+        column_headers = ('uuid', 'name', 'provider', 'quota_cpu', 'quota_memory', 'quota_storage')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_identities()
         identities = []
         if data.ok:
             for identity in data.message['results']:
                 identities.append((
-                    identity['id'],
+                    identity['uuid'],
                     identity['user']['username'],
                     identity['provider']['name'],
-                    identity['usage'],
                     identity['quota']['cpu'],
                     identity['quota']['memory'],
                     identity['quota']['storage']
@@ -41,7 +40,7 @@ class IdentityShow(ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(IdentityShow, self).get_parser(prog_name)
-        parser.add_argument('id', help='the identity id')
+        parser.add_argument('id', help='the identity uuid')
         return parser
 
     def take_action(self, parsed_args):

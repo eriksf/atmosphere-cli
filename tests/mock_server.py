@@ -49,6 +49,10 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     INSTANCE_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instance_created.json')
     INSTANCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'instances.json')
     INSTANCE_SUSPENDED_FILE = os.path.join(RESPONSE_DIR, 'instance_suspended.json')
+    INSTANCE_RESUMED_FILE = os.path.join(RESPONSE_DIR, 'instance_resumed.json')
+    INSTANCE_STARTED_FILE = os.path.join(RESPONSE_DIR, 'instance_started.json')
+    INSTANCE_STOPPED_FILE = os.path.join(RESPONSE_DIR, 'instance_stopped.json')
+    INSTANCE_REBOOTED_FILE = os.path.join(RESPONSE_DIR, 'instance_rebooted.json')
     PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
     PROJECT_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project_created.json')
     PROJECTS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'projects.json')
@@ -114,8 +118,15 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             action = data['action']
             if action == 'suspend':
                 self.__send_response_file(self.INSTANCE_SUSPENDED_FILE)
+            elif action == 'resume':
+                self.__send_response_file(self.INSTANCE_RESUMED_FILE)
+            elif action == 'start':
+                self.__send_response_file(self.INSTANCE_STARTED_FILE)
+            elif action == 'stop':
+                self.__send_response_file(self.INSTANCE_STOPPED_FILE)
+            elif action == 'reboot':
+                self.__send_response_file(self.INSTANCE_REBOOTED_FILE)
         elif re.match(self.INSTANCES_PATTERN, self.path):
-            print('instances pattern')
             if 'allocation_source_id' not in data:
                 print('error')
                 self.__send_error_response(requests.codes.bad_request, '{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
