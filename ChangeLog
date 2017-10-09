@@ -1,6 +1,37 @@
 CHANGES
 =======
 
+0.5.0
+-----
+
+* added instance shelve/unshelve added instance attach\_volume/detach\_volume
+* updated list actions to use uuid instead of id added instance start/stop/reboot
+* updated api request responses add instance suspend/resume
+* updating python requirements (cliff dev version)
+* upgraded cliff to v2.9.0 added a delete hook to enable confirmation added volume delete
+* added image version show and added version id's to image show
+* added volume create added image search updated image list with filtering on tag, created\_by, and project\_id
+* updated api/tests for updated version of atmosphere
+* added volume list/show added allocation source list/show added instance create/actions
+* fixed typo
+* added project create/list/show
+* added instance list/show
+* added more fields to detail views
+* added size list/show
+* added version and identities list/show
+* enhanced getting options from environment (or .env file)
+* now testing against python 2.7.x and 3.6.x
+* convert datetime to isodate for console output
+* added provider functionality and tests
+* updated tests
+* main api and request now sending token
+* should now pass behave command-line help test
+* added options for base\_url and token (can also set in environment or .env file)
+* added testing of request
+* added command-line piece of showing a single image
+* added retrieving a single image
+* now passing behave help test
+* updating changelog
 * initial api to hit atmosphere rest api with requests testing api using mock server
 * updating changelog
 * updating travis-ci config
