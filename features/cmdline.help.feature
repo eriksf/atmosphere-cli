@@ -45,14 +45,19 @@ Feature: Command-line options: Use atmo --help
           image show     Show details for an image.
           image version show  Show details for an image version.
           instance actions  Show available actions for an instance.
+          instance attach  Attach a volume to an instance.
           instance create  Create an instance.
+          instance detach  Detach a volume from an instance.
           instance list  List instances for user.
           instance reboot  Reboot an instance.
+          instance redeploy  Redeploy to an instance.
           instance resume  Resume an instance.
+          instance shelve  Shelve an instance.
           instance show  Show details for an instance.
           instance start  Start an instance.
           instance stop  Stop an instance.
           instance suspend  Suspend an instance.
+          instance unshelve  Unshelve an instance.
           project create  Create a project.
           project list   List projects for a user.
           project show   Show details for a project.

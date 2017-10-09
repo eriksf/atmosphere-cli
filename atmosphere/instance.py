@@ -350,3 +350,122 @@ class InstanceStart(Command):
             self.app.stdout.write('{}\n'.format(data.message['message']))
         else:
             self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceRedeploy(Command):
+    """
+    Redeploy to an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceRedeploy, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('redeploy', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceShelve(Command):
+    """
+    Shelve an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceShelve, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('shelve', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceUnshelve(Command):
+    """
+    Unshelve an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceUnshelve, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.do_instance_action('unshelve', parsed_args.id)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceAttach(Command):
+    """
+    Attach a volume to an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceAttach, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        parser.add_argument(
+            '--volume-id',
+            metavar='<volume_id>',
+            required=True,
+            help='Volume UUID'
+        )
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        options = {'volume_id': parsed_args.volume_id}
+        data = api.do_instance_action('attach_volume', parsed_args.id, options=options)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceDetach(Command):
+    """
+    Detach a volume from an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceDetach, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        parser.add_argument(
+            '--volume-id',
+            metavar='<volume_id>',
+            required=True,
+            help='Volume UUID'
+        )
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        options = {'volume_id': parsed_args.volume_id}
+        data = api.do_instance_action('detach_volume', parsed_args.id, options=options)
+        if data.ok and data.message['result'] == 'success':
+            self.app.stdout.write('{}\n'.format(data.message['message']))
+        else:
+            self.app.stdout.write('Error: {}\n'.format(data.message))

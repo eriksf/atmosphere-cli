@@ -62,6 +62,16 @@ class AtmosphereAPI(object):
             data = ApiResponse(ok=False, message=message)
         return data
 
+    def do_instance_volume_action(self, action, id, options=None):
+        headers = {'Content-Type': 'application/json'}
+        payload = {'action': action}
+        if options:
+            for option, value in options.items():
+                payload[option] = value
+        self.log.debug('INPUT: {}'.format(json.dumps(payload)))
+        data = self.__request.getJson('POST', '/instances/{}/actions'.format(id), headers=headers, data=json.dumps(payload))
+        return data
+
     def get_instance_actions(self, id):
         data = self.__request.getJson('GET', '/instances/{}/actions'.format(id))
         return data

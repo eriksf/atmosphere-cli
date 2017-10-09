@@ -53,6 +53,11 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     INSTANCE_STARTED_FILE = os.path.join(RESPONSE_DIR, 'instance_started.json')
     INSTANCE_STOPPED_FILE = os.path.join(RESPONSE_DIR, 'instance_stopped.json')
     INSTANCE_REBOOTED_FILE = os.path.join(RESPONSE_DIR, 'instance_rebooted.json')
+    INSTANCE_REDEPLOYED_FILE = os.path.join(RESPONSE_DIR, 'instance_redeployed.json')
+    INSTANCE_SHELVED_FILE = os.path.join(RESPONSE_DIR, 'instance_shelved.json')
+    INSTANCE_UNSHELVED_FILE = os.path.join(RESPONSE_DIR, 'instance_unshelved.json')
+    INSTANCE_ATTACHED_VOLUME_FILE = os.path.join(RESPONSE_DIR, 'instance_attached_volume.json')
+    INSTANCE_DETACHED_VOLUME_FILE = os.path.join(RESPONSE_DIR, 'instance_detached_volume.json')
     PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
     PROJECT_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project_created.json')
     PROJECTS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'projects.json')
@@ -126,6 +131,16 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.__send_response_file(self.INSTANCE_STOPPED_FILE)
             elif action == 'reboot':
                 self.__send_response_file(self.INSTANCE_REBOOTED_FILE)
+            elif action == 'redeploy':
+                self.__send_response_file(self.INSTANCE_REDEPLOYED_FILE)
+            elif action == 'shelve':
+                self.__send_response_file(self.INSTANCE_SHELVED_FILE)
+            elif action == 'unshelve':
+                self.__send_response_file(self.INSTANCE_UNSHELVED_FILE)
+            elif action == 'attach_volume':
+                self.__send_response_file(self.INSTANCE_ATTACHED_VOLUME_FILE)
+            elif action == 'detach_volume':
+                self.__send_response_file(self.INSTANCE_DETACHED_VOLUME_FILE)
         elif re.match(self.INSTANCES_PATTERN, self.path):
             if 'allocation_source_id' not in data:
                 print('error')

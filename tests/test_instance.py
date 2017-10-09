@@ -116,11 +116,49 @@ class TestInstances(object):
         assert response.ok
         assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <resume> was run successfully'
 
+    @responses.activate
+    def test_resuming_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Resumes an instance when it is not in the 'active' State", "key": "Resume"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=409,
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'resume' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state active"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('resume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'resume' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state active"
+
     def test_starting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.do_instance_action('start', 1)
         assert response.ok
         assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <start> was run successfully'
+
+    @responses.activate
+    def test_starting_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Starts an instance when it is not in the 'active' State", "key": "Start"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=409,
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'start' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state active"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('start', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'start' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state active"
 
     def test_stopping_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -128,8 +166,167 @@ class TestInstances(object):
         assert response.ok
         assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <stop> was run successfully'
 
+    @responses.activate
+    def test_stopping_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Stops an instance when it is in the 'active' State", "key": "Stop"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=409,
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'stop' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state stopped"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('stop', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'stop' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state stopped"
+
     def test_rebooting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.do_instance_action('reboot', 1)
         assert response.ok
         assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <reboot> was run successfully'
+
+    @responses.activate
+    def test_rebooting_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Reboots an instance when it is in ANY State", "key": "Reboot"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=403,
+                      json={"errors": [{"code": 403, "message": "The requested action reboot encountered an irrecoverable exception: message"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('reboot', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "The requested action reboot encountered an irrecoverable exception: message"
+
+    def test_redeploying_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('redeploy', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <redeploy> was run successfully'
+
+    @responses.activate
+    def test_redeploying_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Redeploy to an instance when it is in ANY active state", "key": "Redeploy"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=403,
+                      json={"errors": [{"code": 403, "message": "The requested action reboot encountered an irrecoverable exception: message"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('redeploy', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "The requested action reboot encountered an irrecoverable exception: message"
+
+    def test_shelving_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('shelve', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <shelve> was run successfully'
+
+    @responses.activate
+    def test_shelving_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Shelves an instance when it is in the 'active' State", "key": "Shelve"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=403,
+                      json={"errors": [{"code": 403, "message": "The requested action reboot encountered an irrecoverable exception: message"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('shelve', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "The requested action reboot encountered an irrecoverable exception: message"
+
+    def test_unshelving_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.do_instance_action('unshelve', 1)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <unshelve> was run successfully'
+
+    @responses.activate
+    def test_unshelving_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=200,
+                      json=[{"description": "Unshelves an instance when it is in the 'shelved' State", "key": "Unshelve"}])
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=409,
+                      json={"errors": [{"code": 409, "message": "409 Conflict Cannot 'unshelve' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state stopped"}]})
+        api = AtmosphereAPI('token')
+        response = api.do_instance_action('unshelve', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822')
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "409 Conflict Cannot 'unshelve' instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 while it is in vm_state stopped"
+
+    def test_attaching_volume_to_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        options = {'volume_id': 'b94a0146-10d3-4c91-8482-3c9758c81ddf'}
+        response = api.do_instance_volume_action('attach_volume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822', options=options)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <attach_volume> was run successfully'
+
+    @responses.activate
+    def test_attaching_volume_to_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=403,
+                      json={"errors": [{"code": 403, "message": "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active before attaching a volume. (Current: shutoff) Retry request when instance is active."}]})
+        api = AtmosphereAPI('token')
+        options = {'volume_id': 'b94a0146-10d3-4c91-8482-3c9758c81ddf'}
+        response = api.do_instance_volume_action('attach_volume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822', options=options)
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active before attaching a volume. (Current: shutoff) Retry request when instance is active."
+
+    def test_detaching_volume_to_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        options = {'volume_id': 'b94a0146-10d3-4c91-8482-3c9758c81ddf'}
+        response = api.do_instance_volume_action('detach_volume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822', options=options)
+        assert response.ok
+        assert response.message['result'] == 'success' and response.message['message'] == 'The requested action <detach_volume> was run successfully'
+
+    @responses.activate
+    def test_detaching_volume_to_instance_when_response_is_not_ok(self):
+        responses.add(responses.GET,
+                      'https://local.atmo.cloud/api/v2/tokens/token',
+                      status=200,
+                      json={"user": {"username": "testuser"}})
+        responses.add(responses.POST,
+                      'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
+                      status=403,
+                      json={"errors": [{"code": 403, "message": "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active, suspended, or stopped before detaching a volume. (Current: shelved_offloaded) Retry request when instance is active."}]})
+        api = AtmosphereAPI('token')
+        options = {'volume_id': 'b94a0146-10d3-4c91-8482-3c9758c81ddf'}
+        response = api.do_instance_volume_action('detach_volume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822', options=options)
+        assert not response.ok
+        assert response.message['errors'][0]['message'] == "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active, suspended, or stopped before detaching a volume. (Current: shelved_offloaded) Retry request when instance is active."

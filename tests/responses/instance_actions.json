@@ -63,5 +63,11 @@
         "key": "Start",
         "name": "Start",
         "url": "https://local.atmo.cloud/api/v2/instance_actions/14?format=json"
+    },
+    {
+        "description": "Unshelves an instance when it is in the 'shelved' State",
+        "key": "Unshelve",
+        "name": "Unshelve",
+        "url": "https://local.atmo.cloud/api/v2/instance_actions/7?format=json"
     }
 ]
