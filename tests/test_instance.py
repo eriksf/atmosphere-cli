@@ -330,3 +330,14 @@ class TestInstances(object):
         response = api.do_instance_volume_action('detach_volume', 'ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822', options=options)
         assert not response.ok
         assert response.message['errors'][0]['message'] == "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active, suspended, or stopped before detaching a volume. (Current: shelved_offloaded) Retry request when instance is active."
+
+    def test_getting_instance_history_when_response_is_not_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
+        assert not response.ok
+
+    def test_getting_instance_history_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
+        assert response.ok
+        assert response.message['count'] == 23 and response.message['results'][0]['status'] == 'build'

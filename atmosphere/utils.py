@@ -47,3 +47,17 @@ def ts_to_isodate(date_string, include_time=False):
         pass
 
     return iso_date_str
+
+
+def ts_to_date(date_string):
+    """Convert a datetime string (UTC) into a pretty date string"""
+
+    date_rep = date_string
+
+    try:
+        date = parse(date_string)
+        date_rep = date.strftime('%b %d %H:%M:%S %Y')
+    except ValueError:
+        pass
+
+    return date_rep

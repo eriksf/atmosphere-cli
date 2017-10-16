@@ -36,6 +36,11 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/instances/{}'.format(id))
         return data
 
+    def get_instance_history(self, id):
+        params = {'instance': id}
+        data = self.__request.getJson('GET', '/instance_histories', params=params)
+        return data
+
     def create_instance(self, input):
         headers = {'Content-Type': 'application/json'}
         data = self.__request.getJson('POST', '/instances', headers=headers, data=input)

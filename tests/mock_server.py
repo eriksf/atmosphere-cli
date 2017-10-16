@@ -19,6 +19,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGES_PATTERN = re.compile(r'/images')
     INSTANCE_PATTERN = re.compile(r'/instances/\d+')
     INSTANCE_ACTIONS_PATTERN = re.compile(r'/instances/[\d\w-]+/actions')
+    INSTANCE_HISTORY_PATTERN = re.compile(r'/instance_histories')
     INSTANCES_PATTERN = re.compile(r'/instances')
     PROJECT_PATTERN = re.compile(r'/projects/\d+')
     PROJECTS_PATTERN = re.compile(r'/projects')
@@ -56,6 +57,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     INSTANCE_REDEPLOYED_FILE = os.path.join(RESPONSE_DIR, 'instance_redeployed.json')
     INSTANCE_SHELVED_FILE = os.path.join(RESPONSE_DIR, 'instance_shelved.json')
     INSTANCE_UNSHELVED_FILE = os.path.join(RESPONSE_DIR, 'instance_unshelved.json')
+    INSTANCE_HISTORY_FILE = os.path.join(RESPONSE_DIR, 'instance_history.json')
     INSTANCE_ATTACHED_VOLUME_FILE = os.path.join(RESPONSE_DIR, 'instance_attached_volume.json')
     INSTANCE_DETACHED_VOLUME_FILE = os.path.join(RESPONSE_DIR, 'instance_detached_volume.json')
     PROJECT_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'project.json')
@@ -186,6 +188,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_ACTIONS_RESPONSE_FILE)
+            return
+        elif re.match(self.INSTANCE_HISTORY_PATTERN, self.path):
+            self.__send_response_file(self.INSTANCE_HISTORY_FILE)
             return
         elif re.match(self.INSTANCE_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_RESPONSE_FILE)

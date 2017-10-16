@@ -5,7 +5,7 @@ from cliff.lister import Lister
 from cliff.show import ShowOne
 from cliff.command import Command
 from atmosphere.api import AtmosphereAPI
-from atmosphere.utils import ts_to_isodate
+from atmosphere.utils import ts_to_isodate, ts_to_date
 
 
 class InstanceCreate(ShowOne):
@@ -469,3 +469,39 @@ class InstanceDetach(Command):
             self.app.stdout.write('{}\n'.format(data.message['message']))
         else:
             self.app.stdout.write('Error: {}\n'.format(data.message))
+
+
+class InstanceHistory(Lister):
+    """
+    List history for instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceHistory, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        column_headers = ('uuid', 'name', 'size', 'provider', 'status', 'start_date', 'end_date')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.get_instance_history(parsed_args.id)
+        history = []
+        if data.ok:
+            for status in data.message['results']:
+                start_date = ts_to_date(status['start_date'])
+                end_date = ''
+                if status['end_date']:
+                    end_date = ts_to_date(status['end_date'])
+                history.append((
+                    status['instance']['uuid'],
+                    status['instance']['name'],
+                    status['size']['name'],
+                    status['provider']['name'],
+                    status['status'],
+                    start_date,
+                    end_date,
+                ))
+
+        return (column_headers, tuple(history))

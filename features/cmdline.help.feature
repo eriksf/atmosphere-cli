@@ -48,6 +48,7 @@ Feature: Command-line options: Use atmo --help
           instance attach  Attach a volume to an instance.
           instance create  Create an instance.
           instance detach  Detach a volume from an instance.
+          instance history  List history for instance.
           instance list  List instances for user.
           instance reboot  Reboot an instance.
           instance redeploy  Redeploy to an instance.
