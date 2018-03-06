@@ -1,0 +1,37 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+behave = "*"
+coverage = "*"
+coveralls = "*"
+"flake8" = "*"
+pytest = "*"
+pytest-bdd = "*"
+pytest-cov = "*"
+pytest-logger = "*"
+responses = "*"
+sphinx = "*"
+tox = "*"
+pyhamcrest = "*"
+
+
+[packages]
+
+cliff = "*"
+requests = "*"
+python-dotenv = "*"
+python-dateutil = "*"
+six = "*"
+pbr = "*"
+"e1839a8" = {path = ".", editable = true}
+
+
+[requires]
+
+python_version = "3.6"
