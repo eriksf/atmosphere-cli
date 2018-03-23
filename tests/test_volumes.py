@@ -1,5 +1,5 @@
 import json
-from mock_server import get_free_port, start_mock_server
+from .mock_server import get_free_port, start_mock_server
 from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
 from atmosphere.volume import VolumeList

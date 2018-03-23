@@ -1,5 +1,6 @@
 import os
 import warnings
+import six
 from dotenv import load_dotenv, find_dotenv
 from atmosphere.api import constants
 from dateutil.parser import parse
@@ -40,7 +41,10 @@ def ts_to_isodate(date_string, include_time=False):
     try:
         date = parse(date_string)
         if include_time:
-            iso_date_str = date.isoformat(timespec='seconds')
+            if six.PY3:
+                iso_date_str = date.isoformat(timespec='seconds')
+            else:
+                iso_date_str = date.isoformat()
         else:
             iso_date_str = date.date().isoformat()
     except ValueError:

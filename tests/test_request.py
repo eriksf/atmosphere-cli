@@ -1,5 +1,5 @@
 import logging
-from mock_server import get_free_port, start_mock_server
+from .mock_server import get_free_port, start_mock_server
 from atmosphere.api.request import Request
 
 

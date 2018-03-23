@@ -7,6 +7,8 @@ install:
     - pipenv install --dev
 script:
     - pipenv run pytest --verbose --cov atmosphere --cov-report xml --junit-xml pytest.xml
-    - pipenv run behave --tags=-@xfail --format=progress features
+    - pipenv run behave --tags=-@xfail --format=progress3 --junit --junit-directory behave_reports features
 after_success:
     - coveralls
+notifications:
+    webhooks: https://www.travisbuddy.com/

@@ -7,31 +7,33 @@ import socket
 from threading import Thread
 import time
 import requests
+import signal
+import sys
 
 
 class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-    ALLOCATION_SOURCE_PATTERN = re.compile(r'/allocation_sources/\d+')
+    ALLOCATION_SOURCE_PATTERN = re.compile(r'/allocation_sources/[\d\w-]+')
     ALLOCATION_SOURCES_PATTERN = re.compile(r'/allocation_sources')
-    IDENTITY_PATTERN = re.compile(r'/identities/\d+')
+    IDENTITY_PATTERN = re.compile(r'/identities/[\d\w-]+')
     IDENTITIES_PATTERN = re.compile(r'/identities')
-    IMAGE_PATTERN = re.compile(r'/images/\d+')
-    IMAGE_VERSION_PATTERN = re.compile(r'/image_versions/\d+')
+    IMAGE_PATTERN = re.compile(r'/images/[\d\w-]+')
+    IMAGE_VERSION_PATTERN = re.compile(r'/image_versions/[\d\w-]+')
     IMAGES_PATTERN = re.compile(r'/images')
-    INSTANCE_PATTERN = re.compile(r'/instances/\d+')
+    INSTANCE_PATTERN = re.compile(r'/instances/[\d\w-]+')
     INSTANCE_ACTIONS_PATTERN = re.compile(r'/instances/[\d\w-]+/actions')
     INSTANCE_HISTORY_PATTERN = re.compile(r'/instance_histories')
     INSTANCES_PATTERN = re.compile(r'/instances')
-    PROJECT_PATTERN = re.compile(r'/projects/\d+')
+    PROJECT_PATTERN = re.compile(r'/projects/[\d\w-]+')
     PROJECTS_PATTERN = re.compile(r'/projects')
-    PROVIDER_PATTERN = re.compile(r'/providers/\d+')
+    PROVIDER_PATTERN = re.compile(r'/providers/[\d\w-]+')
     PROVIDERS_PATTERN = re.compile(r'/providers')
-    SIZE_PATTERN = re.compile(r'/sizes/\d+')
+    SIZE_PATTERN = re.compile(r'/sizes/[\d\w-]+')
     SIZES_PATTERN = re.compile(r'/sizes')
     BAD_JSON_PATTERN = re.compile(r'/badjson')
     VALID_JSON_PATTERN = re.compile(r'/valid')
     TIMEOUT_PATTERN = re.compile(r'/timeout')
     VERSION_PATTERN = re.compile(r'/version')
-    VOLUME_PATTERN = re.compile(r'/volumes/\d+')
+    VOLUME_PATTERN = re.compile(r'/volumes/[\d\w-]+')
     VOLUMES_PATTERN = re.compile(r'/volumes')
     TOKENS_PATTERN = re.compile(r'/tokens/[\d\w-]')
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
@@ -254,8 +256,23 @@ def get_free_port():
     return port
 
 
-def start_mock_server(port):
+def start_mock_server(port, daemon=True):
     mock_server = BaseHTTPServer.HTTPServer(('localhost', port), MockServerRequestHandler)
     mock_server_thread = Thread(target=mock_server.serve_forever)
-    mock_server_thread.setDaemon(True)
+    if daemon:
+        mock_server_thread.setDaemon(True)
     mock_server_thread.start()
+    return mock_server
+
+
+if __name__ == '__main__':
+    try:
+        port = get_free_port()
+        print('Got free port, {}'.format(port))
+        server = start_mock_server(port, daemon=False)
+        print('Server started at http://localhost:{}, use <Ctrl-C> to stop'.format(port))
+        signal.pause()
+    except KeyboardInterrupt:
+        print('Server shutting down...')
+        server.shutdown()
+        sys.exit(0)
