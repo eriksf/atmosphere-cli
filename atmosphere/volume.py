@@ -18,6 +18,12 @@ class VolumeDelete(Command):
     def get_parser(self, prog_name):
         parser = super(VolumeDelete, self).get_parser(prog_name)
         parser.add_argument('id', help='the volume uuid')
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            dest='force',
+            help="Don't ask for confirmation before deleting volume"
+        )
         return parser
 
     def take_action(self, parsed_args):

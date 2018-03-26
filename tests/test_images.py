@@ -36,7 +36,7 @@ class TestImages(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_images()
         assert response.ok
-        assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'name'
+        assert response.message['count'] == 10 and response.message['results'][0]['name'] == 'Centos 7 (7.4) Development GUI'
 
     def test_getting_images_when_response_is_ok_and_filtering_on_tag(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -80,7 +80,7 @@ class TestImages(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_image(1)
         assert response.ok
-        assert response.message['id'] == 1 and response.message['name'] == 'name'
+        assert response.message['id'] == 55 and response.message['name'] == 'BioLinux 8'
 
     def test_getting_image_version_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)

@@ -45,11 +45,14 @@ class DeleteHook(CommandHook):
                 self.cmd.app.stdout.write("Please respond with 'yes' or 'no' ('y' or 'n').\n")
 
     def get_epilog(self):
-        return 'User will be prompted to confirm delete action.'
+        return 'User will be prompted to confirm delete action unless passing --force option.'
 
     def before(self, parsed_args):
-        confirm = self.query_yes_no("Are you sure you want to delete this item?")
-        if confirm:
-            parsed_args.delete = True
+        if not parsed_args.force:
+            confirm = self.query_yes_no("Are you sure you want to delete this item?")
+            if confirm:
+                parsed_args.delete = True
+            else:
+                parsed_args.delete = False
         else:
-            parsed_args.delete = False
+            parsed_args.delete = True

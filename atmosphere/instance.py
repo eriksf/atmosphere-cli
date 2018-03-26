@@ -436,7 +436,7 @@ class InstanceAttach(Command):
     def take_action(self, parsed_args):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
-        data = api.do_instance_action('attach_volume', parsed_args.id, options=options)
+        data = api.do_instance_volume_action('attach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
         else:
@@ -464,7 +464,7 @@ class InstanceDetach(Command):
     def take_action(self, parsed_args):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
-        data = api.do_instance_action('detach_volume', parsed_args.id, options=options)
+        data = api.do_instance_volume_action('detach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
         else:

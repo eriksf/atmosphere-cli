@@ -1,23 +1,139 @@
 {
-    "id": 1,
-    "uuid": "f268aebc-d956-11e4-b9d6-1681e6b88ec1",
-    "name": "name",
-    "created_by": {
-        "id": 1
+  "id": 55,
+  "url": "https://use.jetstream-cloud.org/api/v2/images/ca948f10-c47e-5d06-a2b0-1674cfc002ee?format=json",
+  "uuid": "ca948f10-c47e-5d06-a2b0-1674cfc002ee",
+  "name": "BioLinux 8",
+  "metrics_url": "https://use.jetstream-cloud.org/api/v2/image_metrics/ca948f10-c47e-5d06-a2b0-1674cfc002ee?format=json",
+  "created_by": {
+    "id": 14,
+    "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9",
+    "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+    "username": "jfischer"
+  },
+  "description": "Based on Ubuntu 14.04.3 -Trusty Tahr - server - cloudimg\n\n-- **REQUIRES m1.small instance size or larger**\n--  Installed BioLinux 8 (http://environmentalomics.org/bio-linux/) \n\n-- x2go installed (http://wiki.x2go.org/doku.php)\n   -- Instructions for x2go are here: https://iujetstream.atlassian.net/wiki/display/JWT/Using+x2go+with+the+BioLinux+8+image\n\nInstallation size ~ 11G",
+  "end_date": null,
+  "is_public": true,
+  "icon": null,
+  "start_date": "2018-02-13T17:48:09Z",
+  "access_list": [],
+  "tags": [
+    {
+      "id": 3,
+      "uuid": "b0d65749-60f2-491b-9854-5fba0c249840",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/b0d65749-60f2-491b-9854-5fba0c249840?format=json",
+      "name": "desktop",
+      "description": "Desktop linux OS installation",
+      "allow_access": true
     },
-    "description": "description",
-    "end_date": null,
-    "is_public": true,
-    "icon": null,
-    "start_date": "2015-03-30T18:30:45.501948Z",
-    "tags": [{
-            "id": 1
-        },
-        {
-            "id": 2
-        }
-    ],
-    "versions": [{
-        "id": 1
-    }]
+    {
+      "id": 4,
+      "uuid": "aaad7413-653a-4f16-bebb-631470c471c5",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/aaad7413-653a-4f16-bebb-631470c471c5?format=json",
+      "name": "gui",
+      "description": "graphical user interface",
+      "allow_access": true
+    },
+    {
+      "id": 13,
+      "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f?format=json",
+      "name": "Ubuntu",
+      "description": "Ubuntu is a Debian-based Linux operating system.",
+      "allow_access": true
+    },
+    {
+      "id": 9,
+      "uuid": "b1b0a131-f764-448c-bbe6-f87660086b1a",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/b1b0a131-f764-448c-bbe6-f87660086b1a?format=json",
+      "name": "Featured",
+      "description": "Featured applications receive priority ordering over non-featured applications",
+      "allow_access": false
+    },
+    {
+      "id": 38,
+      "uuid": "3ec5bb61-b941-4e06-a95a-99967fe607bf",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/3ec5bb61-b941-4e06-a95a-99967fe607bf?format=json",
+      "name": "x2go",
+      "description": "Uses x2go virtual desktop software",
+      "allow_access": true
+    },
+    {
+      "id": 40,
+      "uuid": "9cb8874d-b20f-41bf-a0d0-5b6ee6a10fb1",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/9cb8874d-b20f-41bf-a0d0-5b6ee6a10fb1?format=json",
+      "name": "bioinformatics",
+      "description": "The collection, classification, storage, and analysis of biochemical and biological information using computers especially as applied to molecular genetics and genomics",
+      "allow_access": true
+    },
+    {
+      "id": 63,
+      "uuid": "28db75ee-6e00-4bff-8ee7-4ceb8c29bc84",
+      "url": "https://use.jetstream-cloud.org/api/v2/tags/28db75ee-6e00-4bff-8ee7-4ceb8c29bc84?format=json",
+      "name": "m1_small",
+      "description": "Requires an m1.small instance or larger to launch",
+      "allow_access": true
+    }
+  ],
+  "versions": [
+    {
+      "id": "20911195-5f31-48e7-8d1a-d36b5af466ac",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/20911195-5f31-48e7-8d1a-d36b5af466ac?format=json",
+      "name": "1.0"
+    },
+    {
+      "id": "55a39902-677a-4667-9da0-eef612660d1f",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/55a39902-677a-4667-9da0-eef612660d1f?format=json",
+      "name": "1.1"
+    },
+    {
+      "id": "4faaa97e-e3a1-47f3-bf93-e83e4ed7f18c",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/4faaa97e-e3a1-47f3-bf93-e83e4ed7f18c?format=json",
+      "name": "1.3"
+    },
+    {
+      "id": "dd137e13-71f0-4464-b387-39cfd176c59d",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/dd137e13-71f0-4464-b387-39cfd176c59d?format=json",
+      "name": "1.4"
+    },
+    {
+      "id": "cb2c86d3-6256-4a5c-a994-6c5c47f61de9",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/cb2c86d3-6256-4a5c-a994-6c5c47f61de9?format=json",
+      "name": "1.6"
+    },
+    {
+      "id": "40440e67-8644-4949-ba2f-b36c66f9d40b",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/40440e67-8644-4949-ba2f-b36c66f9d40b?format=json",
+      "name": "1.7"
+    },
+    {
+      "id": "483e936f-2b97-4272-9959-a554767f21c9",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/483e936f-2b97-4272-9959-a554767f21c9?format=json",
+      "name": "1.2"
+    },
+    {
+      "id": "201bc19a-d635-4c10-88be-6c3d310d6afd",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/201bc19a-d635-4c10-88be-6c3d310d6afd?format=json",
+      "name": "1.8"
+    },
+    {
+      "id": "08e8b08c-a9d9-4e6d-b11c-399f49eb74e2",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/08e8b08c-a9d9-4e6d-b11c-399f49eb74e2?format=json",
+      "name": "1.9"
+    },
+    {
+      "id": "c852e607-1c87-4d63-a503-c6c924ee17d6",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/c852e607-1c87-4d63-a503-c6c924ee17d6?format=json",
+      "name": "1.5"
+    },
+    {
+      "id": "32c477cc-4fba-41f4-b30f-7db46c2a2651",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/32c477cc-4fba-41f4-b30f-7db46c2a2651?format=json",
+      "name": "1.10"
+    },
+    {
+      "id": "c602b2a7-6fa6-475c-a2c1-3c2cabba1085",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/c602b2a7-6fa6-475c-a2c1-3c2cabba1085?format=json",
+      "name": "1.11"
+    }
+  ]
 }
