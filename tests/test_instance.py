@@ -28,7 +28,7 @@ class TestInstances(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instances()
         assert response.ok
-        assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'trusty-server'
+        assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'BioLinux 8'
 
     def test_getting_instance_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
@@ -39,7 +39,7 @@ class TestInstances(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_instance(1)
         assert response.ok
-        assert response.message['id'] == 1 and response.message['name'] == 'trusty-server'
+        assert response.message['id'] == 21752 and response.message['name'] == 'BioLinux 8'
 
     def test_getting_instance_actions_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)

@@ -57,7 +57,7 @@ Feature: Managing my volumes
         | project     | eriksf                               |
         | provider    | Cloudlab - ErikOS                    |
         | user        | eriksf                               |
-        | start_date  | 2017-09-19T21:50:46+00:00            |
+        | start_date  | 2017-09-19T21:50:46.524594Z          |
         +-------------+--------------------------------------+
         """
 

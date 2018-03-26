@@ -38,14 +38,13 @@ class ProjectCreate(ShowOne):
         column_headers = ('id', 'uuid', 'name', 'description', 'owner', 'start_date')
         if data.ok:
             message = data.message
-            start_date = ts_to_isodate(message['start_date'], include_time=True)
             project = (
                 message['id'],
                 message['uuid'],
                 message['name'],
                 message['description'],
                 message['owner']['name'],
-                start_date
+                message['start_date']
             )
         else:
             self.app.stdout.write('Error, project not created! Make sure to supply a name and description.')

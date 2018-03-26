@@ -109,7 +109,7 @@ class VolumeCreate(ShowOne):
                 message['project']['name'],
                 message['provider']['name'],
                 message['user']['username'],
-                start_date
+                message['start_date']
             )
         else:
             self.app.stdout.write('Error, volume not created! Make sure to supply a name, identity, size, project, and description.')

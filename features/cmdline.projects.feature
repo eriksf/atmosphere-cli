@@ -58,6 +58,6 @@ Feature: Create and get information about projects
         | name        | myfirstproject                       |
         | description | my first project                     |
         | owner       | eriksf                               |
-        | start_date  | 2017-09-18T18:37:35+00:00            |
+        | start_date  | 2017-09-18T18:37:35.443981Z          |
         +-------------+--------------------------------------+
         """
