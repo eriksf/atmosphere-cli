@@ -111,7 +111,7 @@ class InstanceList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('uuid', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'launched')
+        column_headers = ('uuid', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'project', 'launched')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_instances()
         instances = []
@@ -126,6 +126,7 @@ class InstanceList(Lister):
                     instance['ip_address'],
                     instance['size']['name'],
                     instance['provider']['name'],
+                    instance['project']['name'],
                     launched
                 ))
 

@@ -28,9 +28,10 @@ def after_all(context):
 # -----------------------------------------------------------------------------
 def setup_context_with_global_params_test(context):
     context.global_name = "env:Alice"
-    context.global_age  = 12
+    context.global_age = 12
+
 
 def setup_python_path():
     # -- NEEDED-FOR: formatter.user_defined.feature
     PYTHONPATH = os.environ.get("PYTHONPATH", "")
-    os.environ["PYTHONPATH"] = "."+ os.pathsep + PYTHONPATH
+    os.environ["PYTHONPATH"] = "." + os.pathsep + PYTHONPATH
