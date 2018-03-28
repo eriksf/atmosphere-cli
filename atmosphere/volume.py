@@ -30,7 +30,7 @@ class VolumeDelete(Command):
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_volume(parsed_args.id)
-            if data.ok:
+            if data.ok and data.message and data.message != '':
                 self.app.stdout.write('Volume deleted: {}\n'.format(data.message))
             else:
                 self.app.stdout.write('Volume deleted\n')
@@ -99,7 +99,6 @@ class VolumeCreate(ShowOne):
         column_headers = ('id', 'uuid', 'name', 'description', 'size', 'project', 'provider', 'user', 'start_date')
         if data.ok:
             message = data.message
-            start_date = ts_to_isodate(message['start_date'], include_time=True)
             volume = (
                 message['id'],
                 message['uuid'],

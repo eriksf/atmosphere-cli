@@ -225,3 +225,12 @@ Feature: Manage and get information about my instances
         | eb95b7e9-9c56-479b-9d81-b93292a9078a | BioLinux8 | m1.small | Jetstream - TACC | active     | Oct 09 20:43:38 2017 |                      |
         +--------------------------------------+-----------+----------+------------------+------------+----------------------+----------------------+
         """
+
+  Scenario: Delete an instance named 'myfirstinstance'
+    Given a new working directory
+    When I run "atmo instance delete --force d09d7999-f341-46af-a2ad-bdbecdf28d6a"
+    Then it should pass
+    And the command output should contain:
+        """
+        Instance deleted
+        """

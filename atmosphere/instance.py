@@ -8,6 +8,34 @@ from atmosphere.api import AtmosphereAPI
 from atmosphere.utils import ts_to_isodate, ts_to_date
 
 
+class InstanceDelete(Command):
+    """
+    Delete an instance.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(InstanceDelete, self).get_parser(prog_name)
+        parser.add_argument('id', help='the instance uuid')
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            dest='force',
+            help="Don't ask for confirmation before deleting instance"
+        )
+        return parser
+
+    def take_action(self, parsed_args):
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        if parsed_args.delete:
+            data = api.delete_instance(parsed_args.id)
+            if data.ok and data.message and data.message != '':
+                self.app.stdout.write('Instance deleted: {}\n'.format(data.message))
+            else:
+                self.app.stdout.write('Instance deleted\n')
+
+
 class InstanceCreate(ShowOne):
     """
     Create an instance.

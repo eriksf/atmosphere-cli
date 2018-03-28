@@ -107,11 +107,14 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.end_headers()
         # Add response content
-        with open(response_file) as f: response_content = f.read()
+        with open(response_file) as f:
+            response_content = f.read()
         self.wfile.write(response_content.encode('utf-8'))
 
     def do_DELETE(self):
         if re.match(self.VOLUME_PATTERN, self.path):
+            self.__send_no_content_response()
+        elif re.match(self.INSTANCE_PATTERN, self.path):
             self.__send_no_content_response()
         return
 

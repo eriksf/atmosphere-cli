@@ -67,5 +67,5 @@ Feature: Managing my volumes
     Then it should pass
     And the command output should contain:
         """
-        Volume deleted:
+        Volume deleted
         """

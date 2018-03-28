@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+* fixed behave instance test
+* added project column to instance list
+* fixed issues of tests with project and volume create
+* added bdd (behave) testing for images, instances, projects, and volumes
+* added mock server to behave test added several behave feature tests
+* initial pipenv setup, updated tox and travis configs
+* updated behave4cmd added instance history
 * updated changelog
 
 0.5.0

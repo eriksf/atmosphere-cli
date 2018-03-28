@@ -341,3 +341,8 @@ class TestInstances(object):
         response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
         assert response.ok
         assert response.message['count'] == 23 and response.message['results'][0]['status'] == 'build'
+
+    def test_deleting_instance_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.delete_instance(1)
+        assert response.ok
