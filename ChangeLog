@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* implemented instance delete
 * fixed behave instance test
 * added project column to instance list
 * fixed issues of tests with project and volume create
