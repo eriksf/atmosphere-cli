@@ -14,9 +14,10 @@ def generateStage(job) {
                 pysh 'python --version'
                 pysh 'pip install pipenv'
                 pysh 'pipenv install --dev'
-                pysh "pipenv run pytest --verbose --cov atmosphere --cov-report xml:${test_output_dir}/${job}/coverage.xml --junit-xml ${test_output_dir}/${job}/pytest.xml"
-                pysh "pipenv run behave --tags=-@xfail --format=progress3 --junit --junit-directory ${test_output_dir}/${job}/behave_reports features"
+                pysh "pytest --verbose --cov atmosphere --cov-report xml:${test_output_dir}/${job}/coverage.xml --junit-xml ${test_output_dir}/${job}/pytest.xml"
+                // pysh "behave --no-capture --no-capture-stderr --tags=-@xfail --format=progress3 --junit --junit-directory ${test_output_dir}/${job}/behave_reports --logging-level DEBUG features"
                 junit "${test_output_dir}/${job}/**/pytest.xml, ${test_output_dir}/${job}/behave_reports/*.xml"
+                cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "${test_output_dir}/${job}/**/coverage.xml", conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
             }
         }
     }
@@ -24,6 +25,10 @@ def generateStage(job) {
 
 pipeline {
     agent any
+
+    options {
+        timestamps()
+    }
 
     environment {
         test_output_dir = "test_reports"
@@ -55,8 +60,10 @@ pipeline {
 
     post {
         always {
-            echo "Always run this step at the end!"
-            // cleanWs()
+            cleanWs()
+        }
+        failure {
+            emailext attachLog: true, body: '''${SCRIPT, template="groovy-html.template"}''', mimeType: 'text/html', subject: "[JENKINS] ${currentBuild.fullDisplayName} - ${currentBuild.result}", to: 'eferlanti@tacc.utexas.edu'
         }
     }
 }
