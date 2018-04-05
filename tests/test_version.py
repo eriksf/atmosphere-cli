@@ -18,4 +18,4 @@ class TestVersion(object):
     def test_getting_version_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_version()
-        assert response.ok and response.message['normal'] == '0.14.3 dev 0'
+        assert response.ok and response.message['git_branch'] == 'zesty-zapdos'

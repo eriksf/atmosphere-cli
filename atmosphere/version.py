@@ -15,4 +15,4 @@ class Version(Command):
         data = api.get_version()
         if data.ok:
             message = data.message
-            self.app.stdout.write('Atmosphere v{} [Built: {}]\n'.format(message['normal'], ts_to_isodate(message['commit_date'], include_time=True)))
+            self.app.stdout.write('Atmosphere {} {} [Built: {}]\n'.format(message['git_branch'], message['git_sha_abbrev'], ts_to_isodate(message['commit_date'], include_time=True)))

@@ -9,5 +9,5 @@ Feature: Get the version of the Atmosphere server
     Then it should pass
     And the command output should contain:
         """
-        Atmosphere v0.14.3 dev 0 [Built: 2017-07-25T13:26:59-04:00]
+        Atmosphere zesty-zapdos @b80381 [Built: 2017-07-25T13:26:59-04:00]
         """
