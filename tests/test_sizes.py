@@ -1,5 +1,6 @@
+import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI
+from atmosphere.api import AtmosphereAPI, ExpiredTokenException
 from atmosphere.main import AtmosphereApp
 from atmosphere.size import SizeList
 
@@ -18,9 +19,10 @@ class TestSizes(object):
         assert size_list.get_description() == 'List sizes (instance configurations) for cloud provider.'
 
     def test_getting_sizes_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_sizes()
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_sizes()
+            assert not response.ok
 
     def test_getting_sizes_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -35,9 +37,10 @@ class TestSizes(object):
         assert response.message['count'] == 0 and len(response.message['results']) == 0
 
     def test_getting_size_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_size(5)
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_size(5)
+            assert not response.ok
 
     def test_getting_size_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

@@ -135,6 +135,43 @@ class ImageShow(ShowOne):
         return (column_headers, image)
 
 
+class ImageVersionList(Lister):
+    """
+    List image versions for an image.
+    """
+
+    log = logging.getLogger(__name__)
+
+    def get_parser(self, prog_name):
+        parser = super(ImageVersionList, self).get_parser(prog_name)
+        parser.add_argument('id', help='the image uuid')
+        return parser
+
+    def take_action(self, parsed_args):
+        column_headers = ('id',
+                          'name',
+                          'image_name',
+                          'created_by',
+                          'machines',
+                          'start_date')
+        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        data = api.get_image_versions(parsed_args.id)
+        image_versions = []
+        if data.ok:
+            for version in data.message['results']:
+                start_date = ts_to_isodate(version['start_date'])
+                image_versions.append((
+                    version['id'],
+                    version['name'],
+                    version['image']['name'],
+                    version['user']['username'],
+                    '\n'.join(['{} ({})'.format(value['provider']['name'], value['uuid']) for value in version['machines']]),
+                    start_date if start_date else version['start_date']
+                ))
+
+        return (column_headers, tuple(image_versions))
+
+
 class ImageVersionShow(ShowOne):
     """
     Show details for an image version.
@@ -156,6 +193,8 @@ class ImageVersionShow(ShowOne):
                           'change_log',
                           'machines',
                           'allow_imaging',
+                          'min_mem',
+                          'min_cpu',
                           'start_date')
         api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
         data = api.get_image_version(parsed_args.id)
@@ -171,6 +210,8 @@ class ImageVersionShow(ShowOne):
                 message['change_log'],
                 '\n'.join(['{} ({})'.format(value['provider']['name'], value['uuid']) for value in message['machines']]),
                 message['allow_imaging'],
+                message['min_mem'],
+                message['min_cpu'],
                 message['start_date']
             )
 

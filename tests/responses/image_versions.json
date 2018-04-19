@@ -1,0 +1,431 @@
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "allow_imaging": true,
+            "change_log": "v1.12 - patched up to 2-13-18",
+            "doc_object_id": "",
+            "end_date": null,
+            "id": "d5a903ee-6f29-4e1b-ba9d-08088b067996",
+            "identity": {
+                "id": "13",
+                "key": "Username: jfischer, Project:jfischer",
+                "provider": 4,
+                "url": "https://use.jetstream-cloud.org/api/v2/identities/1fe06479-38f5-4a7f-a83e-c25cf873ba5f?format=json",
+                "uuid": "1fe06479-38f5-4a7f-a83e-c25cf873ba5f"
+            },
+            "image": {
+                "description": "Ubuntu 16.04 LTS Development + GUI support + Docker\n\nBased on Ubuntu cloud image for 16.04 LTS with basic dev tools, GUI/Xfce added\n\nInstallation size ~ 4.3 GB",
+                "end_date": null,
+                "icon": null,
+                "id": 107,
+                "name": "Ubuntu 16.04 Devel and Docker",
+                "start_date": "2018-03-07T21:04:00Z",
+                "tags": [
+                    {
+                        "allow_access": true,
+                        "description": "Desktop linux OS installation",
+                        "id": 3,
+                        "name": "desktop",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b0d65749-60f2-491b-9854-5fba0c249840?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b0d65749-60f2-491b-9854-5fba0c249840"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Base Installation",
+                        "id": 5,
+                        "name": "base",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/46a077fc-45b4-4164-8549-7d32b4f0425e?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "46a077fc-45b4-4164-8549-7d32b4f0425e"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Uses x2go virtual desktop software",
+                        "id": 38,
+                        "name": "x2go",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/3ec5bb61-b941-4e06-a95a-99967fe607bf?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "3ec5bb61-b941-4e06-a95a-99967fe607bf"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "VNC Enabled Image",
+                        "id": 8,
+                        "name": "vnc",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b7c5c71c-519d-43eb-9e2f-9525af7e9de8?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b7c5c71c-519d-43eb-9e2f-9525af7e9de8"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Contains development tools from CentOS",
+                        "id": 10,
+                        "name": "development",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/79fdcb08-d3ff-448e-a1ef-ccbee76c1227?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "79fdcb08-d3ff-448e-a1ef-ccbee76c1227"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Ubuntu is a Debian-based Linux operating system.",
+                        "id": 13,
+                        "name": "Ubuntu",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f?format=json",
+                        "user": {
+                            "id": 1,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/01a3cde8-3759-41f8-8b4a-304f31f260d1?format=json",
+                            "username": "sgregory",
+                            "uuid": "01a3cde8-3759-41f8-8b4a-304f31f260d1"
+                        },
+                        "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+                    },
+                    {
+                        "allow_access": false,
+                        "description": "Featured applications receive priority ordering over non-featured applications",
+                        "id": 9,
+                        "name": "Featured",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b1b0a131-f764-448c-bbe6-f87660086b1a?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b1b0a131-f764-448c-bbe6-f87660086b1a"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Add docker for running and managing containers.",
+                        "id": 33,
+                        "name": "docker",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/4d891967-3801-46f1-915f-4903f90f68e6?format=json",
+                        "user": {
+                            "id": 176,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/e54a6bea-1135-4305-8abb-210d3553b3d2?format=json",
+                            "username": "naupaka",
+                            "uuid": "e54a6bea-1135-4305-8abb-210d3553b3d2"
+                        },
+                        "uuid": "4d891967-3801-46f1-915f-4903f90f68e6"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Includes docker-compose software",
+                        "id": 36,
+                        "name": "docker-compose",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/25e9ffe8-bea4-45b4-8a45-4d9dd86d3286?format=json",
+                        "user": {
+                            "id": 184,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/add4bedc-89ce-4361-bff8-ccca3ec2deab?format=json",
+                            "username": "cboettig",
+                            "uuid": "add4bedc-89ce-4361-bff8-ccca3ec2deab"
+                        },
+                        "uuid": "25e9ffe8-bea4-45b4-8a45-4d9dd86d3286"
+                    }
+                ],
+                "url": "https://use.jetstream-cloud.org/api/v2/images/c97c4d5e-fe15-5156-b519-0cdb4021492b?format=json",
+                "user": 14,
+                "uuid": "c97c4d5e-fe15-5156-b519-0cdb4021492b"
+            },
+            "licenses": [],
+            "machines": [
+                {
+                    "end_date": null,
+                    "id": 1353,
+                    "owner": "jfischer",
+                    "provider": {
+                        "active": true,
+                        "description": "",
+                        "end_date": null,
+                        "id": 4,
+                        "name": "Jetstream - Indiana University",
+                        "public": true,
+                        "start_date": "2016-01-28T23:40:07.074619Z",
+                        "url": "https://use.jetstream-cloud.org/api/v2/providers/f906a5ee-34a8-499a-9185-a35feb3d6f01?format=json",
+                        "uuid": "f906a5ee-34a8-499a-9185-a35feb3d6f01"
+                    },
+                    "size_gb": 8.0,
+                    "start_date": "2018-02-13T22:11:02Z",
+                    "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/f05be403-1418-4971-b78f-6ce25bff1a8f?format=json",
+                    "uuid": "f05be403-1418-4971-b78f-6ce25bff1a8f",
+                    "version": "1.12"
+                },
+                {
+                    "end_date": null,
+                    "id": 1359,
+                    "owner": "jfischer",
+                    "provider": {
+                        "active": true,
+                        "description": "",
+                        "end_date": null,
+                        "id": 5,
+                        "name": "Jetstream - TACC",
+                        "public": true,
+                        "start_date": "2016-02-16T21:40:22.483700Z",
+                        "url": "https://use.jetstream-cloud.org/api/v2/providers/3ff65aa8-505b-48c3-aef1-aa0ada14c756?format=json",
+                        "uuid": "3ff65aa8-505b-48c3-aef1-aa0ada14c756"
+                    },
+                    "size_gb": 8.0,
+                    "start_date": "2018-02-14T08:07:33.453269Z",
+                    "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/f05be403-1418-4971-b78f-6ce25bff1a8f?format=json",
+                    "uuid": "f05be403-1418-4971-b78f-6ce25bff1a8f",
+                    "version": "1.12"
+                }
+            ],
+            "membership": [],
+            "min_cpu": null,
+            "min_mem": null,
+            "name": "1.12",
+            "parent": null,
+            "scripts": [],
+            "start_date": "2018-02-13T22:15:25.859446Z",
+            "url": "https://use.jetstream-cloud.org/api/v2/image_versions/d5a903ee-6f29-4e1b-ba9d-08088b067996?format=json",
+            "user": {
+                "id": 14,
+                "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                "username": "jfischer",
+                "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+            }
+        },
+        {
+            "allow_imaging": true,
+            "change_log": "v1.13 - patched up to 3-7-18",
+            "doc_object_id": "",
+            "end_date": null,
+            "id": "04f6c686-6b8d-4be9-b277-16bf2a4a16e6",
+            "identity": {
+                "id": "13",
+                "key": "Username: jfischer, Project:jfischer",
+                "provider": 4,
+                "url": "https://use.jetstream-cloud.org/api/v2/identities/1fe06479-38f5-4a7f-a83e-c25cf873ba5f?format=json",
+                "uuid": "1fe06479-38f5-4a7f-a83e-c25cf873ba5f"
+            },
+            "image": {
+                "description": "Ubuntu 16.04 LTS Development + GUI support + Docker\n\nBased on Ubuntu cloud image for 16.04 LTS with basic dev tools, GUI/Xfce added\n\nInstallation size ~ 4.3 GB",
+                "end_date": null,
+                "icon": null,
+                "id": 107,
+                "name": "Ubuntu 16.04 Devel and Docker",
+                "start_date": "2018-03-07T21:04:00Z",
+                "tags": [
+                    {
+                        "allow_access": true,
+                        "description": "Desktop linux OS installation",
+                        "id": 3,
+                        "name": "desktop",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b0d65749-60f2-491b-9854-5fba0c249840?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b0d65749-60f2-491b-9854-5fba0c249840"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Base Installation",
+                        "id": 5,
+                        "name": "base",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/46a077fc-45b4-4164-8549-7d32b4f0425e?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "46a077fc-45b4-4164-8549-7d32b4f0425e"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Uses x2go virtual desktop software",
+                        "id": 38,
+                        "name": "x2go",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/3ec5bb61-b941-4e06-a95a-99967fe607bf?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "3ec5bb61-b941-4e06-a95a-99967fe607bf"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "VNC Enabled Image",
+                        "id": 8,
+                        "name": "vnc",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b7c5c71c-519d-43eb-9e2f-9525af7e9de8?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b7c5c71c-519d-43eb-9e2f-9525af7e9de8"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Contains development tools from CentOS",
+                        "id": 10,
+                        "name": "development",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/79fdcb08-d3ff-448e-a1ef-ccbee76c1227?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "79fdcb08-d3ff-448e-a1ef-ccbee76c1227"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Ubuntu is a Debian-based Linux operating system.",
+                        "id": 13,
+                        "name": "Ubuntu",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/52ae723f-b168-4d39-87ad-ab9b714e6c8f?format=json",
+                        "user": {
+                            "id": 1,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/01a3cde8-3759-41f8-8b4a-304f31f260d1?format=json",
+                            "username": "sgregory",
+                            "uuid": "01a3cde8-3759-41f8-8b4a-304f31f260d1"
+                        },
+                        "uuid": "52ae723f-b168-4d39-87ad-ab9b714e6c8f"
+                    },
+                    {
+                        "allow_access": false,
+                        "description": "Featured applications receive priority ordering over non-featured applications",
+                        "id": 9,
+                        "name": "Featured",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/b1b0a131-f764-448c-bbe6-f87660086b1a?format=json",
+                        "user": {
+                            "id": 14,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                            "username": "jfischer",
+                            "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+                        },
+                        "uuid": "b1b0a131-f764-448c-bbe6-f87660086b1a"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Add docker for running and managing containers.",
+                        "id": 33,
+                        "name": "docker",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/4d891967-3801-46f1-915f-4903f90f68e6?format=json",
+                        "user": {
+                            "id": 176,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/e54a6bea-1135-4305-8abb-210d3553b3d2?format=json",
+                            "username": "naupaka",
+                            "uuid": "e54a6bea-1135-4305-8abb-210d3553b3d2"
+                        },
+                        "uuid": "4d891967-3801-46f1-915f-4903f90f68e6"
+                    },
+                    {
+                        "allow_access": true,
+                        "description": "Includes docker-compose software",
+                        "id": 36,
+                        "name": "docker-compose",
+                        "url": "https://use.jetstream-cloud.org/api/v2/tags/25e9ffe8-bea4-45b4-8a45-4d9dd86d3286?format=json",
+                        "user": {
+                            "id": 184,
+                            "url": "https://use.jetstream-cloud.org/api/v2/users/add4bedc-89ce-4361-bff8-ccca3ec2deab?format=json",
+                            "username": "cboettig",
+                            "uuid": "add4bedc-89ce-4361-bff8-ccca3ec2deab"
+                        },
+                        "uuid": "25e9ffe8-bea4-45b4-8a45-4d9dd86d3286"
+                    }
+                ],
+                "url": "https://use.jetstream-cloud.org/api/v2/images/c97c4d5e-fe15-5156-b519-0cdb4021492b?format=json",
+                "user": 14,
+                "uuid": "c97c4d5e-fe15-5156-b519-0cdb4021492b"
+            },
+            "licenses": [],
+            "machines": [
+                {
+                    "end_date": null,
+                    "id": 1390,
+                    "owner": "jfischer",
+                    "provider": {
+                        "active": true,
+                        "description": "",
+                        "end_date": null,
+                        "id": 4,
+                        "name": "Jetstream - Indiana University",
+                        "public": true,
+                        "start_date": "2016-01-28T23:40:07.074619Z",
+                        "url": "https://use.jetstream-cloud.org/api/v2/providers/f906a5ee-34a8-499a-9185-a35feb3d6f01?format=json",
+                        "uuid": "f906a5ee-34a8-499a-9185-a35feb3d6f01"
+                    },
+                    "size_gb": 8.0,
+                    "start_date": "2018-03-07T21:04:00Z",
+                    "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/7505ea37-2fbb-499f-b150-c18fade5ce26?format=json",
+                    "uuid": "7505ea37-2fbb-499f-b150-c18fade5ce26",
+                    "version": "1.13"
+                },
+                {
+                    "end_date": null,
+                    "id": 1391,
+                    "owner": "jfischer",
+                    "provider": {
+                        "active": true,
+                        "description": "",
+                        "end_date": null,
+                        "id": 5,
+                        "name": "Jetstream - TACC",
+                        "public": true,
+                        "start_date": "2016-02-16T21:40:22.483700Z",
+                        "url": "https://use.jetstream-cloud.org/api/v2/providers/3ff65aa8-505b-48c3-aef1-aa0ada14c756?format=json",
+                        "uuid": "3ff65aa8-505b-48c3-aef1-aa0ada14c756"
+                    },
+                    "size_gb": 8.0,
+                    "start_date": "2018-03-08T07:22:24.421114Z",
+                    "url": "https://use.jetstream-cloud.org/api/v2/provider_machines/7505ea37-2fbb-499f-b150-c18fade5ce26?format=json",
+                    "uuid": "7505ea37-2fbb-499f-b150-c18fade5ce26",
+                    "version": "1.13"
+                }
+            ],
+            "membership": [],
+            "min_cpu": null,
+            "min_mem": null,
+            "name": "1.13",
+            "parent": null,
+            "scripts": [],
+            "start_date": "2018-03-07T21:09:32.548399Z",
+            "url": "https://use.jetstream-cloud.org/api/v2/image_versions/04f6c686-6b8d-4be9-b277-16bf2a4a16e6?format=json",
+            "user": {
+                "id": 14,
+                "url": "https://use.jetstream-cloud.org/api/v2/users/d6022f5f-bf83-4279-9172-a81b4d570ec9?format=json",
+                "username": "jfischer",
+                "uuid": "d6022f5f-bf83-4279-9172-a81b4d570ec9"
+            }
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 import re
+import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI
+from atmosphere.api import AtmosphereAPI, ExpiredTokenException
 from atmosphere.main import AtmosphereApp
 from atmosphere.image import ImageList
 
@@ -28,9 +29,10 @@ class TestImages(object):
         assert image_list.get_description() == 'List images for user.'
 
     def test_getting_images_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_images()
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_images()
+            assert not response.ok
 
     def test_getting_images_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -72,9 +74,10 @@ class TestImages(object):
         assert response.message['count'] == 3 and fcount == 3
 
     def test_getting_image_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_image(1)
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_image(1)
+            assert not response.ok
 
     def test_getting_image_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -82,10 +85,23 @@ class TestImages(object):
         assert response.ok
         assert response.message['id'] == 55 and response.message['name'] == 'BioLinux 8'
 
+    def test_getting_image_versions_when_response_is_not_ok(self):
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_image_versions('c97c4d5e-fe15-5156-b519-0cdb4021492b')
+            assert not response.ok
+
+    def test_getting_image_versions_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_image_versions('c97c4d5e-fe15-5156-b519-0cdb4021492b')
+        assert response.ok
+        assert response.message['count'] == 2 and response.message['results'][0]['id'] == 'd5a903ee-6f29-4e1b-ba9d-08088b067996'
+
     def test_getting_image_version_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_image_version('40440e67-8644-4949-ba2f-b36c66f9d40b')
+            assert not response.ok
 
     def test_getting_image_version_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

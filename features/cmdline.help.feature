@@ -43,6 +43,7 @@ Feature: Command-line options: Use atmo --help
           image list     List images for user.
           image search   Search images for user.
           image show     Show details for an image.
+          image version list  List image versions for an image.
           image version show  Show details for an image version.
           instance actions  Show available actions for an instance.
           instance attach  Attach a volume to an instance.

@@ -18,6 +18,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IDENTITIES_PATTERN = re.compile(r'/identities')
     IMAGE_PATTERN = re.compile(r'/images/[\d\w-]+')
     IMAGE_VERSION_PATTERN = re.compile(r'/image_versions/[\d\w-]+')
+    IMAGE_VERSIONS_PATTERN = re.compile(r'/image_versions')
     IMAGES_PATTERN = re.compile(r'/images')
     INSTANCE_PATTERN = re.compile(r'/instances/[\d\w-]+')
     INSTANCE_ACTIONS_PATTERN = re.compile(r'/instances/[\d\w-]+/actions')
@@ -43,6 +44,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IDENTITIES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identities.json')
     IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
     IMAGE_VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_version.json')
+    IMAGE_VERSIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_versions.json')
     IMAGES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images.json')
     IMAGES_SEARCH_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_search.json')
     IMAGES_FILTERED_TAG_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'images_filtered_tag.json')
@@ -190,6 +192,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.match(self.IMAGE_VERSION_PATTERN, self.path):
             self.__send_response_file(self.IMAGE_VERSION_RESPONSE_FILE)
+            return
+        elif re.match(self.IMAGE_VERSIONS_PATTERN, self.path):
+            self.__send_response_file(self.IMAGE_VERSIONS_RESPONSE_FILE)
             return
         elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_ACTIONS_RESPONSE_FILE)

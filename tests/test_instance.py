@@ -1,7 +1,8 @@
 import json
+import pytest
 import responses
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI
+from atmosphere.api import AtmosphereAPI, ExpiredTokenException
 from atmosphere.main import AtmosphereApp
 from atmosphere.instance import InstanceList
 
@@ -20,9 +21,10 @@ class TestInstances(object):
         assert instance_list.get_description() == 'List instances for user.'
 
     def test_getting_instances_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_instances()
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_instances()
+            assert not response.ok
 
     def test_getting_instances_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -31,9 +33,10 @@ class TestInstances(object):
         assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'BioLinux 8'
 
     def test_getting_instance_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_instance(1)
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_instance(1)
+            assert not response.ok
 
     def test_getting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -42,9 +45,10 @@ class TestInstances(object):
         assert response.message['id'] == 21752 and response.message['name'] == 'BioLinux 8'
 
     def test_getting_instance_actions_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_instance_actions(1)
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_instance_actions(1)
+            assert not response.ok
 
     def test_getting_instance_actions_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -332,9 +336,10 @@ class TestInstances(object):
         assert response.message['errors'][0]['message'] == "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active, suspended, or stopped before detaching a volume. (Current: shelved_offloaded) Retry request when instance is active."
 
     def test_getting_instance_history_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
+            assert not response.ok
 
     def test_getting_instance_history_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

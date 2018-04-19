@@ -4,6 +4,11 @@ from .request import Request
 from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
 
 
+class ExpiredTokenException(Exception):
+    """An exception called when an expired token is detected."""
+    pass
+
+
 class AtmosphereAPI(object):
     """Main class for accessing the Atmosphere v2 API."""
 
@@ -24,6 +29,9 @@ class AtmosphereAPI(object):
         user_data = self.__request.getJson('GET', '/tokens/{}'.format(token))
         if user_data.ok:
             self.__username = user_data.message['user']['username']
+        else:
+            # HACK: shouldn't need this if an expired token is properly returning a 403 Forbidden credentials error
+            raise ExpiredTokenException('The token in use cannot be found and is most likely expired. Please grab a current token.')
 
     def get_username(self):
         return self.__username
@@ -97,6 +105,12 @@ class AtmosphereAPI(object):
 
     def get_image(self, id):
         data = self.__request.getJson('GET', '/images/{}'.format(id))
+        return data
+
+    def get_image_versions(self, id):
+        image_id = self.__get_image_id_from_image_uuid(id)
+        params = {'image_id': image_id}
+        data = self.__request.getJson('GET', '/image_versions', params=params)
         return data
 
     def get_image_version(self, id):
@@ -186,3 +200,8 @@ class AtmosphereAPI(object):
             for available_action in data.message:
                 available_actions[available_action['key'].lower()] = available_action['description']
         return (action.lower() in available_actions, available_actions)
+
+    def __get_image_id_from_image_uuid(self, uuid):
+        data = self.get_image(uuid)
+        if data.ok:
+            return data.message['id']

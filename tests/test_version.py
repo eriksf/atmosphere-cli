@@ -1,5 +1,6 @@
+import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI
+from atmosphere.api import AtmosphereAPI, ExpiredTokenException
 
 
 class TestVersion(object):
@@ -11,9 +12,10 @@ class TestVersion(object):
         start_mock_server(cls.mock_server_port)
 
     def test_getting_version_when_response_is_not_ok(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_version()
-        assert not response.ok
+        with pytest.raises(ExpiredTokenException):
+            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+            response = api.get_version()
+            assert not response.ok
 
     def test_getting_version_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

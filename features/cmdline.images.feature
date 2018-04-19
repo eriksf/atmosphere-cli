@@ -150,6 +150,24 @@ Feature: Get information about images & image versions
         | machines          | Jetstream - Indiana University (1be8ac59-54e4-4421-b370-f6cf584cea85)                                                         |
         |                   | Jetstream - TACC (1be8ac59-54e4-4421-b370-f6cf584cea85)                                                                       |
         | allow_imaging     | True                                                                                                                          |
+        | min_mem           | None                                                                                                                          |
+        | min_cpu           | None                                                                                                                          |
         | start_date        | 2017-09-14T19:18:04.091069Z                                                                                                   |
         +-------------------+-------------------------------------------------------------------------------------------------------------------------------+
+        """
+
+  Scenario: Show all the available image versions for image 'Ubuntu 16.04 Devel and Docker'
+    Given a new working directory
+    When I run "atmo image version list c97c4d5e-fe15-5156-b519-0cdb4021492b"
+    Then it should pass
+    And the command output should contain:
+        """
+        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
+        | id                                   | name | image_name                    | created_by | machines                                                              | start_date |
+        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
+        | d5a903ee-6f29-4e1b-ba9d-08088b067996 | 1.12 | Ubuntu 16.04 Devel and Docker | jfischer   | Jetstream - Indiana University (f05be403-1418-4971-b78f-6ce25bff1a8f) | 2018-02-13 |
+        |                                      |      |                               |            | Jetstream - TACC (f05be403-1418-4971-b78f-6ce25bff1a8f)               |            |
+        | 04f6c686-6b8d-4be9-b277-16bf2a4a16e6 | 1.13 | Ubuntu 16.04 Devel and Docker | jfischer   | Jetstream - Indiana University (7505ea37-2fbb-499f-b150-c18fade5ce26) | 2018-03-07 |
+        |                                      |      |                               |            | Jetstream - TACC (7505ea37-2fbb-499f-b150-c18fade5ce26)               |            |
+        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
         """
