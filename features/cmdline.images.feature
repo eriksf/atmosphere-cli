@@ -106,6 +106,41 @@ Feature: Get information about images & image versions
         |             |                                                                                                                               |
         |             | Installation size ~ 11G                                                                                                       |
         | created_by  | jfischer                                                                                                                      |
+        | versions    | 1.8 (201bc19a-d635-4c10-88be-6c3d310d6afd)                                                                                    |
+        |             | 1.9 (08e8b08c-a9d9-4e6d-b11c-399f49eb74e2)                                                                                    |
+        |             | 1.10 (32c477cc-4fba-41f4-b30f-7db46c2a2651)                                                                                   |
+        |             | 1.11 (c602b2a7-6fa6-475c-a2c1-3c2cabba1085)                                                                                   |
+        |             | 1.12 (3a7d5262-4184-4e02-a236-7a008fb8986e)                                                                                   |
+        | tags        | desktop, gui, Ubuntu, Featured, x2go, bioinformatics, m1_small                                                                |
+        | url         | https://use.jetstream-cloud.org/api/v2/images/ca948f10-c47e-5d06-a2b0-1674cfc002ee?format=json                                |
+        | is_public   | True                                                                                                                          |
+        | start_date  | 2018-04-11                                                                                                                    |
+        | end_date    |                                                                                                                               |
+        +-------------+-------------------------------------------------------------------------------------------------------------------------------+
+        """
+
+  Scenario: Show all the details for image 'BioLinux 8' with all versions
+    Given a new working directory
+    When I run "atmo image show ca948f10-c47e-5d06-a2b0-1674cfc002ee --show-all-versions"
+    Then it should pass
+    And the command output should contain:
+        """
+        +-------------+-------------------------------------------------------------------------------------------------------------------------------+
+        | Field       | Value                                                                                                                         |
+        +-------------+-------------------------------------------------------------------------------------------------------------------------------+
+        | id          | 55                                                                                                                            |
+        | uuid        | ca948f10-c47e-5d06-a2b0-1674cfc002ee                                                                                          |
+        | name        | BioLinux 8                                                                                                                    |
+        | description | Based on Ubuntu 14.04.3 -Trusty Tahr - server - cloudimg                                                                      |
+        |             |                                                                                                                               |
+        |             | -- **REQUIRES m1.small instance size or larger**                                                                              |
+        |             | --  Installed BioLinux 8 (http://environmentalomics.org/bio-linux/)                                                           |
+        |             |                                                                                                                               |
+        |             | -- x2go installed (http://wiki.x2go.org/doku.php)                                                                             |
+        |             |    -- Instructions for x2go are here: https://iujetstream.atlassian.net/wiki/display/JWT/Using+x2go+with+the+BioLinux+8+image |
+        |             |                                                                                                                               |
+        |             | Installation size ~ 11G                                                                                                       |
+        | created_by  | jfischer                                                                                                                      |
         | versions    | 1.0 (20911195-5f31-48e7-8d1a-d36b5af466ac)                                                                                    |
         |             | 1.1 (55a39902-677a-4667-9da0-eef612660d1f)                                                                                    |
         |             | 1.3 (4faaa97e-e3a1-47f3-bf93-e83e4ed7f18c)                                                                                    |
@@ -117,11 +152,12 @@ Feature: Get information about images & image versions
         |             | 1.9 (08e8b08c-a9d9-4e6d-b11c-399f49eb74e2)                                                                                    |
         |             | 1.5 (c852e607-1c87-4d63-a503-c6c924ee17d6)                                                                                    |
         |             | 1.10 (32c477cc-4fba-41f4-b30f-7db46c2a2651)                                                                                   |
+        |             | 1.12 (3a7d5262-4184-4e02-a236-7a008fb8986e)                                                                                   |
         |             | 1.11 (c602b2a7-6fa6-475c-a2c1-3c2cabba1085)                                                                                   |
         | tags        | desktop, gui, Ubuntu, Featured, x2go, bioinformatics, m1_small                                                                |
         | url         | https://use.jetstream-cloud.org/api/v2/images/ca948f10-c47e-5d06-a2b0-1674cfc002ee?format=json                                |
         | is_public   | True                                                                                                                          |
-        | start_date  | 2018-02-13                                                                                                                    |
+        | start_date  | 2018-04-11                                                                                                                    |
         | end_date    |                                                                                                                               |
         +-------------+-------------------------------------------------------------------------------------------------------------------------------+
         """
@@ -156,18 +192,24 @@ Feature: Get information about images & image versions
         +-------------------+-------------------------------------------------------------------------------------------------------------------------------+
         """
 
-  Scenario: Show all the available image versions for image 'Ubuntu 16.04 Devel and Docker'
+  Scenario: Show all the available image versions for image 'BioLinux 8'
     Given a new working directory
-    When I run "atmo image version list c97c4d5e-fe15-5156-b519-0cdb4021492b"
+    When I run "atmo image version list ca948f10-c47e-5d06-a2b0-1674cfc002ee"
     Then it should pass
     And the command output should contain:
         """
-        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
-        | id                                   | name | image_name                    | created_by | machines                                                              | start_date |
-        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
-        | d5a903ee-6f29-4e1b-ba9d-08088b067996 | 1.12 | Ubuntu 16.04 Devel and Docker | jfischer   | Jetstream - Indiana University (f05be403-1418-4971-b78f-6ce25bff1a8f) | 2018-02-13 |
-        |                                      |      |                               |            | Jetstream - TACC (f05be403-1418-4971-b78f-6ce25bff1a8f)               |            |
-        | 04f6c686-6b8d-4be9-b277-16bf2a4a16e6 | 1.13 | Ubuntu 16.04 Devel and Docker | jfischer   | Jetstream - Indiana University (7505ea37-2fbb-499f-b150-c18fade5ce26) | 2018-03-07 |
-        |                                      |      |                               |            | Jetstream - TACC (7505ea37-2fbb-499f-b150-c18fade5ce26)               |            |
-        +--------------------------------------+------+-------------------------------+------------+-----------------------------------------------------------------------+------------+
+        +--------------------------------------+------+------------+------------+-----------------------------------------------------------------------+------------+
+        | id                                   | name | image_name | created_by | machines                                                              | start_date |
+        +--------------------------------------+------+------------+------------+-----------------------------------------------------------------------+------------+
+        | 201bc19a-d635-4c10-88be-6c3d310d6afd | 1.8  | BioLinux 8 | jfischer   | Jetstream - Indiana University (bbcadf9a-f18c-4111-b083-dcbdbd5830f6) | 2017-11-03 |
+        |                                      |      |            |            | Jetstream - TACC (bbcadf9a-f18c-4111-b083-dcbdbd5830f6)               |            |
+        | 08e8b08c-a9d9-4e6d-b11c-399f49eb74e2 | 1.9  | BioLinux 8 | jfischer   | Jetstream - Indiana University (c2049632-7631-447d-99ff-63aefc977f4f) | 2017-12-06 |
+        |                                      |      |            |            | Jetstream - TACC (c2049632-7631-447d-99ff-63aefc977f4f)               |            |
+        | 32c477cc-4fba-41f4-b30f-7db46c2a2651 | 1.10 | BioLinux 8 | jfischer   | Jetstream - Indiana University (e461276d-938c-4df6-b352-b56f44add78a) | 2018-01-10 |
+        |                                      |      |            |            | Jetstream - TACC (e461276d-938c-4df6-b352-b56f44add78a)               |            |
+        | c602b2a7-6fa6-475c-a2c1-3c2cabba1085 | 1.11 | BioLinux 8 | jfischer   | Jetstream - Indiana University (a6980af1-c438-4834-8202-5cbfdcfb094e) | 2018-02-13 |
+        |                                      |      |            |            | Jetstream - TACC (a6980af1-c438-4834-8202-5cbfdcfb094e)               |            |
+        | 3a7d5262-4184-4e02-a236-7a008fb8986e | 1.12 | BioLinux 8 | jfischer   | Jetstream - Indiana University (108a3472-7425-49c5-8aae-afe2f7e4ae42) | 2018-04-11 |
+        |                                      |      |            |            | Jetstream - TACC (108a3472-7425-49c5-8aae-afe2f7e4ae42)               |            |
+        +--------------------------------------+------+------------+------------+-----------------------------------------------------------------------+------------+
         """

@@ -14,7 +14,7 @@
   "end_date": null,
   "is_public": true,
   "icon": null,
-  "start_date": "2018-02-13T17:48:09Z",
+  "start_date": "2018-04-11T15:11:06Z",
   "access_list": [],
   "tags": [
     {
@@ -129,6 +129,11 @@
       "id": "32c477cc-4fba-41f4-b30f-7db46c2a2651",
       "url": "https://use.jetstream-cloud.org/api/v2/image_versions/32c477cc-4fba-41f4-b30f-7db46c2a2651?format=json",
       "name": "1.10"
+    },
+    {
+      "id": "3a7d5262-4184-4e02-a236-7a008fb8986e",
+      "url": "https://use.jetstream-cloud.org/api/v2/image_versions/3a7d5262-4184-4e02-a236-7a008fb8986e?format=json",
+      "name": "1.12"
     },
     {
       "id": "c602b2a7-6fa6-475c-a2c1-3c2cabba1085",

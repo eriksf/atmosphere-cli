@@ -95,6 +95,12 @@ class ImageShow(ShowOne):
     def get_parser(self, prog_name):
         parser = super(ImageShow, self).get_parser(prog_name)
         parser.add_argument('id', help='the image uuid')
+        parser.add_argument(
+            '--show-all-versions',
+            action='store_true',
+            dest='show_all_versions',
+            help="Show all (not just public) versions of an image"
+        )
         return parser
 
     def take_action(self, parsed_args):
@@ -114,6 +120,13 @@ class ImageShow(ShowOne):
         image = ()
         if data.ok:
             message = data.message
+            versions = ''
+            if parsed_args.show_all_versions:
+                versions = '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in message['versions']])
+            else:
+                version_data = api.get_image_versions(parsed_args.id)
+                if version_data.ok:
+                    versions = '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in version_data.message['results']])
             start_date = ts_to_isodate(message['start_date'])
             end_date = ''
             if message['end_date']:
@@ -124,7 +137,7 @@ class ImageShow(ShowOne):
                 message['name'],
                 message['description'],
                 message['created_by']['username'],
-                '\n'.join(['{} ({})'.format(value['name'], value['id']) for value in message['versions']]),
+                versions,
                 ', '.join([value['name'] for value in message['tags']]),
                 message['url'],
                 message['is_public'],

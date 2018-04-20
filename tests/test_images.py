@@ -88,14 +88,14 @@ class TestImages(object):
     def test_getting_image_versions_when_response_is_not_ok(self):
         with pytest.raises(ExpiredTokenException):
             api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_image_versions('c97c4d5e-fe15-5156-b519-0cdb4021492b')
+            response = api.get_image_versions('ca948f10-c47e-5d06-a2b0-1674cfc002ee')
             assert not response.ok
 
     def test_getting_image_versions_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
-        response = api.get_image_versions('c97c4d5e-fe15-5156-b519-0cdb4021492b')
+        response = api.get_image_versions('ca948f10-c47e-5d06-a2b0-1674cfc002ee')
         assert response.ok
-        assert response.message['count'] == 2 and response.message['results'][0]['id'] == 'd5a903ee-6f29-4e1b-ba9d-08088b067996'
+        assert response.message['count'] == 5 and response.message['results'][0]['id'] == '201bc19a-d635-4c10-88be-6c3d310d6afd'
 
     def test_getting_image_version_when_response_is_not_ok(self):
         with pytest.raises(ExpiredTokenException):
