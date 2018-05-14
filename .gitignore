@@ -84,7 +84,11 @@ celerybeat-schedule
 .env
 .env.*
 
+# docker env
+docker.env
+
 # virtualenv
+.venv
 venv/
 ENV/
 
