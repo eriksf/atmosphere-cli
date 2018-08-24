@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
-
 behave = "*"
 coverage = "*"
 coveralls = "*"
@@ -19,8 +16,9 @@ responses = "*"
 sphinx = "*"
 tox = "*"
 pyhamcrest = "*"
-
+sphinx-autobuild = "*"
+sphinx-rtd-theme = "*"
+sphinx-fontawesome = "*"
 
 [packages]
-
 "e1839a8" = {path = ".", editable = true}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Atmosphere-cli documentation build configuration file, created by
+# Atmosphere-CLI documentation build configuration file, created by
 # sphinx-quickstart on Mon May 15 12:25:45 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -25,6 +25,8 @@ import pbr.version
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
+# -- RTD configuration ----------------------------------------------------
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- General configuration ------------------------------------------------
 
@@ -37,7 +39,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.doctest',
+              'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
+              'sphinx_fontawesome',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.ifconfig',
               'stevedore.sphinxext']
 
 # Add any paths that contain templates here, relative to this directory.
@@ -54,7 +60,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Atmosphere Command Line Client'
-copyright = '2017, TACC'
+copyright = '2018, TACC'
 author = 'Erik Ferlanti'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -83,7 +89,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'setup.py']
 pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = False
+todo_include_todos = True
 
 
 # -- Options for HTML output ----------------------------------------------
@@ -91,7 +97,13 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'default'
+if not on_rtd:
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -108,7 +120,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Atmosphere-cli-doc'
+htmlhelp_basename = 'Atmosphere-CLI-doc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -135,7 +147,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Atmosphere-cli.tex', 'Atmosphere-cli Documentation',
+    (master_doc, 'Atmosphere-CLI.tex', 'Atmosphere-CLI Documentation',
      author, 'manual'),
 ]
 
@@ -145,7 +157,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'atmosphere-cli', 'Atmosphere-cli Documentation',
+    (master_doc, 'atmosphere-cli', 'Atmosphere-CLI Documentation',
      [author], 1)
 ]
 
@@ -156,10 +168,18 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Atmosphere-cli', 'Atmosphere-cli Documentation',
-     author, 'Atmosphere-cli', 'One line description of project.',
+    (master_doc, 'Atmosphere-CLI', 'Atmosphere-CLI Documentation',
+     author, 'Atmosphere-CLI', 'One line description of project.',
      'Miscellaneous'),
 ]
 
+# -- Extension configuration -------------------------------------------------
+
+# -- Options for intersphinx extension ---------------------------------------
+
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/', None)
+}
 
 
