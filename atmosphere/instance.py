@@ -27,7 +27,7 @@ class InstanceDelete(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, api_version='v1', timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_instance(parsed_args.id)
             if data.ok and data.message and data.message != '':
@@ -85,7 +85,7 @@ class InstanceCreate(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
             "identity": parsed_args.identity,
@@ -140,7 +140,7 @@ class InstanceList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'project', 'launched')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instances()
         instances = []
         if data.ok:
@@ -201,7 +201,7 @@ class InstanceShow(ShowOne):
                           'web_desktop',
                           'shell',
                           'vnc')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance(parsed_args.id)
         instance = ()
         if data.ok:
@@ -254,7 +254,7 @@ class InstanceActions(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('action', 'description')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance_actions(parsed_args.id)
         actions = []
         if data.ok:
@@ -280,7 +280,7 @@ class InstanceSuspend(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('suspend', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -301,7 +301,7 @@ class InstanceResume(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('resume', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -328,7 +328,7 @@ class InstanceReboot(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = None
         if parsed_args.hard_reboot:
             options = {'reboot_type': 'HARD'}
@@ -352,7 +352,7 @@ class InstanceStop(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('stop', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -373,7 +373,7 @@ class InstanceStart(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('start', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -394,7 +394,7 @@ class InstanceRedeploy(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('redeploy', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -415,7 +415,7 @@ class InstanceShelve(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('shelve', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -436,7 +436,7 @@ class InstanceUnshelve(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('unshelve', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -463,7 +463,7 @@ class InstanceAttach(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
         data = api.do_instance_volume_action('attach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
@@ -491,7 +491,7 @@ class InstanceDetach(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
         data = api.do_instance_volume_action('detach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
@@ -514,7 +514,7 @@ class InstanceHistory(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'size', 'provider', 'status', 'start_date', 'end_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance_history(parsed_args.id)
         history = []
         if data.ok:

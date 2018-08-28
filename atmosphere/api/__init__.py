@@ -10,4 +10,4 @@ except ImportError:
 
 logging.getLogger(__name__).addHandler(NullHandler())
 
-from atmosphere.api.main import AtmosphereAPI, ExpiredTokenException
+from atmosphere.api.main import AtmosphereAPI

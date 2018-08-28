@@ -1,6 +1,5 @@
-import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI, ExpiredTokenException
+from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
 from atmosphere.identity import IdentityList
 
@@ -19,10 +18,9 @@ class TestIdentities(object):
         assert identity_list.get_description() == 'List user identities managed by Atmosphere.'
 
     def test_getting_identities_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_identities()
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_identities()
+        assert not response.ok
 
     def test_getting_identities_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -31,10 +29,9 @@ class TestIdentities(object):
         assert response.message['results'][0]['user']['id'] == 1 and response.message['results'][0]['quota']['cpu'] == 16
 
     def test_getting_identity_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_identity(1)
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_identity(1)
+        assert not response.ok
 
     def test_getting_identity_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

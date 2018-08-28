@@ -21,6 +21,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     IMAGE_VERSIONS_PATTERN = re.compile(r'/image_versions')
     IMAGES_PATTERN = re.compile(r'/images')
     INSTANCE_PATTERN = re.compile(r'/instances/[\d\w-]+')
+    INSTANCE_PATTERN_V1 = re.compile(r'/provider/[\d\w-]+/identity/[\d\w-]+/instance/[\d\w-]+')
     INSTANCE_ACTIONS_PATTERN = re.compile(r'/instances/[\d\w-]+/actions')
     INSTANCE_HISTORY_PATTERN = re.compile(r'/instance_histories')
     INSTANCES_PATTERN = re.compile(r'/instances')
@@ -114,21 +115,23 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(response_content.encode('utf-8'))
 
     def do_DELETE(self):
-        if re.match(self.VOLUME_PATTERN, self.path):
+        if re.search(self.VOLUME_PATTERN, self.path):
             self.__send_no_content_response()
-        elif re.match(self.INSTANCE_PATTERN, self.path):
+        elif re.search(self.INSTANCE_PATTERN, self.path):
+            self.__send_no_content_response()
+        elif re.search(self.INSTANCE_PATTERN_V1, self.path):
             self.__send_no_content_response()
         return
 
     def do_POST(self):
         data_string = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(data_string)
-        if re.match(self.PROJECTS_PATTERN, self.path):
+        if re.search(self.PROJECTS_PATTERN, self.path):
             if data['name'] == '':
                 self.__send_error_response(requests.codes.bad_request, '{"name":["This field may not be blank."]}')
             else:
                 self.__send_response_file(self.PROJECT_CREATED_RESPONSE_FILE)
-        elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
+        elif re.search(self.INSTANCE_ACTIONS_PATTERN, self.path):
             action = data['action']
             if action == 'suspend':
                 self.__send_response_file(self.INSTANCE_SUSPENDED_FILE)
@@ -150,13 +153,13 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.__send_response_file(self.INSTANCE_ATTACHED_VOLUME_FILE)
             elif action == 'detach_volume':
                 self.__send_response_file(self.INSTANCE_DETACHED_VOLUME_FILE)
-        elif re.match(self.INSTANCES_PATTERN, self.path):
+        elif re.search(self.INSTANCES_PATTERN, self.path):
             if 'allocation_source_id' not in data:
                 print('error')
                 self.__send_error_response(requests.codes.bad_request, '{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
             else:
                 self.__send_response_file(self.INSTANCE_CREATED_RESPONSE_FILE)
-        elif re.match(self.VOLUMES_PATTERN, self.path):
+        elif re.search(self.VOLUMES_PATTERN, self.path):
             if data['name'] == '':
                 self.__send_error_response(requests.codes.bad_request, '{"name":["This field may not be blank."]}')
             else:
@@ -165,22 +168,22 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_path = urlparse(self.path)
         query = parse_qs(parsed_path.query)
-        if re.match(self.ALLOCATION_SOURCE_PATTERN, self.path):
+        if re.search(self.ALLOCATION_SOURCE_PATTERN, self.path):
             self.__send_response_file(self.ALLOCATION_SOURCE_RESPONSE_FILE)
             return
-        elif re.match(self.ALLOCATION_SOURCES_PATTERN, self.path):
+        elif re.search(self.ALLOCATION_SOURCES_PATTERN, self.path):
             self.__send_response_file(self.ALLOCATION_SOURCES_RESPONSE_FILE)
             return
-        elif re.match(self.IDENTITY_PATTERN, self.path):
+        elif re.search(self.IDENTITY_PATTERN, self.path):
             self.__send_response_file(self.IDENTITY_RESPONSE_FILE)
             return
-        elif re.match(self.IDENTITIES_PATTERN, self.path):
+        elif re.search(self.IDENTITIES_PATTERN, self.path):
             self.__send_response_file(self.IDENTITIES_RESPONSE_FILE)
             return
-        elif re.match(self.IMAGE_PATTERN, self.path):
+        elif re.search(self.IMAGE_PATTERN, self.path):
             self.__send_response_file(self.IMAGE_RESPONSE_FILE)
             return
-        elif re.match(self.IMAGES_PATTERN, self.path):
+        elif re.search(self.IMAGES_PATTERN, self.path):
             if 'tag_name' in query:
                 self.__send_response_file(self.IMAGES_FILTERED_TAG_RESPONSE_FILE)
             elif 'created_by' in query:
@@ -190,68 +193,68 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             else:
                 self.__send_response_file(self.IMAGES_RESPONSE_FILE)
             return
-        elif re.match(self.IMAGE_VERSION_PATTERN, self.path):
+        elif re.search(self.IMAGE_VERSION_PATTERN, self.path):
             self.__send_response_file(self.IMAGE_VERSION_RESPONSE_FILE)
             return
-        elif re.match(self.IMAGE_VERSIONS_PATTERN, self.path):
+        elif re.search(self.IMAGE_VERSIONS_PATTERN, self.path):
             self.__send_response_file(self.IMAGE_VERSIONS_RESPONSE_FILE)
             return
-        elif re.match(self.INSTANCE_ACTIONS_PATTERN, self.path):
+        elif re.search(self.INSTANCE_ACTIONS_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_ACTIONS_RESPONSE_FILE)
             return
-        elif re.match(self.INSTANCE_HISTORY_PATTERN, self.path):
+        elif re.search(self.INSTANCE_HISTORY_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_HISTORY_FILE)
             return
-        elif re.match(self.INSTANCE_PATTERN, self.path):
+        elif re.search(self.INSTANCE_PATTERN, self.path):
             self.__send_response_file(self.INSTANCE_RESPONSE_FILE)
             return
-        elif re.match(self.INSTANCES_PATTERN, self.path):
+        elif re.search(self.INSTANCES_PATTERN, self.path):
             self.__send_response_file(self.INSTANCES_RESPONSE_FILE)
             return
-        elif re.match(self.PROJECT_PATTERN, self.path):
+        elif re.search(self.PROJECT_PATTERN, self.path):
             self.__send_response_file(self.PROJECT_RESPONSE_FILE)
             return
-        elif re.match(self.PROJECTS_PATTERN, self.path):
+        elif re.search(self.PROJECTS_PATTERN, self.path):
             self.__send_response_file(self.PROJECTS_RESPONSE_FILE)
             return
-        elif re.match(self.PROVIDER_PATTERN, self.path):
+        elif re.search(self.PROVIDER_PATTERN, self.path):
             self.__send_response_file(self.PROVIDER_RESPONSE_FILE)
             return
-        elif re.match(self.PROVIDERS_PATTERN, self.path):
+        elif re.search(self.PROVIDERS_PATTERN, self.path):
             self.__send_response_file(self.PROVIDERS_RESPONSE_FILE)
             return
-        elif re.match(self.SIZE_PATTERN, self.path):
+        elif re.search(self.SIZE_PATTERN, self.path):
             self.__send_response_file(self.SIZE_RESPONSE_FILE)
             return
-        elif re.match(self.SIZES_PATTERN, self.path):
+        elif re.search(self.SIZES_PATTERN, self.path):
             if 'provider__id' in query:
                 self.__send_response_file(self.SIZES_FILTERED_RESPONSE_FILE)
             else:
                 self.__send_response_file(self.SIZES_RESPONSE_FILE)
             return
-        elif re.match(self.BAD_JSON_PATTERN, self.path):
+        elif re.search(self.BAD_JSON_PATTERN, self.path):
             response_content = '{"results": [}'
             self.__send_response(response_content)
             return
-        elif re.match(self.VALID_JSON_PATTERN, self.path):
+        elif re.search(self.VALID_JSON_PATTERN, self.path):
             response_content = '{"results": [], "valid": "TRUE"}'
             self.__send_response(response_content)
             return
-        elif re.match(self.TIMEOUT_PATTERN, self.path):
+        elif re.search(self.TIMEOUT_PATTERN, self.path):
             time.sleep(2)
             response_content = '{"results": []}'
             self.__send_response(response_content)
             return
-        elif re.match(self.VERSION_PATTERN, self.path):
+        elif re.search(self.VERSION_PATTERN, self.path):
             self.__send_response_file(self.VERSION_RESPONSE_FILE)
             return
-        elif re.match(self.VOLUME_PATTERN, self.path):
+        elif re.search(self.VOLUME_PATTERN, self.path):
             self.__send_response_file(self.VOLUME_RESPONSE_FILE)
             return
-        elif re.match(self.VOLUMES_PATTERN, self.path):
+        elif re.search(self.VOLUMES_PATTERN, self.path):
             self.__send_response_file(self.VOLUMES_RESPONSE_FILE)
             return
-        elif re.match(self.TOKENS_PATTERN, self.path):
+        elif re.search(self.TOKENS_PATTERN, self.path):
             self.__send_response_file(self.TOKENS_RESPONSE_FILE)
             return
 

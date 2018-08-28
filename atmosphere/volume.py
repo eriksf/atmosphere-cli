@@ -27,7 +27,7 @@ class VolumeDelete(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_volume(parsed_args.id)
             if data.ok and data.message and data.message != '':
@@ -81,7 +81,7 @@ class VolumeCreate(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
             "identity": parsed_args.identity,
@@ -125,7 +125,7 @@ class VolumeList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'project', 'provider', 'size', 'user', 'start_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_volumes()
         volumes = []
         if data.ok:
@@ -168,7 +168,7 @@ class VolumeShow(ShowOne):
                           'user',
                           'start_date',
                           'end_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_volume(parsed_args.id)
         volume = ()
         if data.ok:

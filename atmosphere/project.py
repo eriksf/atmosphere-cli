@@ -26,7 +26,7 @@ class ProjectCreate(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
             "description": parsed_args.description,
@@ -61,7 +61,7 @@ class ProjectList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'owner', 'created_by', 'start_date', 'images', 'instances', 'volumes', 'links')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_projects()
         projects = []
         if data.ok:
@@ -109,7 +109,7 @@ class ProjectShow(ShowOne):
                           'instances',
                           'volumes',
                           'links')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_project(parsed_args.id)
         project = ()
         if data.ok:

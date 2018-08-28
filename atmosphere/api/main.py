@@ -1,40 +1,38 @@
 import json
 import logging
 from .request import Request
-from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
-
-
-class ExpiredTokenException(Exception):
-    """An exception called when an expired token is detected."""
-    pass
+from .constants import ATMO_BASE_URL, ATMO_API_VERSION_PATH, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
 
 
 class AtmosphereAPI(object):
-    """Main class for accessing the Atmosphere v2 API."""
+    """Main class for accessing the Atmosphere v1/v2 API."""
 
     log = logging.getLogger(__name__)
 
-    def __init__(self, token, base_url=ATMO_BASE_URL, timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
+    def __init__(self, token, base_url=ATMO_BASE_URL, api_version='v2', timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
         """
         :param token: string
         :param base_url: string
+        :param api_version: string
         :param timeout: integer
         :param verify: boolean
         """
 
-        self.__request = Request(token, base_url, timeout, verify)
-        self.__username = ''
-
-        # set username
-        user_data = self.__request.getJson('GET', '/tokens/{}'.format(token))
-        if user_data.ok:
-            self.__username = user_data.message['user']['username']
-        else:
-            # HACK: shouldn't need this if an expired token is properly returning a 403 Forbidden credentials error
-            raise ExpiredTokenException('The token in use cannot be found and is most likely expired. Please grab a current token.')
+        self.__token = token
+        self.__api_version = api_version
+        self.__base_url = base_url
+        self.__timeout = timeout
+        self.__verify = verify
+        self.__full_url = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH[api_version])
+        self.__request = Request(token, self.__full_url, timeout, verify)
+        self.log.debug('Using {} API at {}...'.format(self.__api_version, self.__full_url))
 
     def get_username(self):
-        return self.__username
+        user_data = self.__request.getJson('GET', '/tokens/{}'.format(self.__token))
+        username = ''
+        if user_data.ok:
+            username = user_data.message['user']['username']
+        return username
 
     def get_instances(self):
         data = self.__request.getJson('GET', '/instances')
@@ -55,7 +53,10 @@ class AtmosphereAPI(object):
         return data
 
     def delete_instance(self, id):
-        data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
+        if self.__api_version == 'v1':
+            data = self.__request.getJson('DELETE', self.__get_v1_api_instance_path(id))
+        else:
+            data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
     def do_instance_action(self, action, id, options=None):
@@ -205,3 +206,14 @@ class AtmosphereAPI(object):
         data = self.get_image(uuid)
         if data.ok:
             return data.message['id']
+
+    def __get_v1_api_instance_path(self, id):
+        # grab provider and identity uuid's for v1 api instance action path
+        # https://atmo.cyverse.org/api/v1/provider/<uuid>/identity/<uuid>/instance/<uuid>
+        path = ''
+        data = self.get_instance(id)
+        if data.ok:
+            identity_uuid = data.message['identity']['uuid']
+            provider_uuid = data.message['provider']['uuid']
+            path = '/provider/{}/identity/{}/instance/{}'.format(provider_uuid, identity_uuid, id)
+        return path

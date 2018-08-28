@@ -1,8 +1,7 @@
 import json
-import pytest
 import responses
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI, ExpiredTokenException
+from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
 from atmosphere.instance import InstanceList
 
@@ -21,10 +20,9 @@ class TestInstances(object):
         assert instance_list.get_description() == 'List instances for user.'
 
     def test_getting_instances_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_instances()
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instances()
+        assert not response.ok
 
     def test_getting_instances_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -33,10 +31,9 @@ class TestInstances(object):
         assert response.message['count'] == 1 and response.message['results'][0]['name'] == 'BioLinux 8'
 
     def test_getting_instance_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_instance(1)
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instance(1)
+        assert not response.ok
 
     def test_getting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -45,10 +42,9 @@ class TestInstances(object):
         assert response.message['id'] == 21752 and response.message['name'] == 'BioLinux 8'
 
     def test_getting_instance_actions_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_instance_actions(1)
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instance_actions(1)
+        assert not response.ok
 
     def test_getting_instance_actions_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -98,10 +94,6 @@ class TestInstances(object):
     @responses.activate
     def test_suspending_instance_when_response_is_not_ok(self):
         responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
-        responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
                       json=[{"description": "Suspends an instance when it is in the 'active' State", "key": "Suspend"}])
@@ -122,10 +114,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_resuming_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
@@ -148,10 +136,6 @@ class TestInstances(object):
     @responses.activate
     def test_starting_instance_when_response_is_not_ok(self):
         responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
-        responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
                       json=[{"description": "Starts an instance when it is not in the 'active' State", "key": "Start"}])
@@ -172,10 +156,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_stopping_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
@@ -198,10 +178,6 @@ class TestInstances(object):
     @responses.activate
     def test_rebooting_instance_when_response_is_not_ok(self):
         responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
-        responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
                       json=[{"description": "Reboots an instance when it is in ANY State", "key": "Reboot"}])
@@ -222,10 +198,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_redeploying_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
@@ -248,10 +220,6 @@ class TestInstances(object):
     @responses.activate
     def test_shelving_instance_when_response_is_not_ok(self):
         responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
-        responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
                       json=[{"description": "Shelves an instance when it is in the 'active' State", "key": "Shelve"}])
@@ -272,10 +240,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_unshelving_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.GET,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=200,
@@ -298,10 +262,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_attaching_volume_to_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.POST,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=403,
@@ -321,10 +281,6 @@ class TestInstances(object):
 
     @responses.activate
     def test_detaching_volume_to_instance_when_response_is_not_ok(self):
-        responses.add(responses.GET,
-                      'https://local.atmo.cloud/api/v2/tokens/token',
-                      status=200,
-                      json={"user": {"username": "testuser"}})
         responses.add(responses.POST,
                       'https://local.atmo.cloud/api/v2/instances/ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822/actions',
                       status=403,
@@ -336,10 +292,9 @@ class TestInstances(object):
         assert response.message['errors'][0]['message'] == "Instance ecdcdd9e-cf0e-42c4-9a7c-a950c6d8b822 must be active, suspended, or stopped before detaching a volume. (Current: shelved_offloaded) Retry request when instance is active."
 
     def test_getting_instance_history_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_instance_history('eb95b7e9-9c56-479b-9d81-b93292a9078a')
+        assert not response.ok
 
     def test_getting_instance_history_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -347,7 +302,12 @@ class TestInstances(object):
         assert response.ok
         assert response.message['count'] == 23 and response.message['results'][0]['status'] == 'build'
 
-    def test_deleting_instance_when_response_is_ok(self):
+    def test_deleting_instance_when_response_is_ok_v1(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url, api_version='v1')
+        response = api.delete_instance(1)
+        assert response.ok
+
+    def test_deleting_instance_when_response_is_ok_v2(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.delete_instance(1)
         assert response.ok

@@ -20,7 +20,7 @@ class ImageSearch(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'created_by', 'is_public', 'start_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.search_images(parsed_args.search_term)
         images = []
         if data.ok:
@@ -68,7 +68,7 @@ class ImageList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'created_by', 'is_public', 'start_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_images(parsed_args.tag_name, parsed_args.created_by, parsed_args.project_id)
         images = []
         if data.ok:
@@ -115,7 +115,7 @@ class ImageShow(ShowOne):
                           'is_public',
                           'start_date',
                           'end_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_image(parsed_args.id)
         image = ()
         if data.ok:
@@ -167,7 +167,7 @@ class ImageVersionList(Lister):
                           'created_by',
                           'machines',
                           'start_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_image_versions(parsed_args.id)
         image_versions = []
         if data.ok:
@@ -209,7 +209,7 @@ class ImageVersionShow(ShowOne):
                           'min_mem',
                           'min_cpu',
                           'start_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_image_version(parsed_args.id)
         image = ()
         if data.ok:

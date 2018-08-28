@@ -1,7 +1,6 @@
 import json
-import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI, ExpiredTokenException
+from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
 from atmosphere.volume import VolumeList
 
@@ -20,10 +19,9 @@ class TestVolumes(object):
         assert volume_list.get_description() == 'List volumes for a user.'
 
     def test_getting_volumes_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_volumes()
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volumes()
+        assert not response.ok
 
     def test_getting_volumes_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -33,10 +31,9 @@ class TestVolumes(object):
             assert data['count'] == 1 and data['results'][0]['name'] == 'myfirstvolume'
 
     def test_getting_volume_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_volume(1)
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volume(1)
+        assert not response.ok
 
     def test_getting_volume_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
