@@ -27,7 +27,7 @@ class InstanceDelete(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, api_version='v1', timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_instance(parsed_args.id)
             if data.ok and data.message and data.message != '':

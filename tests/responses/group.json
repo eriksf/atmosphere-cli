@@ -1,0 +1,22 @@
+{
+  "id": 718,
+  "uuid": "7dccc792-5490-466a-8704-0b7edd54c8f2",
+  "url": "https://use.jetstream-cloud.org/api/v2/groups/7dccc792-5490-466a-8704-0b7edd54c8f2?format=json",
+  "name": "eriksf",
+  "users": [
+    {
+      "id": 1010,
+      "uuid": "0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+      "url": "https://use.jetstream-cloud.org/api/v2/users/0ea75b5f-40a0-441e-a08c-486a89e2a9d7?format=json",
+      "username": "eriksf"
+    }
+  ],
+  "leaders": [
+    {
+      "id": 1010,
+      "uuid": "0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+      "url": "https://use.jetstream-cloud.org/api/v2/users/0ea75b5f-40a0-441e-a08c-486a89e2a9d7?format=json",
+      "username": "eriksf"
+    }
+  ]
+}

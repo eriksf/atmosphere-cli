@@ -23,6 +23,12 @@ class ProjectCreate(ShowOne):
             required=True,
             help='Project description'
         )
+        parser.add_argument(
+            '--owner',
+            metavar='<owner>',
+            required=True,
+            help='Group name'
+        )
         return parser
 
     def take_action(self, parsed_args):
@@ -30,7 +36,7 @@ class ProjectCreate(ShowOne):
         payload = {
             "name": parsed_args.name,
             "description": parsed_args.description,
-            "owner": api.get_username()
+            "owner": parsed_args.owner
         }
         self.log.debug('INPUT: {}'.format(json.dumps(payload)))
         data = api.create_project(json.dumps(payload))
@@ -47,7 +53,7 @@ class ProjectCreate(ShowOne):
                 message['start_date']
             )
         else:
-            self.app.stdout.write('Error, project not created! Make sure to supply a name and description.')
+            self.app.stdout.write('Error, project not created! Make sure to supply a name, description, and owner (group name).')
 
         return (column_headers, project)
 

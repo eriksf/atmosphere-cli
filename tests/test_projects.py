@@ -44,17 +44,30 @@ class TestProjects(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         payload = {
             'name': '',
-            'description': 'my first project'
+            'description': 'my first project',
+            'owner': 'eriksf'
         }
         response = api.create_project(json.dumps(payload))
         assert not response.ok
         assert response.message['name'][0] == 'This field may not be blank.'
 
+    def test_creating_project_when_owner_is_invalid(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        payload = {
+            'name': 'myfirstproject',
+            'description': 'my first project',
+            'owner': 'xxxxx'
+        }
+        response = api.create_project(json.dumps(payload))
+        assert not response.ok
+        assert response.message['owner'][0] == "Group with Field: name 'xxxxx' does not exist."
+
     def test_creating_project_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         payload = {
             'name': 'myfirstproject',
-            'description': 'my first project'
+            'description': 'my first project',
+            'owner': 'eriksf'
         }
         response = api.create_project(json.dumps(payload))
         assert response.ok

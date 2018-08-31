@@ -14,8 +14,12 @@ import sys
 class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     ALLOCATION_SOURCE_PATTERN = re.compile(r'/allocation_sources/[\d\w-]+')
     ALLOCATION_SOURCES_PATTERN = re.compile(r'/allocation_sources')
+    MAINTENANCE_RECORD_PATTERN = re.compile(r'/maintenance_records/[\d\w-]+')
+    MAINTENANCE_RECORDS_PATTERN = re.compile(r'/maintenance_records')
     IDENTITY_PATTERN = re.compile(r'/identities/[\d\w-]+')
     IDENTITIES_PATTERN = re.compile(r'/identities')
+    GROUP_PATTERN = re.compile(r'/groups/[\d\w-]+')
+    GROUPS_PATTERN = re.compile(r'/groups')
     IMAGE_PATTERN = re.compile(r'/images/[\d\w-]+')
     IMAGE_VERSION_PATTERN = re.compile(r'/image_versions/[\d\w-]+')
     IMAGE_VERSIONS_PATTERN = re.compile(r'/image_versions')
@@ -41,8 +45,13 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
     ALLOCATION_SOURCE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_source.json')
     ALLOCATION_SOURCES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'allocation_sources.json')
+    MAINTENANCE_RECORD_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'maintenance_record.json')
+    MAINTENANCE_RECORDS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'maintenance_records.json')
+    MAINTENANCE_RECORDS_ACTIVE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'maintenance_records_active.json')
     IDENTITY_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identity.json')
     IDENTITIES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'identities.json')
+    GROUP_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'group.json')
+    GROUPS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'groups.json')
     IMAGE_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image.json')
     IMAGE_VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_version.json')
     IMAGE_VERSIONS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'image_versions.json')
@@ -129,6 +138,8 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if re.search(self.PROJECTS_PATTERN, self.path):
             if data['name'] == '':
                 self.__send_error_response(requests.codes.bad_request, '{"name":["This field may not be blank."]}')
+            elif data['owner'] == 'xxxxx':
+                self.__send_error_response(requests.codes.bad_request, '{"owner":["Group with Field: name \'xxxxx\' does not exist."]}')
             else:
                 self.__send_response_file(self.PROJECT_CREATED_RESPONSE_FILE)
         elif re.search(self.INSTANCE_ACTIONS_PATTERN, self.path):
@@ -174,11 +185,26 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         elif re.search(self.ALLOCATION_SOURCES_PATTERN, self.path):
             self.__send_response_file(self.ALLOCATION_SOURCES_RESPONSE_FILE)
             return
+        elif re.search(self.MAINTENANCE_RECORD_PATTERN, self.path):
+            self.__send_response_file(self.MAINTENANCE_RECORD_RESPONSE_FILE)
+            return
+        elif re.search(self.MAINTENANCE_RECORDS_PATTERN, self.path):
+            if 'active' in query:
+                self.__send_response_file(self.MAINTENANCE_RECORDS_ACTIVE_RESPONSE_FILE)
+            else:
+                self.__send_response_file(self.MAINTENANCE_RECORDS_RESPONSE_FILE)
+            return
         elif re.search(self.IDENTITY_PATTERN, self.path):
             self.__send_response_file(self.IDENTITY_RESPONSE_FILE)
             return
         elif re.search(self.IDENTITIES_PATTERN, self.path):
             self.__send_response_file(self.IDENTITIES_RESPONSE_FILE)
+            return
+        elif re.search(self.GROUP_PATTERN, self.path):
+            self.__send_response_file(self.GROUP_RESPONSE_FILE)
+            return
+        elif re.search(self.GROUPS_PATTERN, self.path):
+            self.__send_response_file(self.GROUPS_RESPONSE_FILE)
             return
         elif re.search(self.IMAGE_PATTERN, self.path):
             self.__send_response_file(self.IMAGE_RESPONSE_FILE)

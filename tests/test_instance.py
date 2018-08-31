@@ -302,12 +302,7 @@ class TestInstances(object):
         assert response.ok
         assert response.message['count'] == 23 and response.message['results'][0]['status'] == 'build'
 
-    def test_deleting_instance_when_response_is_ok_v1(self):
-        api = AtmosphereAPI('token', base_url=self.mock_users_base_url, api_version='v1')
-        response = api.delete_instance(1)
-        assert response.ok
-
-    def test_deleting_instance_when_response_is_ok_v2(self):
+    def test_deleting_instance_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.delete_instance(1)
         assert response.ok

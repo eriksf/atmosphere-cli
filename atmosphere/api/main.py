@@ -9,23 +9,24 @@ class AtmosphereAPI(object):
 
     log = logging.getLogger(__name__)
 
-    def __init__(self, token, base_url=ATMO_BASE_URL, api_version='v2', timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
+    def __init__(self, token, base_url=ATMO_BASE_URL, timeout=ATMO_API_SERVER_TIMEOUT, verify=ATMO_API_SERVER_VERIFY_CERT):
         """
         :param token: string
         :param base_url: string
-        :param api_version: string
         :param timeout: integer
         :param verify: boolean
         """
 
         self.__token = token
-        self.__api_version = api_version
         self.__base_url = base_url
         self.__timeout = timeout
         self.__verify = verify
-        self.__full_url = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH[api_version])
-        self.__request = Request(token, self.__full_url, timeout, verify)
-        self.log.debug('Using {} API at {}...'.format(self.__api_version, self.__full_url))
+        self.__full_url_v1 = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH['v1'])
+        self.log.debug('Using v1 API at {}...'.format(self.__full_url_v1))
+        self.__full_url_v2 = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH['v2'])
+        self.log.debug('Using v2 API at {}...'.format(self.__full_url_v2))
+        self.__request = Request(token, self.__full_url_v2, timeout, verify)
+        self.__request_v1 = Request(token, self.__full_url_v1, timeout, verify)
 
     def get_username(self):
         user_data = self.__request.getJson('GET', '/tokens/{}'.format(self.__token))
@@ -53,10 +54,8 @@ class AtmosphereAPI(object):
         return data
 
     def delete_instance(self, id):
-        if self.__api_version == 'v1':
-            data = self.__request.getJson('DELETE', self.__get_v1_api_instance_path(id))
-        else:
-            data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
+        data = self.__request_v1.getJson('DELETE', self.__get_v1_api_instance_path(id))
+        # data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
     def do_instance_action(self, action, id, options=None):
@@ -143,6 +142,14 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/identities/{}'.format(id))
         return data
 
+    def get_groups(self):
+        data = self.__request.getJson('GET', '/groups')
+        return data
+
+    def get_group(self, id):
+        data = self.__request.getJson('GET', '/groups/{}'.format(id))
+        return data
+
     def get_allocation_sources(self):
         data = self.__request.getJson('GET', '/allocation_sources')
         return data
@@ -191,6 +198,18 @@ class AtmosphereAPI(object):
 
     def delete_volume(self, id):
         data = self.__request.getJson('DELETE', '/volumes/{}'.format(id))
+        return data
+
+    def get_maintenance_records(self, show_all=None):
+        if show_all:
+            data = self.__request.getJson('GET', '/maintenance_records')
+        else:
+            params = {'active': 'true'}
+            data = self.__request.getJson('GET', '/maintenance_records', params=params)
+        return data
+
+    def get_maintenance_record(self, id):
+        data = self.__request.getJson('GET', '/maintenance_records/{}'.format(id))
         return data
 
     def __is_available_instance_action(self, action, id):
