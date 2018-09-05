@@ -168,6 +168,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             if 'allocation_source_id' not in data:
                 print('error')
                 self.__send_error_response(requests.codes.bad_request, '{"errors":[{"code": 400, "message":{"allocation_source_id":"This field is required."}}]}')
+            elif data['size_alias'] == "-1":
+                print('error')
+                self.__send_error_response(requests.codes.bad_request, '{"errors":[{"code": 413, "message":"Size Not Available. Disk is 8 but image requires at least 20"}]}')
             else:
                 self.__send_response_file(self.INSTANCE_CREATED_RESPONSE_FILE)
         elif re.search(self.VOLUMES_PATTERN, self.path):

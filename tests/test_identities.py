@@ -26,15 +26,15 @@ class TestIdentities(object):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_identities()
         assert response.ok
-        assert response.message['results'][0]['user']['id'] == 1 and response.message['results'][0]['quota']['cpu'] == 16
+        assert response.message['results'][0]['user']['id'] == 1010 and response.message['results'][0]['quota']['cpu'] == 132
 
     def test_getting_identity_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-        response = api.get_identity(1)
+        response = api.get_identity("32e3354c-03cc-40e1-8c33-02bc7f6be299")
         assert not response.ok
 
     def test_getting_identity_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
-        response = api.get_identity(1)
+        response = api.get_identity("32e3354c-03cc-40e1-8c33-02bc7f6be299")
         assert response.ok
-        assert response.message['id'] == 2 and response.message['quota']['cpu'] == 16
+        assert response.message['id'] == 1403 and response.message['quota']['cpu'] == 132

@@ -9,11 +9,12 @@ Feature: Get information about identities
     Then it should pass
     And the command output should contain:
         """
-        +--------------------------------------+--------+-------------------+-----------+--------------+---------------+
-        | uuid                                 | name   | provider          | quota_cpu | quota_memory | quota_storage |
-        +--------------------------------------+--------+-------------------+-----------+--------------+---------------+
-        | a5a6140d-1122-4581-87dc-bd9704fa07ec | eriksf | Cloudlab - ErikOS |        16 |          128 |            10 |
-        +--------------------------------------+--------+-------------------+-----------+--------------+---------------+
+        +--------------------------------------+--------+--------------------------------+-----------+--------------+---------------+
+        | uuid                                 | name   | provider                       | quota_cpu | quota_memory | quota_storage |
+        +--------------------------------------+--------+--------------------------------+-----------+--------------+---------------+
+        | 716ca588-3a40-4327-9c89-84913278db10 | eriksf | Jetstream - Indiana University |       132 |          360 |           100 |
+        | 32e3354c-03cc-40e1-8c33-02bc7f6be299 | eriksf | Jetstream - TACC               |       132 |          360 |           100 |
+        +--------------------------------------+--------+--------------------------------+-----------+--------------+---------------+
         """
 
   Scenario: Show all the details for a particular identity
@@ -25,23 +26,23 @@ Feature: Get information about identities
         +-------------------------+--------------------------------------+
         | Field                   | Value                                |
         +-------------------------+--------------------------------------+
-        | id                      | 2                                    |
-        | uuid                    | a5a6140d-1122-4581-87dc-bd9704fa07ec |
+        | id                      | 1403                                 |
+        | uuid                    | 32e3354c-03cc-40e1-8c33-02bc7f6be299 |
         | username                | eriksf                               |
-        | user_id                 | 1                                    |
-        | user_uuid               | 3697d380-95d4-43fa-ad3e-3e9371f0522e |
+        | user_id                 | 1010                                 |
+        | user_uuid               | 0ea75b5f-40a0-441e-a08c-486a89e2a9d7 |
         | key                     | Username: eriksf, Project:eriksf     |
         | is_leader               | True                                 |
-        | provider                | Cloudlab - ErikOS                    |
-        | provider_id             | 4                                    |
-        | provider_uuid           | e367f6fa-e834-4fe6-873c-bba4344d1464 |
+        | provider                | Jetstream - TACC                     |
+        | provider_id             | 5                                    |
+        | provider_uuid           | 3ff65aa8-505b-48c3-aef1-aa0ada14c756 |
         | usage                   | -1                                   |
-        | quota_cpu               | 16                                   |
-        | quota_memory            | 128                                  |
-        | quota_storage           | 10                                   |
-        | quota_floating_ip_count | 10                                   |
-        | quota_instance_count    | 10                                   |
-        | quota_port_count        | 10                                   |
+        | quota_cpu               | 132                                  |
+        | quota_memory            | 360                                  |
+        | quota_storage           | 100                                  |
+        | quota_floating_ip_count | 25                                   |
+        | quota_instance_count    | 25                                   |
+        | quota_port_count        | 25                                   |
         | quota_snapshot_count    | 10                                   |
         | quota_storage_count     | 10                                   |
         +-------------------------+--------------------------------------+

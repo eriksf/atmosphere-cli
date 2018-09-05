@@ -58,11 +58,16 @@ class InstanceCreate(ShowOne):
             required=True,
             help='Alias of size/flavor'
         )
-        parser.add_argument(
+        source_group = parser.add_mutually_exclusive_group(required=True)
+        source_group.add_argument(
             '--source-alias',
             metavar='<source_alias>',
-            required=True,
-            help='Alias/identifier of machine or volume'
+            help='Alias/identifier UUID of machine or volume'
+        )
+        source_group.add_argument(
+            '--image',
+            metavar='<image>',
+            help='Image UUID (Uses the latest image version)'
         )
         parser.add_argument(
             '--project',
@@ -90,15 +95,38 @@ class InstanceCreate(ShowOne):
             "name": parsed_args.name,
             "identity": parsed_args.identity,
             "size_alias": parsed_args.size_alias,
-            "source_alias": parsed_args.source_alias,
             "project": parsed_args.project,
             "allocation_source_id": parsed_args.allocation_source_id,
             "deploy": parsed_args.deploy,
             "scripts": [],
             "extra": {}
         }
+
+        if parsed_args.image:
+            # get the provider from the identity
+            payload['source_alias'] = None
+            id_data = api.get_identity(parsed_args.identity)
+            if id_data.ok:
+                provider_id = id_data.message['provider']['id']
+                self.log.debug('Found provider id {} for identity uuid {}'.format(provider_id, parsed_args.identity))
+
+                # get the provider machine from the latest image version
+                v_data = api.get_image_versions(parsed_args.image)
+                if v_data.ok:
+                    # get latest image version
+                    latest_version = v_data.message['results'][-1]
+                    machines = latest_version['machines']
+                    machine_id = next((m['uuid'] for m in machines if m['provider']['id'] == provider_id), None)
+                    self.log.debug('Found machine id {} for latest image version {} and provider id {}'.format(machine_id, latest_version['name'], provider_id))
+                    payload['source_alias'] = machine_id
+                else:
+                    self.app.stdout.write('Error, instance not created. Could not lookup latest image version from image uuid supplied: {}'.format(parsed_args.image))
+            else:
+                self.app.stdout.write('Error, instance not created. Could not lookup provider from identity uuid supplied: {}'.format(parsed_args.identity))
+        else:
+            payload['source_alias'] = parsed_args.source_alias
+
         self.log.debug('INPUT: {}'.format(json.dumps(payload)))
-        data = api.create_instance(json.dumps(payload))
         instance = ()
         column_headers = ('id',
                           'uuid',
@@ -110,23 +138,27 @@ class InstanceCreate(ShowOne):
                           'launched',
                           'image_size',
                           'provider')
-        if data.ok:
-            message = data.message
-            launched = ts_to_isodate(message['start_date'])
-            instance = (
-                message['id'],
-                message['uuid'],
-                message['name'],
-                message['user']['username'],
-                message['allocation_source']['name'],
-                message['image']['id'],
-                message['version']['name'],
-                launched,
-                message['size']['name'],
-                message['provider']['name']
-            )
-        else:
-            self.app.stdout.write('Error, instance not created! Make sure to supply name, identity, project, size, source, and allocation_source.')
+
+        if payload['source_alias']:
+            data = api.create_instance(json.dumps(payload))
+
+            if data.ok:
+                message = data.message
+                launched = ts_to_isodate(message['start_date'])
+                instance = (
+                    message['id'],
+                    message['uuid'],
+                    message['name'],
+                    message['user']['username'],
+                    message['allocation_source']['name'],
+                    message['image']['id'],
+                    message['version']['name'],
+                    launched,
+                    message['size']['name'],
+                    message['provider']['name']
+                )
+            else:
+                self.app.stdout.write('Error, instance not created! Make sure to supply name, identity, project, size, source (or image), and allocation_source.')
 
         return (column_headers, instance)
 

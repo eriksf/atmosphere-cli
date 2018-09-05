@@ -55,6 +55,7 @@ class VolumeCreate(ShowOne):
         parser.add_argument(
             '--size',
             metavar='<size>',
+            type=int,
             required=True,
             help='Size (in GB)'
         )
