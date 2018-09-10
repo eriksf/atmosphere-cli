@@ -50,36 +50,36 @@ class InstanceCreate(ShowOne):
             '--identity',
             metavar='<identity>',
             required=True,
-            help='Identity UUID'
+            help='Identity UUID [required]'
         )
         parser.add_argument(
             '--size-alias',
             metavar='<size_alias>',
             required=True,
-            help='Alias of size/flavor'
+            help='Alias of size/flavor [required]'
         )
         source_group = parser.add_mutually_exclusive_group(required=True)
         source_group.add_argument(
             '--source-alias',
             metavar='<source_alias>',
-            help='Alias/identifier UUID of machine or volume'
+            help='Alias/identifier UUID of machine or volume [required]'
         )
         source_group.add_argument(
             '--image',
             metavar='<image>',
-            help='Image UUID (Uses the latest image version)'
+            help='Image UUID (Uses the latest image version) [required]'
         )
         parser.add_argument(
             '--project',
             metavar='<project>',
             required=True,
-            help='Project UUID'
+            help='Project UUID [required]'
         )
         parser.add_argument(
             '--allocation-source-id',
             metavar='<allocation_source_id>',
             required=True,
-            help='Allocation source UUID'
+            help='Allocation source UUID [required]'
         )
         parser.add_argument(
             '--no-deploy',
@@ -490,7 +490,7 @@ class InstanceAttach(Command):
             '--volume-id',
             metavar='<volume_id>',
             required=True,
-            help='Volume UUID'
+            help='Volume UUID [required]'
         )
         return parser
 
@@ -518,7 +518,7 @@ class InstanceDetach(Command):
             '--volume-id',
             metavar='<volume_id>',
             required=True,
-            help='Volume UUID'
+            help='Volume UUID [required]'
         )
         return parser
 

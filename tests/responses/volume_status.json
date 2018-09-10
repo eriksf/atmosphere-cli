@@ -1,0 +1,26 @@
+{
+  "id": 2953,
+  "status": "in-use",
+  "attach_data": {
+    "device": "/dev/sdb",
+    "serverId": "418557e3-6a1d-40ae-a117-0f11396d6aa6",
+    "id": "cca17be3-d639-4810-8545-a23e69b93a2b",
+    "instance_alias": "418557e3-6a1d-40ae-a117-0f11396d6aa6",
+    "volumeId": "cca17be3-d639-4810-8545-a23e69b93a2b"
+  },
+  "mount_location": "/vol_b",
+  "created_by": "eriksf",
+  "provider": "3ff65aa8-505b-48c3-aef1-aa0ada14c756",
+  "identity": {
+    "id": "32e3354c-03cc-40e1-8c33-02bc7f6be299",
+    "created_by": "eriksf",
+    "provider": "3ff65aa8-505b-48c3-aef1-aa0ada14c756"
+  },
+  "alias": "cca17be3-d639-4810-8545-a23e69b93a2b",
+  "start_date": "2018-09-06T19:33:31.598215Z",
+  "end_date": null,
+  "project": 670,
+  "size": 1,
+  "name": "mydata",
+  "description": null
+}

@@ -21,13 +21,13 @@ class ProjectCreate(ShowOne):
             '--description',
             metavar='<description>',
             required=True,
-            help='Project description'
+            help='Project description [required]'
         )
         parser.add_argument(
             '--owner',
             metavar='<owner>',
             required=True,
-            help='Group name'
+            help='Group name [required]'
         )
         return parser
 

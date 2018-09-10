@@ -40,6 +40,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     TIMEOUT_PATTERN = re.compile(r'/timeout')
     VERSION_PATTERN = re.compile(r'/version')
     VOLUME_PATTERN = re.compile(r'/volumes/[\d\w-]+')
+    VOLUME_STATUS_PATTERN = re.compile(r'/provider/[\d\w-]+/identity/[\d\w-]+/volume/[\d\w-]+')
     VOLUMES_PATTERN = re.compile(r'/volumes')
     TOKENS_PATTERN = re.compile(r'/tokens/[\d\w-]')
     RESPONSE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'responses')
@@ -84,6 +85,7 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     SIZES_FILTERED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'sizes_filtered.json')
     VERSION_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'version.json')
     VOLUME_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume.json')
+    VOLUME_STATUS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume_status.json')
     VOLUME_CREATED_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volume_created.json')
     VOLUMES_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'volumes.json')
     TOKENS_RESPONSE_FILE = os.path.join(RESPONSE_DIR, 'tokens.json')
@@ -279,6 +281,9 @@ class MockServerRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return
         elif re.search(self.VOLUME_PATTERN, self.path):
             self.__send_response_file(self.VOLUME_RESPONSE_FILE)
+            return
+        elif re.search(self.VOLUME_STATUS_PATTERN, self.path):
+            self.__send_response_file(self.VOLUME_STATUS_RESPONSE_FILE)
             return
         elif re.search(self.VOLUMES_PATTERN, self.path):
             self.__send_response_file(self.VOLUMES_RESPONSE_FILE)

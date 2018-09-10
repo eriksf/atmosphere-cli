@@ -54,8 +54,8 @@ class AtmosphereAPI(object):
         return data
 
     def delete_instance(self, id):
-        data = self.__request_v1.getJson('DELETE', self.__get_v1_api_instance_path(id))
-        # data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
+        # data = self.__request_v1.getJson('DELETE', self.__get_v1_api_instance_path(id))
+        data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
     def do_instance_action(self, action, id, options=None):
@@ -191,6 +191,10 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/volumes/{}'.format(id))
         return data
 
+    def get_volume_status(self, id):
+        data = self.__request_v1.getJson('GET', self.__get_v1_api_volume_path(id))
+        return data
+
     def create_volume(self, input):
         headers = {'Content-Type': 'application/json'}
         data = self.__request.getJson('POST', '/volumes', headers=headers, data=input)
@@ -235,4 +239,15 @@ class AtmosphereAPI(object):
             identity_uuid = data.message['identity']['uuid']
             provider_uuid = data.message['provider']['uuid']
             path = '/provider/{}/identity/{}/instance/{}'.format(provider_uuid, identity_uuid, id)
+        return path
+
+    def __get_v1_api_volume_path(self, id):
+        # grab provider and identity uuid's for v1 api volume path
+        # https://atmo.cyverse.org/api/v1/provider/<uuid>/identity/<uuid>/volume/<uuid>
+        path = ''
+        data = self.get_volume(id)
+        if data.ok:
+            identity_uuid = data.message['identity']['uuid']
+            provider_uuid = data.message['provider']['uuid']
+            path = '/provider/{}/identity/{}/volume/{}'.format(provider_uuid, identity_uuid, id)
         return path

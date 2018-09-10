@@ -40,7 +40,19 @@ class TestVolumes(object):
         response = api.get_volume(1)
         if response.ok:
             data = response.message
-        assert data['id'] == 1 and data['name'] == 'myfirstvolume'
+            assert data['id'] == 1 and data['name'] == 'myfirstvolume'
+
+    def test_getting_volume_status_when_response_is_not_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volume_status("210bdc21-ca09-4765-ab21-c9cd86826dc8")
+        assert not response.ok
+
+    def test_getting_volume_status_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_volume_status("210bdc21-ca09-4765-ab21-c9cd86826dc8")
+        if response.ok:
+            data = response.message
+            assert data['id'] == 2953 and data['status'] == 'in-use'
 
     def test_creating_volume_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

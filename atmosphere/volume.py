@@ -8,6 +8,31 @@ from atmosphere.api import AtmosphereAPI
 from atmosphere.utils import ts_to_isodate
 
 
+def get_volume_attach_status(api, id):
+    """
+    Get the volume status and attach data (separate api call for now)
+    """
+    status = ''
+    attach = ''
+    vs_data = api.get_volume_status(id)
+    if vs_data.ok:
+        status = vs_data.message['status']
+        attach_data = vs_data.message['attach_data']
+        mount = vs_data.message['mount_location']
+        if attach_data:
+            instance_uuid = attach_data['instance_alias']
+            instance_data = api.get_instance(instance_uuid)
+            if instance_data.ok:
+                attach = instance_data.message['name']
+            else:
+                attach = instance_uuid
+
+            if mount:
+                attach = "{} on {}".format(mount, attach)
+
+    return (status, attach)
+
+
 class VolumeDelete(Command):
     """
     Delete a volume.
@@ -50,26 +75,26 @@ class VolumeCreate(ShowOne):
             '--identity',
             metavar='<identity>',
             required=True,
-            help='Identity UUID'
+            help='Identity UUID [required]'
         )
         parser.add_argument(
             '--size',
             metavar='<size>',
             type=int,
             required=True,
-            help='Size (in GB)'
+            help='Size (in GB) [required]'
         )
         parser.add_argument(
             '--project',
             metavar='<project>',
             required=True,
-            help='Project UUID'
+            help='Project UUID [required]'
         )
         parser.add_argument(
             '--description',
             metavar='<description>',
             required=True,
-            help='Volume description')
+            help='Volume description [required]')
         base_group = parser.add_mutually_exclusive_group()
         base_group.add_argument(
             '--snapshot-id',
@@ -125,12 +150,13 @@ class VolumeList(Lister):
     log = logging.getLogger(__name__)
 
     def take_action(self, parsed_args):
-        column_headers = ('uuid', 'name', 'project', 'provider', 'size', 'user', 'start_date')
+        column_headers = ('uuid', 'name', 'project', 'provider', 'size', 'user', 'start_date', 'status', 'attached_to')
         api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_volumes()
         volumes = []
         if data.ok:
             for volume in data.message['results']:
+                volume_status_info = get_volume_attach_status(api, volume['uuid'])
                 start_date = ts_to_isodate(volume['start_date'])
                 volumes.append((
                     volume['uuid'],
@@ -139,7 +165,9 @@ class VolumeList(Lister):
                     volume['provider']['name'],
                     volume['size'],
                     volume['user']['username'],
-                    start_date
+                    start_date,
+                    volume_status_info[0],
+                    volume_status_info[1]
                 ))
 
         return (column_headers, tuple(volumes))
@@ -168,12 +196,15 @@ class VolumeShow(ShowOne):
                           'size',
                           'user',
                           'start_date',
-                          'end_date')
+                          'end_date',
+                          'status',
+                          'attached_to')
         api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_volume(parsed_args.id)
         volume = ()
         if data.ok:
             message = data.message
+            volume_status_info = get_volume_attach_status(api, message['uuid'])
             volume = (
                 message['id'],
                 message['uuid'],
@@ -185,7 +216,9 @@ class VolumeShow(ShowOne):
                 message['size'],
                 message['user']['username'],
                 message['start_date'],
-                message['end_date']
+                message['end_date'],
+                volume_status_info[0],
+                volume_status_info[1]
             )
 
         return (column_headers, volume)
