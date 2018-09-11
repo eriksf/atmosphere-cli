@@ -38,7 +38,7 @@ pipeline {
 
         stage('Checkout code') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/eriksf/atmosphere-cli.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '**']], userRemoteConfigs: [[url: 'https://github.com/eriksf/atmosphere-cli.git']]])
             }
         }
 
