@@ -1,0 +1,10 @@
+{
+  "id": 19,
+  "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/19?format=json",
+  "start_date": "2018-08-14T15:08:48.952276Z",
+  "end_date": "2018-08-14T22:58:12.778623Z",
+  "title": "8/14/18 - v33 deployment",
+  "message": "Atmosphere is down for a Scheduled Maintenance, Today between 11am - 7pm ET",
+  "provider": null,
+  "disable_login": true
+}

@@ -1,0 +1,187 @@
+{
+  "count": 18,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 19,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/19?format=json",
+      "start_date": "2018-08-14T15:08:48.952276Z",
+      "end_date": "2018-08-14T22:58:12.778623Z",
+      "title": "8/14/18 - v33 deployment",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 11am - 7pm ET",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 18,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/18?format=json",
+      "start_date": "2018-04-24T08:00:00Z",
+      "end_date": "2018-04-24T23:03:20.670759Z",
+      "title": "4/24/18 - v32 deployment",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 9am - 4pm MST.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 17,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/17?format=json",
+      "start_date": "2018-03-20T08:00:00Z",
+      "end_date": "2018-03-20T22:09:12.331823Z",
+      "title": "03/20/17 - v31 deployment",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 11am - 7pm ET.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 16,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/16?format=json",
+      "start_date": "2017-12-19T08:00:00Z",
+      "end_date": "2017-12-19T20:49:55.112668Z",
+      "title": "2017-12-19 - v30 Deployment",
+      "message": "Jetstream is down for scheduled maintenance, today between 9am - 4pm MST.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 15,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/15?format=json",
+      "start_date": "2017-11-14T16:04:25Z",
+      "end_date": "2017-11-14T19:52:53.432792Z",
+      "title": "11/14 C-C (v29) Maintenance",
+      "message": "Atmosphere is down for regularly scheduled maintenance. Atmosphere will be down from 11am - 7pm EDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 14,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/14?format=json",
+      "start_date": "2017-10-10T15:02:36Z",
+      "end_date": "2017-10-10T21:39:21Z",
+      "title": "10/3 B-B (v28) Maintenance",
+      "message": "Atmosphere is down for regularly scheduled maintenance. Atmosphere will be down from 11am - 7pm EDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 13,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/13?format=json",
+      "start_date": "2017-08-29T05:00:00Z",
+      "end_date": "2017-08-29T23:17:08.418282Z",
+      "title": "8/29 v27 Release Maintenance Record",
+      "message": "Atmosphere is down for regularly scheduled maintenance. Atmosphere will be down from 8am - 4pm",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 12,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/12?format=json",
+      "start_date": "2017-07-25T16:00:00Z",
+      "end_date": "2017-07-25T20:00:00Z",
+      "title": "7/25 Z-Z Maintenance",
+      "message": "Jetstream's Atmosphere interface will be offline from 12pm Eastern through 8pm Eastern for upgrades/enhancements.\n\nExisting/running instances will still be available via ssh. API users will not be affected by this upgrade.\n\nPlease contact help@xsede.org with any questions or concerns.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 11,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/11?format=json",
+      "start_date": "2017-06-13T16:07:51Z",
+      "end_date": "2017-06-13T22:00:59.950174Z",
+      "title": "6/13 Y-Y Maintenance",
+      "message": "Jetstream's Atmosphere interface will be offline from 12pm Eastern through 8pm Eastern for upgrades/enhancements.\n\nExisting/running instances will still be available via ssh. API users will not be affected by this upgrade.\n\nPlease contact help@xsede.org with any questions or concerns.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 10,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/10?format=json",
+      "start_date": "2017-05-02T16:00:14.576248Z",
+      "end_date": "2017-05-02T18:00:11.635070Z",
+      "title": "05/02 X-X Release Maintenance",
+      "message": "Jetstream's Atmosphere interface will be offline from 11am Eastern through 8pm Eastern for upgrades/enhancements.\n\nExisting/running instances will still be available via ssh. API users will not be affected by this upgrade.\n\nPlease contact help@xsede.org with any questions or concerns.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 9,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/9?format=json",
+      "start_date": "2017-05-02T16:00:00Z",
+      "end_date": "2017-05-02T18:00:51.974939Z",
+      "title": "05/02 X-X Release Maintenance",
+      "message": "Jetstream's Atmosphere interface will be offline from 11am Eastern through 8pm Eastern for upgrades/enhancements.\n\nExisting/running instances will still be available via ssh. API users will not be affected by this upgrade.\n\nPlease contact help@xsede.org with any questions or concerns.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 8,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/8?format=json",
+      "start_date": "2017-03-28T16:00:00Z",
+      "end_date": "2017-03-28T20:02:30.999859Z",
+      "title": "03/28 W-W Release Maintenance",
+      "message": "Jetstream's Atmosphere interface will be offline from 12pm Eastern through 8pm Eastern for upgrades/enhancements.\n\nExisting/running instances will still be available via ssh. API users will not be affected by this upgrade.\n\nPlease contact help@xsede.org with any questions or concerns.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 6,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/6?format=json",
+      "start_date": "2017-01-05T16:09:27Z",
+      "end_date": "2017-01-05T21:14:29Z",
+      "title": "01/05 U-U Release Maintenance",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 8am - 3pm PDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 5,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/5?format=json",
+      "start_date": "2016-11-01T15:02:00Z",
+      "end_date": "2016-11-01T19:22:25Z",
+      "title": "11/1 S-S Release Maintenance",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 8am - 3pm PDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 4,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/4?format=json",
+      "start_date": "2016-09-27T13:00:00Z",
+      "end_date": "2016-09-27T22:01:17Z",
+      "title": "9/27 R-R Release Maintenance",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 8am - 3pm PDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 3,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/3?format=json",
+      "start_date": "2016-08-29T20:44:50Z",
+      "end_date": "2016-08-29T22:14:24Z",
+      "title": "8/29 Q-Q Release Maintenance (pt2)",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 1:30pm - 3pm PDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 2,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/2?format=json",
+      "start_date": "2016-08-25T13:00:00Z",
+      "end_date": "2016-08-26T06:14:21Z",
+      "title": "8/25 Q-Q Release Maintenance",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 8am - 6pm PDT.",
+      "provider": null,
+      "disable_login": true
+    },
+    {
+      "id": 1,
+      "url": "https://use.jetstream-cloud.org/api/v2/maintenance_records/1?format=json",
+      "start_date": "2016-05-24T15:16:32Z",
+      "end_date": "2016-05-25T00:15:48Z",
+      "title": "5/24 N-N Release Maintenance",
+      "message": "Atmosphere is down for a Scheduled Maintenance, Today between 8am - 4pm PDT.",
+      "provider": null,
+      "disable_login": true
+    }
+  ]
+}

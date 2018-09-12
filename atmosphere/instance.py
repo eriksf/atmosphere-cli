@@ -27,7 +27,7 @@ class InstanceDelete(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         if parsed_args.delete:
             data = api.delete_instance(parsed_args.id)
             if data.ok and data.message and data.message != '':
@@ -50,31 +50,36 @@ class InstanceCreate(ShowOne):
             '--identity',
             metavar='<identity>',
             required=True,
-            help='Identity UUID'
+            help='Identity UUID [required]'
         )
         parser.add_argument(
             '--size-alias',
             metavar='<size_alias>',
             required=True,
-            help='Alias of size/flavor'
+            help='Alias of size/flavor [required]'
         )
-        parser.add_argument(
+        source_group = parser.add_mutually_exclusive_group(required=True)
+        source_group.add_argument(
             '--source-alias',
             metavar='<source_alias>',
-            required=True,
-            help='Alias/identifier of machine or volume'
+            help='Alias/identifier UUID of machine or volume [required]'
+        )
+        source_group.add_argument(
+            '--image',
+            metavar='<image>',
+            help='Image UUID (Uses the latest image version) [required]'
         )
         parser.add_argument(
             '--project',
             metavar='<project>',
             required=True,
-            help='Project UUID'
+            help='Project UUID [required]'
         )
         parser.add_argument(
             '--allocation-source-id',
             metavar='<allocation_source_id>',
             required=True,
-            help='Allocation source UUID'
+            help='Allocation source UUID [required]'
         )
         parser.add_argument(
             '--no-deploy',
@@ -85,20 +90,43 @@ class InstanceCreate(ShowOne):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
             "identity": parsed_args.identity,
             "size_alias": parsed_args.size_alias,
-            "source_alias": parsed_args.source_alias,
             "project": parsed_args.project,
             "allocation_source_id": parsed_args.allocation_source_id,
             "deploy": parsed_args.deploy,
             "scripts": [],
             "extra": {}
         }
+
+        if parsed_args.image:
+            # get the provider from the identity
+            payload['source_alias'] = None
+            id_data = api.get_identity(parsed_args.identity)
+            if id_data.ok:
+                provider_id = id_data.message['provider']['id']
+                self.log.debug('Found provider id {} for identity uuid {}'.format(provider_id, parsed_args.identity))
+
+                # get the provider machine from the latest image version
+                v_data = api.get_image_versions(parsed_args.image)
+                if v_data.ok:
+                    # get latest image version
+                    latest_version = v_data.message['results'][-1]
+                    machines = latest_version['machines']
+                    machine_id = next((m['uuid'] for m in machines if m['provider']['id'] == provider_id), None)
+                    self.log.debug('Found machine id {} for latest image version {} and provider id {}'.format(machine_id, latest_version['name'], provider_id))
+                    payload['source_alias'] = machine_id
+                else:
+                    self.app.stdout.write('Error, instance not created. Could not lookup latest image version from image uuid supplied: {}'.format(parsed_args.image))
+            else:
+                self.app.stdout.write('Error, instance not created. Could not lookup provider from identity uuid supplied: {}'.format(parsed_args.identity))
+        else:
+            payload['source_alias'] = parsed_args.source_alias
+
         self.log.debug('INPUT: {}'.format(json.dumps(payload)))
-        data = api.create_instance(json.dumps(payload))
         instance = ()
         column_headers = ('id',
                           'uuid',
@@ -110,23 +138,27 @@ class InstanceCreate(ShowOne):
                           'launched',
                           'image_size',
                           'provider')
-        if data.ok:
-            message = data.message
-            launched = ts_to_isodate(message['start_date'])
-            instance = (
-                message['id'],
-                message['uuid'],
-                message['name'],
-                message['user']['username'],
-                message['allocation_source']['name'],
-                message['image']['id'],
-                message['version']['name'],
-                launched,
-                message['size']['name'],
-                message['provider']['name']
-            )
-        else:
-            self.app.stdout.write('Error, instance not created! Make sure to supply name, identity, project, size, source, and allocation_source.')
+
+        if payload['source_alias']:
+            data = api.create_instance(json.dumps(payload))
+
+            if data.ok:
+                message = data.message
+                launched = ts_to_isodate(message['start_date'])
+                instance = (
+                    message['id'],
+                    message['uuid'],
+                    message['name'],
+                    message['user']['username'],
+                    message['allocation_source']['name'],
+                    message['image']['id'],
+                    message['version']['name'],
+                    launched,
+                    message['size']['name'],
+                    message['provider']['name']
+                )
+            else:
+                self.app.stdout.write('Error, instance not created! Make sure to supply name, identity, project, size, source (or image), and allocation_source.')
 
         return (column_headers, instance)
 
@@ -140,7 +172,7 @@ class InstanceList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'status', 'activity', 'ip_address', 'size', 'provider', 'project', 'launched')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instances()
         instances = []
         if data.ok:
@@ -201,7 +233,7 @@ class InstanceShow(ShowOne):
                           'web_desktop',
                           'shell',
                           'vnc')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance(parsed_args.id)
         instance = ()
         if data.ok:
@@ -254,7 +286,7 @@ class InstanceActions(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('action', 'description')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance_actions(parsed_args.id)
         actions = []
         if data.ok:
@@ -280,7 +312,7 @@ class InstanceSuspend(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('suspend', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -301,7 +333,7 @@ class InstanceResume(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('resume', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -328,7 +360,7 @@ class InstanceReboot(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = None
         if parsed_args.hard_reboot:
             options = {'reboot_type': 'HARD'}
@@ -352,7 +384,7 @@ class InstanceStop(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('stop', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -373,7 +405,7 @@ class InstanceStart(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('start', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -394,7 +426,7 @@ class InstanceRedeploy(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('redeploy', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -415,7 +447,7 @@ class InstanceShelve(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('shelve', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -436,7 +468,7 @@ class InstanceUnshelve(Command):
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.do_instance_action('unshelve', parsed_args.id)
         if data.ok and data.message['result'] == 'success':
             self.app.stdout.write('{}\n'.format(data.message['message']))
@@ -458,12 +490,12 @@ class InstanceAttach(Command):
             '--volume-id',
             metavar='<volume_id>',
             required=True,
-            help='Volume UUID'
+            help='Volume UUID [required]'
         )
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
         data = api.do_instance_volume_action('attach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
@@ -486,12 +518,12 @@ class InstanceDetach(Command):
             '--volume-id',
             metavar='<volume_id>',
             required=True,
-            help='Volume UUID'
+            help='Volume UUID [required]'
         )
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         options = {'volume_id': parsed_args.volume_id}
         data = api.do_instance_volume_action('detach_volume', parsed_args.id, options=options)
         if data.ok and data.message['result'] == 'success':
@@ -514,7 +546,7 @@ class InstanceHistory(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'size', 'provider', 'status', 'start_date', 'end_date')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_instance_history(parsed_args.id)
         history = []
         if data.ok:

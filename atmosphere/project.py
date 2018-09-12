@@ -21,16 +21,22 @@ class ProjectCreate(ShowOne):
             '--description',
             metavar='<description>',
             required=True,
-            help='Project description'
+            help='Project description [required]'
+        )
+        parser.add_argument(
+            '--owner',
+            metavar='<owner>',
+            required=True,
+            help='Group name [required]'
         )
         return parser
 
     def take_action(self, parsed_args):
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         payload = {
             "name": parsed_args.name,
             "description": parsed_args.description,
-            "owner": api.get_username()
+            "owner": parsed_args.owner
         }
         self.log.debug('INPUT: {}'.format(json.dumps(payload)))
         data = api.create_project(json.dumps(payload))
@@ -47,7 +53,7 @@ class ProjectCreate(ShowOne):
                 message['start_date']
             )
         else:
-            self.app.stdout.write('Error, project not created! Make sure to supply a name and description.')
+            self.app.stdout.write('Error, project not created! Make sure to supply a name, description, and owner (group name).')
 
         return (column_headers, project)
 
@@ -61,7 +67,7 @@ class ProjectList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'owner', 'created_by', 'start_date', 'images', 'instances', 'volumes', 'links')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_projects()
         projects = []
         if data.ok:
@@ -109,7 +115,7 @@ class ProjectShow(ShowOne):
                           'instances',
                           'volumes',
                           'links')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_project(parsed_args.id)
         project = ()
         if data.ok:

@@ -14,7 +14,7 @@ class IdentityList(Lister):
 
     def take_action(self, parsed_args):
         column_headers = ('uuid', 'name', 'provider', 'quota_cpu', 'quota_memory', 'quota_storage')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_identities()
         identities = []
         if data.ok:
@@ -63,7 +63,7 @@ class IdentityShow(ShowOne):
                           'quota_port_count',
                           'quota_snapshot_count',
                           'quota_storage_count')
-        api = AtmosphereAPI(self.app_args.auth_token, self.app_args.base_url, self.app_args.api_server_timeout, self.app_args.verify_cert)
+        api = AtmosphereAPI(self.app_args.auth_token, base_url=self.app_args.base_url, timeout=self.app_args.api_server_timeout, verify=self.app_args.verify_cert)
         data = api.get_identity(parsed_args.id)
         identity = ()
         if data.ok:

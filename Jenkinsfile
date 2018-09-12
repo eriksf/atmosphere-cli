@@ -11,10 +11,10 @@ def generateStage(job) {
         stage("stage: ${job} build") {
             sh 'mkdir -p ' + test_output_dir + "/${job}"
             withPythonEnv("${job}") {
-                pysh 'python --version'
-                pysh 'pip install pipenv'
-                pysh 'pipenv install --dev'
-                pysh "pytest --verbose --cov atmosphere --cov-report xml:${test_output_dir}/${job}/coverage.xml --junit-xml ${test_output_dir}/${job}/pytest.xml"
+                sh 'python --version'
+                sh 'pip install pipenv'
+                sh 'pipenv install --dev'
+                sh "pytest --verbose --cov atmosphere --cov-report xml:${test_output_dir}/${job}/coverage.xml --junit-xml ${test_output_dir}/${job}/pytest.xml"
                 // pysh "behave --no-capture --no-capture-stderr --tags=-@xfail --format=progress3 --junit --junit-directory ${test_output_dir}/${job}/behave_reports --logging-level DEBUG features"
                 junit "${test_output_dir}/${job}/**/pytest.xml, ${test_output_dir}/${job}/behave_reports/*.xml"
                 cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "${test_output_dir}/${job}/**/coverage.xml", conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Checkout code') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/eriksf/atmosphere-cli.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '**']], userRemoteConfigs: [[url: 'https://github.com/eriksf/atmosphere-cli.git']]])
             }
         }
 

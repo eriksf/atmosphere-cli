@@ -46,7 +46,7 @@ Feature: Create and get information about projects
 
   Scenario: Create a project named 'myfirstproject'
     Given a new working directory
-    When I run "atmo project create --description 'my first project' myfirstproject"
+    When I run "atmo project create --description 'my first project' myfirstproject --owner 'eriksf'"
     Then it should pass
     And the command output should contain:
         """

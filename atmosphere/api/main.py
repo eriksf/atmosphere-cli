@@ -1,16 +1,11 @@
 import json
 import logging
 from .request import Request
-from .constants import ATMO_BASE_URL, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
-
-
-class ExpiredTokenException(Exception):
-    """An exception called when an expired token is detected."""
-    pass
+from .constants import ATMO_BASE_URL, ATMO_API_VERSION_PATH, ATMO_API_SERVER_TIMEOUT, ATMO_API_SERVER_VERIFY_CERT, ApiResponse
 
 
 class AtmosphereAPI(object):
-    """Main class for accessing the Atmosphere v2 API."""
+    """Main class for accessing the Atmosphere v1/v2 API."""
 
     log = logging.getLogger(__name__)
 
@@ -22,19 +17,23 @@ class AtmosphereAPI(object):
         :param verify: boolean
         """
 
-        self.__request = Request(token, base_url, timeout, verify)
-        self.__username = ''
-
-        # set username
-        user_data = self.__request.getJson('GET', '/tokens/{}'.format(token))
-        if user_data.ok:
-            self.__username = user_data.message['user']['username']
-        else:
-            # HACK: shouldn't need this if an expired token is properly returning a 403 Forbidden credentials error
-            raise ExpiredTokenException('The token in use cannot be found and is most likely expired. Please grab a current token.')
+        self.__token = token
+        self.__base_url = base_url
+        self.__timeout = timeout
+        self.__verify = verify
+        self.__full_url_v1 = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH['v1'])
+        self.log.debug('Using v1 API at {}...'.format(self.__full_url_v1))
+        self.__full_url_v2 = '{}/{}'.format(base_url, ATMO_API_VERSION_PATH['v2'])
+        self.log.debug('Using v2 API at {}...'.format(self.__full_url_v2))
+        self.__request = Request(token, self.__full_url_v2, timeout, verify)
+        self.__request_v1 = Request(token, self.__full_url_v1, timeout, verify)
 
     def get_username(self):
-        return self.__username
+        user_data = self.__request.getJson('GET', '/tokens/{}'.format(self.__token))
+        username = ''
+        if user_data.ok:
+            username = user_data.message['user']['username']
+        return username
 
     def get_instances(self):
         data = self.__request.getJson('GET', '/instances')
@@ -55,6 +54,7 @@ class AtmosphereAPI(object):
         return data
 
     def delete_instance(self, id):
+        # data = self.__request_v1.getJson('DELETE', self.__get_v1_api_instance_path(id))
         data = self.__request.getJson('DELETE', '/instances/{}'.format(id))
         return data
 
@@ -142,6 +142,14 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/identities/{}'.format(id))
         return data
 
+    def get_groups(self):
+        data = self.__request.getJson('GET', '/groups')
+        return data
+
+    def get_group(self, id):
+        data = self.__request.getJson('GET', '/groups/{}'.format(id))
+        return data
+
     def get_allocation_sources(self):
         data = self.__request.getJson('GET', '/allocation_sources')
         return data
@@ -183,6 +191,10 @@ class AtmosphereAPI(object):
         data = self.__request.getJson('GET', '/volumes/{}'.format(id))
         return data
 
+    def get_volume_status(self, id):
+        data = self.__request_v1.getJson('GET', self.__get_v1_api_volume_path(id))
+        return data
+
     def create_volume(self, input):
         headers = {'Content-Type': 'application/json'}
         data = self.__request.getJson('POST', '/volumes', headers=headers, data=input)
@@ -190,6 +202,18 @@ class AtmosphereAPI(object):
 
     def delete_volume(self, id):
         data = self.__request.getJson('DELETE', '/volumes/{}'.format(id))
+        return data
+
+    def get_maintenance_records(self, show_all=None):
+        if show_all:
+            data = self.__request.getJson('GET', '/maintenance_records')
+        else:
+            params = {'active': 'true'}
+            data = self.__request.getJson('GET', '/maintenance_records', params=params)
+        return data
+
+    def get_maintenance_record(self, id):
+        data = self.__request.getJson('GET', '/maintenance_records/{}'.format(id))
         return data
 
     def __is_available_instance_action(self, action, id):
@@ -205,3 +229,25 @@ class AtmosphereAPI(object):
         data = self.get_image(uuid)
         if data.ok:
             return data.message['id']
+
+    def __get_v1_api_instance_path(self, id):
+        # grab provider and identity uuid's for v1 api instance action path
+        # https://atmo.cyverse.org/api/v1/provider/<uuid>/identity/<uuid>/instance/<uuid>
+        path = ''
+        data = self.get_instance(id)
+        if data.ok:
+            identity_uuid = data.message['identity']['uuid']
+            provider_uuid = data.message['provider']['uuid']
+            path = '/provider/{}/identity/{}/instance/{}'.format(provider_uuid, identity_uuid, id)
+        return path
+
+    def __get_v1_api_volume_path(self, id):
+        # grab provider and identity uuid's for v1 api volume path
+        # https://atmo.cyverse.org/api/v1/provider/<uuid>/identity/<uuid>/volume/<uuid>
+        path = ''
+        data = self.get_volume(id)
+        if data.ok:
+            identity_uuid = data.message['identity']['uuid']
+            provider_uuid = data.message['provider']['uuid']
+            path = '/provider/{}/identity/{}/volume/{}'.format(provider_uuid, identity_uuid, id)
+        return path

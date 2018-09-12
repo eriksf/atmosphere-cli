@@ -1,7 +1,6 @@
 import json
-import pytest
 from .mock_server import get_free_port, start_mock_server
-from atmosphere.api import AtmosphereAPI, ExpiredTokenException
+from atmosphere.api import AtmosphereAPI
 from atmosphere.main import AtmosphereApp
 from atmosphere.volume import VolumeList
 
@@ -20,10 +19,9 @@ class TestVolumes(object):
         assert volume_list.get_description() == 'List volumes for a user.'
 
     def test_getting_volumes_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_volumes()
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volumes()
+        assert not response.ok
 
     def test_getting_volumes_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
@@ -33,17 +31,28 @@ class TestVolumes(object):
             assert data['count'] == 1 and data['results'][0]['name'] == 'myfirstvolume'
 
     def test_getting_volume_when_response_is_not_ok(self):
-        with pytest.raises(ExpiredTokenException):
-            api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
-            response = api.get_volume(1)
-            assert not response.ok
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volume(1)
+        assert not response.ok
 
     def test_getting_volume_when_response_is_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
         response = api.get_volume(1)
         if response.ok:
             data = response.message
-        assert data['id'] == 1 and data['name'] == 'myfirstvolume'
+            assert data['id'] == 1 and data['name'] == 'myfirstvolume'
+
+    def test_getting_volume_status_when_response_is_not_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_bad_base_url)
+        response = api.get_volume_status("210bdc21-ca09-4765-ab21-c9cd86826dc8")
+        assert not response.ok
+
+    def test_getting_volume_status_when_response_is_ok(self):
+        api = AtmosphereAPI('token', base_url=self.mock_users_base_url)
+        response = api.get_volume_status("210bdc21-ca09-4765-ab21-c9cd86826dc8")
+        if response.ok:
+            data = response.message
+            assert data['id'] == 2953 and data['status'] == 'in-use'
 
     def test_creating_volume_when_response_is_not_ok(self):
         api = AtmosphereAPI('token', base_url=self.mock_users_base_url)

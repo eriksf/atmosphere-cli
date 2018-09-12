@@ -37,6 +37,8 @@ Feature: Command-line options: Use atmo --help
           allocation source list  List allocation sources for a user.
           allocation source show  Show details for an allocation source.
           complete       print bash completion command (cliff)
+          group list     List groups for a user.
+          group show     Show details for a group.
           help           print detailed help for another command (cliff)
           identity list  List user identities managed by Atmosphere.
           identity show  Show details for a user identity.
@@ -61,6 +63,8 @@ Feature: Command-line options: Use atmo --help
           instance stop  Stop an instance.
           instance suspend  Suspend an instance.
           instance unshelve  Unshelve an instance.
+          maintenance record list  List maintenance records for Atmosphere.
+          maintenance record show  Show details for a maintenance record.
           project create  Create a project.
           project list   List projects for a user.
           project show   Show details for a project.

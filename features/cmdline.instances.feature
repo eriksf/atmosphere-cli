@@ -101,6 +101,28 @@ Feature: Manage and get information about my instances
         +-------------------+--------------------------------------+
         """
 
+  Scenario: Create an instance named 'myfirstinstance' by supplying image UUID
+    Given a new working directory
+    When I run "atmo instance create --identity 32e3354c-03cc-40e1-8c33-02bc7f6be299 --size-alias 100 --project 7c8d34b1-1b2d-4f7f-bd62-4e0929295fd4 --image ca948f10-c47e-5d06-a2b0-1674cfc002ee --allocation-source-id f4cca788-e039-4f82-bc77-9fb92141eca6 myfirstinstance"
+    Then it should pass
+    And the command output should contain:
+        """
+        +-------------------+--------------------------------------+
+        | Field             | Value                                |
+        +-------------------+--------------------------------------+
+        | id                | 1                                    |
+        | uuid              | d09d7999-f341-46af-a2ad-bdbecdf28d6a |
+        | name              | myfirstinstance                      |
+        | username          | eriksf                               |
+        | allocation_source | eriksf                               |
+        | image_id          | 1                                    |
+        | image_version     | 1.0                                  |
+        | launched          | 2017-09-18                           |
+        | image_size        | manila-service-flavor                |
+        | provider          | Cloudlab - ErikOS                    |
+        +-------------------+--------------------------------------+
+        """
+
   Scenario: Suspend an instance named 'myfirstinstance'
     Given a new working directory
     When I run "atmo instance suspend d09d7999-f341-46af-a2ad-bdbecdf28d6a"

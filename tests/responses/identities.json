@@ -1,75 +1,153 @@
 {
-    "count": 1,
+    "count": 2,
     "next": null,
     "previous": null,
-    "results": [{
-        "credentials": [{
-                "clean_value": "eriksf",
-                "id": 8,
-                "key": "ex_tenant_name"
+    "results": [
+        {
+            "id": 1402,
+            "uuid": "716ca588-3a40-4327-9c89-84913278db10",
+            "url": "https://use.jetstream-cloud.org/api/v2/identities/716ca588-3a40-4327-9c89-84913278db10",
+            "key": "Username: eriksf, Project:eriksf",
+            "quota": {
+                "id": 10,
+                "uuid": "608e27b5-2560-438d-a581-4e97dcf75c7f",
+                "url": "https://use.jetstream-cloud.org/api/v2/quotas/608e27b5-2560-438d-a581-4e97dcf75c7f",
+                "cpu": 132,
+                "memory": 360,
+                "storage": 100,
+                "instance_count": 25,
+                "snapshot_count": 10,
+                "storage_count": 10,
+                "floating_ip_count": 25,
+                "port_count": 25
             },
-            {
-                "clean_value": "eriksf",
-                "id": 7,
-                "key": "ex_project_name"
-            },
-            {
-                "clean_value": "flat-lan-1-router",
-                "id": 6,
-                "key": "router_name"
-            },
-            {
-                "clean_value": "********",
-                "id": 5,
-                "key": "secret"
-            },
-            {
-                "clean_value": "eriksf",
+            "credentials": [
+                {
+                    "id": 7172,
+                    "key": "key",
+                    "clean_value": "eriksf"
+                },
+                {
+                    "id": 7173,
+                    "key": "secret",
+                    "clean_value": "********"
+                },
+                {
+                    "id": 7174,
+                    "key": "router_name",
+                    "clean_value": "atmo-router3"
+                },
+                {
+                    "id": 7175,
+                    "key": "ex_project_name",
+                    "clean_value": "eriksf"
+                },
+                {
+                    "id": 7176,
+                    "key": "ex_tenant_name",
+                    "clean_value": "eriksf"
+                }
+            ],
+            "usage": -1,
+            "is_leader": true,
+            "provider": {
                 "id": 4,
-                "key": "key"
+                "uuid": "f906a5ee-34a8-499a-9185-a35feb3d6f01",
+                "url": "https://use.jetstream-cloud.org/api/v2/providers/f906a5ee-34a8-499a-9185-a35feb3d6f01",
+                "name": "Jetstream - Indiana University",
+                "description": "",
+                "public": true,
+                "active": true,
+                "start_date": "2016-01-28T23:40:07.074619Z",
+                "end_date": null
+            },
+            "members": [
+                {
+                    "id": 718,
+                    "uuid": "7dccc792-5490-466a-8704-0b7edd54c8f2",
+                    "url": "https://use.jetstream-cloud.org/api/v2/groups/7dccc792-5490-466a-8704-0b7edd54c8f2",
+                    "name": "eriksf"
+                }
+            ],
+            "user": {
+                "id": 1010,
+                "uuid": "0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+                "url": "https://use.jetstream-cloud.org/api/v2/users/0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+                "username": "eriksf"
             }
-        ],
-        "id": 2,
-        "is_leader": true,
-        "key": "Username: eriksf, Project:eriksf",
-        "members": [{
-            "id": 2,
-            "name": "eriksf",
-            "url": "https://local.atmo.cloud/api/v2/groups/7b8709a9-3e43-4a28-bf44-cdd59da13c26?format=json",
-            "uuid": "7b8709a9-3e43-4a28-bf44-cdd59da13c26"
-        }],
-        "provider": {
-            "active": true,
-            "description": "This is a Cloudlab cloud.",
-            "end_date": null,
-            "id": 4,
-            "name": "Cloudlab - ErikOS",
-            "public": true,
-            "start_date": "2017-09-18T17:57:00.652272Z",
-            "url": "https://local.atmo.cloud/api/v2/providers/e367f6fa-e834-4fe6-873c-bba4344d1464?format=json",
-            "uuid": "e367f6fa-e834-4fe6-873c-bba4344d1464"
         },
-        "quota": {
-            "cpu": 16,
-            "floating_ip_count": 10,
-            "id": 2,
-            "instance_count": 10,
-            "memory": 128,
-            "port_count": 10,
-            "snapshot_count": 10,
-            "storage": 10,
-            "storage_count": 10,
-            "url": "https://local.atmo.cloud/api/v2/quotas/c8e1fedc-ee6d-4334-8b36-a17dc8c69d71?format=json",
-            "uuid": "c8e1fedc-ee6d-4334-8b36-a17dc8c69d71"
-        },
-        "url": "https://local.atmo.cloud/api/v2/identities/a5a6140d-1122-4581-87dc-bd9704fa07ec?format=json",
-        "usage": -1,
-        "user": {
-            "id": 1,
-            "url": "https://local.atmo.cloud/api/v2/users/3697d380-95d4-43fa-ad3e-3e9371f0522e?format=json",
-            "username": "eriksf",
-            "uuid": "3697d380-95d4-43fa-ad3e-3e9371f0522e"
-        },
-        "uuid": "a5a6140d-1122-4581-87dc-bd9704fa07ec"
-    }]
+        {
+            "id": 1403,
+            "uuid": "32e3354c-03cc-40e1-8c33-02bc7f6be299",
+            "url": "https://use.jetstream-cloud.org/api/v2/identities/32e3354c-03cc-40e1-8c33-02bc7f6be299",
+            "key": "Username: eriksf, Project:eriksf",
+            "quota": {
+                "id": 10,
+                "uuid": "608e27b5-2560-438d-a581-4e97dcf75c7f",
+                "url": "https://use.jetstream-cloud.org/api/v2/quotas/608e27b5-2560-438d-a581-4e97dcf75c7f",
+                "cpu": 132,
+                "memory": 360,
+                "storage": 100,
+                "instance_count": 25,
+                "snapshot_count": 10,
+                "storage_count": 10,
+                "floating_ip_count": 25,
+                "port_count": 25
+            },
+            "credentials": [
+                {
+                    "id": 7177,
+                    "key": "key",
+                    "clean_value": "eriksf"
+                },
+                {
+                    "id": 7178,
+                    "key": "secret",
+                    "clean_value": "********"
+                },
+                {
+                    "id": 7179,
+                    "key": "router_name",
+                    "clean_value": "atmoadmin-router"
+                },
+                {
+                    "id": 7180,
+                    "key": "ex_project_name",
+                    "clean_value": "eriksf"
+                },
+                {
+                    "id": 7181,
+                    "key": "ex_tenant_name",
+                    "clean_value": "eriksf"
+                }
+            ],
+            "usage": -1,
+            "is_leader": true,
+            "provider": {
+                "id": 5,
+                "uuid": "3ff65aa8-505b-48c3-aef1-aa0ada14c756",
+                "url": "https://use.jetstream-cloud.org/api/v2/providers/3ff65aa8-505b-48c3-aef1-aa0ada14c756",
+                "name": "Jetstream - TACC",
+                "description": "",
+                "public": true,
+                "active": true,
+                "start_date": "2016-02-16T21:40:22.483700Z",
+                "end_date": null
+            },
+            "members": [
+                {
+                    "id": 718,
+                    "uuid": "7dccc792-5490-466a-8704-0b7edd54c8f2",
+                    "url": "https://use.jetstream-cloud.org/api/v2/groups/7dccc792-5490-466a-8704-0b7edd54c8f2",
+                    "name": "eriksf"
+                }
+            ],
+            "user": {
+                "id": 1010,
+                "uuid": "0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+                "url": "https://use.jetstream-cloud.org/api/v2/users/0ea75b5f-40a0-441e-a08c-486a89e2a9d7",
+                "username": "eriksf"
+            }
+        }
+    ]
 }

@@ -43,15 +43,16 @@ class Request(object):
                 if request_headers['Authorization'].startswith('TOKEN'):
                     request_headers['Authorization'] = 'TOKEN (token removed)'
             if response is not None:
-                logger.debug('{} {} {} {} ==> {} {} {}'.format(verb,
-                                                               url,
-                                                               str(request_headers),
-                                                               input,
-                                                               response.status_code,
-                                                               str(response.headers),
-                                                               response.content))
+                logger.debug('{} {} Headers:{} Input:{} ===> {} Headers:{} Response:{}'.format(
+                    verb,
+                    url,
+                    str(request_headers),
+                    input,
+                    response.status_code,
+                    str(response.headers),
+                    response.content))
             else:
-                logger.debug('{} {} {} {} ==> None'.format(verb, url, str(request_headers), input))
+                logger.debug('{} {} Headers:{} Input:{} ===> None'.format(verb, url, str(request_headers), input))
 
     def __log_error(self, message):
         logger = logging.getLogger(__name__)
@@ -72,11 +73,8 @@ class Request(object):
         else:
             headers['Authorization'] = self.__authorization_header
 
-        # set format of response to JSON by adding query param
-        if not params:
-            params = {'format': 'json'}
-        else:
-            params['format'] = 'json'
+        # set the format of the response to JSON with Accept header
+        headers['Accept'] = 'application/json; indent=4, application/json'
 
         response = ApiResponse(ok=False, message='')
         try:
@@ -84,7 +82,7 @@ class Request(object):
             self.__log(verb, url, headers, data, r)
             # consider any status besides 2xx an error
             if r.status_code // 100 == 2:
-                self.__log_message('Response text: {}'.format(r.text))
+                # self.__log_message('Response text: {}'.format(r.text))
                 if r.text:
                     try:
                         response = ApiResponse(ok=True, message=r.json())
