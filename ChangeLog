@@ -1,6 +1,25 @@
 CHANGES
 =======
 
+* added pbr for sphinx build
+* Support v1 api and other fixes (#3)
+* updated README
+* update index page
+* moved readthedocs config
+* updating config for readthedocs
+* modified travis config
+* added Docker build
+* regenerated Pipfile.lock (removed any version requirement)
+* adding requirements.txt for pbr setup.py (install\_requires)
+* Set theme jekyll-theme-cayman
+* modified image show to default to listing only public available versions, option to show all
+* fixed Pipfile.lock
+* added atmo image version list
+* updated version to match what troposphere reports
+* modified Jenkinsfile
+* adding Jenkinsfile
+* fixed issue with dotenv
+* updated changelog
 * implemented instance delete
 * fixed behave instance test
 * added project column to instance list
