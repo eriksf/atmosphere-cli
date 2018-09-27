@@ -1,6 +1,6 @@
 
-Atmosphere CLI :cloud:
-======================
+Atmosphere CLI
+==============
 
 .. image:: https://travis-ci.org/eriksf/atmosphere-cli.svg?branch=master
    :target: https://travis-ci.org/eriksf/atmosphere-cli
@@ -20,6 +20,10 @@ platform designed to provide easy access to preconfigured, frequently used analy
 and data sets in an available-on-demand environment designed to accommodate computationally and data-intensive
 bioinformatics tasks. It is currently in use on the `CyVerse <https://www.cyverse.org/>`_ and `Jetstream <https://jetstream-cloud.org/>`_
 projects.
+
+- `Package Installation (PyPI) <https://pypi.org/project/atmosphere-cli>`_
+- `Documentation <https://atmosphere-cli.readthedocs.io/en/latest/>`_
+- `Bugs/Issues <https://github.com/eriksf/atmosphere-cli/issues>`_
 
 Getting Started
 ---------------
