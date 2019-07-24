@@ -1,9 +1,10 @@
 CHANGES
 =======
 
-* updated docs
-* updated metadata in setup.cfg
-* modified README
+1.0.0
+-----
+
+* Release 1.0.0 (#5)
 * fixing docs build
 * added pbr for sphinx build
 * Support v1 api and other fixes (#3)
